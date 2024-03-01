@@ -4,6 +4,9 @@
   "description": "User interface component generator library that outputs components for Astro using Tailwind CSS",
   "main": "src/index.mjs",
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
   "bin": {
     "ui-gen": "cli.js"
   },
