@@ -21,14 +21,14 @@ Do your changes and commit.
 
 ### Adding changesets
     
-    npx changeset
+    npm run change
 
 ### Publishing
 
 Once you decide you want to do a release, you can run
 
-    npx changeset version
+    npm run version
 
 Review both the changelog entries and the version changes for packages. Once you are confident that these are correct, and have made any necessary tweaks to changelogs, you can publish your packages:
 
-    npx changeset publish
+    npm run publish

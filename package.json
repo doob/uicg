@@ -6,6 +6,9 @@
   "scripts": {
     "publish:cli": "npm publish --workspace apps/cli",
     "docs": "npm run dev --workspace apps/docs",
+    "change": "npx changeset",
+    "publish": "npx changeset publish",
+    "version": "npx changeset version",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
