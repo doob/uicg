@@ -1,0 +1,28 @@
+---
+// Import Astro's Component and tailwind-merge
+import { twMerge } from "tailwind-merge";
+
+// Collect all props, including standard input attributes
+const { variant = "default", label, id, className = "", ...rest } = Astro.props;
+
+// Define base and variant-specific classes
+const baseClasses =
+  "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
+const variantClasses = {
+  default: "border-gray-300 focus:ring-blue-500",
+  error: "border-red-500 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500",
+};
+const labelClasses = "block text-sm font-medium leading-6 text-gray-900";
+
+// Merge classes dynamically
+const inputClasses = twMerge(baseClasses, variantClasses[variant], className);
+---
+
+{
+  label && id ? (
+    <label for={id} class={labelClasses}>
+      {label}
+    </label>
+  ) : null
+}
+<input id={id} {...rest} class={inputClasses} />

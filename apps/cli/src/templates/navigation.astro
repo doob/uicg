@@ -1,0 +1,27 @@
+---
+import { twMerge } from "tailwind-merge";
+
+const { links = [], className = "" } = Astro.props;
+---
+
+<nav class={twMerge("flex space-x-4", className)}>
+  {
+    links.map((link) => {
+      // Define default link classes
+      const defaultLinkClasses = "px-3 py-2 rounded-md text-sm font-medium";
+      // Use tailwind-merge to combine default classes with conditional or additional classes
+      const linkClasses = twMerge(
+        defaultLinkClasses,
+        "text-blue-500 hover:text-blue-700", // Base styling for links
+        link.active ? "bg-blue-500 text-white" : "text-blue-500", // Conditional styling for active links
+        link.className // Allow passing custom classes for each link
+      );
+
+      return (
+        <a href={link.href} class={linkClasses} {...link.attrs}>
+          {link.label}
+        </a>
+      );
+    })
+  }
+</nav>

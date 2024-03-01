@@ -1,0 +1,46 @@
+---
+import { cva } from "class-variance-authority";
+
+// Define the base and variant classes using cva
+const baseClasses = cva("rounded-md p-4", {
+  variants: {
+    size: {
+      small: "text-sm",
+      medium: "text-base",
+      large: "text-lg",
+    },
+    intent: {
+      success: "bg-green-50 text-green-800 border border-green-200",
+      danger: "bg-red-50 text-red-800 border border-red-200",
+      warning: "bg-yellow-50 text-yellow-800 border border-yellow-200", // Original style
+    },
+  },
+  defaultVariants: {
+    size: "small",
+    intent: "warning", // Default to warning if intent is not specified
+  },
+});
+
+// Extract props and compute class names
+const { size = "small", intent = "warning" } = Astro.props;
+const className = baseClasses({ size, intent });
+---
+
+<div class={className}>
+  <div class="flex">
+    <div class="flex-shrink-0">
+      <slot name="icon" />
+    </div>
+    <div class="ml-2 flex-1">
+      <h3 class="font-semibold">
+        <slot />
+      </h3>
+      <div>
+        <slot name="description" />
+      </div>
+    </div>
+    <div class="flex-shrink-0">
+      <slot name="action" />
+    </div>
+  </div>
+</div>

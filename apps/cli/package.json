@@ -1,0 +1,27 @@
+{
+  "name": "ui-gen",
+  "version": "0.0.4",
+  "description": "User interface component generator library that outputs components for Astro using Tailwind CSS",
+  "main": "src/index.mjs",
+  "type": "module",
+  "bin": {
+    "ui-gen": "cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ui",
+    "astro",
+    "tailwindcss"
+  ],
+  "author": "Dennis Söderström",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.0.0",
+    "handlebars": "^4.7.8",
+    "inquirer": "^9.2.15",
+    "tailwind-merge": "^2.2.1"
+  }
+}

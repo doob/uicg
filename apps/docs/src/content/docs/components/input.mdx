@@ -1,0 +1,52 @@
+---
+title: Input
+---
+
+import { Tabs, TabItem, Code } from '@astrojs/starlight/components';
+import Input from "@components/Input.astro";
+import importedCode from '/../cli/src/docs/button-docs.astro?raw';
+
+export const component = 'input';
+
+<Tabs>
+  <TabItem label="Preview">
+    <Input label="Label" id="x" />
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Input label="Label" id="x" />
+    ```
+  </TabItem>
+  <TabItem label="Install">
+    <Code code={`npx ui-gen add ${component}`} lang="js" />
+  </TabItem>
+</Tabs>
+
+<hr />
+
+### Properties
+
+#### `intent`
+
+**type:** `string`
+
+**options:** `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `ghost`
+
+**default:** `ghost`
+
+
+#### `size`
+
+**type:** `string`
+
+**options:** `small`, `medium`, `large`
+
+**default:** `medium`
+
+#### `roundness`
+
+**type:** `string`
+
+**options:** `small`, `medium`, `large`
+
+**default:** `medium`

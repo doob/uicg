@@ -1,0 +1,12 @@
+{
+  "style": "default",
+  "tailwind": {
+    "config": "tailwind.config.ts"
+  },
+  "aliases": {
+    "components": "{{ aliasComponents }}"
+  },
+  "output": {
+    "components": "{{ outputComponents }}"
+  }
+}

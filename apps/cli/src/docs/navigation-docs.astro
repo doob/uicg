@@ -1,0 +1,11 @@
+---
+import Navigation from "{{ aliases.components }}/Navigation.astro";
+
+const links = [
+  { href: "/", label: "Home", active: true, className: "font-bold" },
+  { href: "/about", label: "About", attrs: { title: "Learn more about us" } },
+  { href: "/contact", label: "Contact", attrs: { title: "Get in touch" } },
+];
+---
+
+<Navigation links={links} className="bg-gray-100" />

@@ -1,0 +1,59 @@
+---
+title: Button
+---
+
+import { Tabs, TabItem, Code } from '@astrojs/starlight/components';
+import Button, { variants } from "@components/Button.astro";
+import importedCode from '/../cli/src/docs/button-docs.astro?raw';
+
+export const component = 'Button';
+
+
+
+<Tabs>
+  <TabItem label="Preview">
+    <Button>Default</Button>&nbsp;
+    <Button intent="primary">Primary</Button>
+  </TabItem>
+  <TabItem label="Code">
+    <Code code={importedCode} lang="js" />
+  </TabItem>
+  <TabItem label="Install">
+    <Code code={`npx ui-gen add ${component}`} lang="js" />
+  </TabItem>
+</Tabs>
+
+<hr />
+
+<script>
+console.log(variants);
+</script>
+
+
+
+### Properties
+
+#### `intent`
+
+**type:** `string`
+
+**options:** `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `ghost`
+
+**default:** `ghost`
+
+
+#### `size`
+
+**type:** `string`
+
+**options:** `small`, `medium`, `large`
+
+**default:** `medium`
+
+#### `roundness`
+
+**type:** `string`
+
+**options:** `small`, `medium`, `large`
+
+**default:** `medium`

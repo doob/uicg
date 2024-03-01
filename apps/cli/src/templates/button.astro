@@ -1,0 +1,39 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { cva, type VariantProps } from "class-variance-authority";
+import { twMerge } from "tailwind-merge";
+
+export interface Props extends HTMLAttributes<"button">, VariantProps<typeof button> {}
+
+const button = cva("font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2", {
+  variants: {
+    intent: {
+      primary: ["bg-blue-500", "text-white", "border-transparent", "hover:bg-blue-600"],
+      secondary: ["bg-white", "text-gray-800", "border-gray-400", "hover:bg-gray-100"],
+      danger: ["bg-red-500", "text-white", "border-transparent", "hover:bg-red-600"],
+      warning: ["bg-yellow-500", "text-white", "border-transparent", "hover:bg-yellow-600"],
+      success: ["bg-green-500", "text-white", "border-transparent", "hover:bg-green-600"],
+      info: ["bg-blue-500", "text-white", "border-transparent", "hover:bg-blue-600"],
+      ghost: ["bg-gray-200", "text-gray-800", "border-gray-400", "hover:bg-gray-100"],
+    },
+    size: {
+      small: ["text-sm", "py-1", "px-2"],
+      medium: ["text-base", "py-2", "px-4"],
+      large: ["text-lg", "py-3", "px-5"],
+    },
+    rounded: {
+      none: ["rounded-none"],
+      sm: ["rounded-sm"],
+      md: ["rounded-md"],
+      full: ["rounded-full"],
+    },
+  },
+  compoundVariants: [{ intent: "ghost", size: "medium", rounded: "md" }],
+});
+
+const { intent = "ghost", size = "medium", rounded = "sm", class: additionalClasses = "", ...rest } = Astro.props;
+---
+
+<button class={twMerge(button({ intent, size, rounded }), additionalClasses)} {...rest}>
+  <slot />
+</button>

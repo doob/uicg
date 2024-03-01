@@ -1,0 +1,11 @@
+---
+import Alert from "{{ aliases.components }}/Alert.astro";
+import Button from "{{ aliases.components }}/Button.astro";
+---
+
+<Alert intent="success" class="not-content">
+  <span slot="icon">🤙</span>
+  <h6>You are awesome!</h6>
+  <p slot="description">You successfully created a new post..</p>
+  <Button slot="action" intent="success">Check it out</Button>
+</Alert>

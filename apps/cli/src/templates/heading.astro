@@ -1,0 +1,47 @@
+---
+// Import statements
+import { twMerge } from "tailwind-merge";
+
+// Component Props
+interface HeadingProps {
+  level?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  size?: "sm" | "md" | "lg" | "xl";
+  class?: string;
+}
+
+// Extract props with defaults
+const { level = "h1", class: customClasses = "" } = Astro.props as HeadingProps;
+
+// Define default classes and variants
+const baseClasses = "font-bold leading-tight mb-2";
+const sizeVariants = {
+  sm: "text-sm",
+  md: "text-lg", // Default size
+  lg: "text-xl",
+  xl: "text-2xl",
+};
+
+const sizeClasses = {
+  h1: "text-2xl md:text-4xl",
+  h2: "text-xl md:text-3xl",
+  h3: "text-lg md:text-2xl",
+  // Add more mappings as needed
+};
+
+// Compute classes
+const className = twMerge(baseClasses, sizeClasses[level] ?? sizeVariants.md, customClasses);
+---
+
+<!-- Dynamic Heading Tag -->
+<Fragment>
+  {
+    (() => {
+      const Tag = level;
+      return (
+        <Tag class={className}>
+          <slot />
+        </Tag>
+      );
+    })()
+  }
+</Fragment>
