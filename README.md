@@ -14,3 +14,21 @@ Add `/apps/docs/content/docs/components/<component>.md` to add the component to 
 ### Docs
 
     npm run docs
+
+## Versioning
+
+Do your changes and commit.
+
+### Adding changesets
+    
+    npx changeset
+
+### Publishing
+
+Once you decide you want to do a release, you can run
+
+    npx changeset version
+
+Review both the changelog entries and the version changes for packages. Once you are confident that these are correct, and have made any necessary tweaks to changelogs, you can publish your packages:
+
+    npx changeset publish
