@@ -8,6 +8,10 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "UICG",
+      logo: {
+        src: "./src/assets/uicg_logo.svg",
+        replacesTitle: true,
+      },
       social: {
         // github: 'https://github.com/withastro/starlight',
       },
