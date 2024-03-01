@@ -1,0 +1,12 @@
+---
+import Button from "{{ aliases.components }}/Button.astro";
+import Modal from "{{ aliases.components }}/Modal.astro";
+---
+
+<Button onclick="window.normalDialog.showModal()">Open dialog</Button>
+<Modal id="normalDialog">
+    <h4>This is your dialog</h4>
+    <p>Naughty running cat bite off human's toes spit up on light gray carpet instead of adjacent linoleum.</p>
+    <Button slot="close">Close</Button>
+    <Button slot="action" intent="primary" onclick="alert('U did it!')">Got it</Button>
+</Modal>

@@ -1,0 +1,36 @@
+---
+title: Modal
+---
+
+import { Tabs, TabItem, Code } from "@astrojs/starlight/components";
+import Alert from "@components/Alert.astro";
+import Button from "@components/Button.astro";
+import Modal from "@components/Modal.astro";
+import importedCode from "/../cli/src/docs/modal-docs.astro?raw";
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content">
+      <Button onclick="window.normalDialog.showModal()">Open dialog</Button>
+      <Modal id="normalDialog">
+          <h4>This is your dialog</h4>
+          <p>Naughty running cat bite off human's toes spit up on light gray carpet instead of adjacent linoleum.</p>
+          <Button slot="close">Close</Button>
+          <Button slot="action" intent="primary" onclick="alert('U did it!')">Got it</Button>
+      </Modal>
+  </div>
+
+  </TabItem>
+  <TabItem label="Code">
+    <Code code={importedCode} lang="js" />
+  </TabItem>
+  <TabItem label="Install">
+    ```sh
+    npx ui-gen add modal
+    ```
+  </TabItem>
+</Tabs>
+
+<hr />
+
+### Properties
