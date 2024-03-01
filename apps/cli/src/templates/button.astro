@@ -12,9 +12,15 @@ const button = cva("font-semibold focus:outline-none focus:ring-2 focus:ring-off
       secondary: ["bg-white", "text-gray-800", "border-gray-400", "hover:bg-gray-100"],
       danger: ["bg-red-500", "text-white", "border-transparent", "hover:bg-red-600"],
       warning: ["bg-yellow-500", "text-white", "border-transparent", "hover:bg-yellow-600"],
-      success: ["bg-green-500", "text-white", "border-transparent", "hover:bg-green-600"],
+      success: ["bg-green-500", "text-white", "border border-green-500", "hover:bg-green-600"],
       info: ["bg-blue-500", "text-white", "border-transparent", "hover:bg-blue-600"],
       ghost: ["bg-gray-200", "text-gray-800", "border-gray-400", "hover:bg-gray-100"],
+    },
+    variant: {
+      default: [],
+      contained: "border !text-white",
+      outlined: "border bg-transparent",
+      text: "border border-transparent bg-transparent hover:!bg-opacity-10",
     },
     size: {
       small: ["text-sm", "py-1", "px-2"],
@@ -28,12 +34,28 @@ const button = cva("font-semibold focus:outline-none focus:ring-2 focus:ring-off
       full: ["rounded-full"],
     },
   },
-  compoundVariants: [{ intent: "ghost", size: "medium", rounded: "md" }],
+  compoundVariants: [
+    {
+      intent: "primary",
+      variant: "outlined",
+      className: "text-blue-500 bg-transparent border border-blue-500 hover:bg-transparent hover:border-blue-700 hover:text-blue-700",
+    },
+    {
+      intent: "success",
+      variant: "outlined",
+      className: "text-green-500 bg-transparent border border-green-500 hover:bg-transparent hover:border-green-700 hover:text-green-700",
+    },
+    {
+      intent: "danger",
+      variant: "outlined",
+      className: "text-red-500 bg-transparent border border-red-500 hover:bg-transparent hover:border-red-700 hover:text-blredue-700",
+    },
+  ],
 });
 
-const { intent = "ghost", size = "medium", rounded = "sm", class: additionalClasses = "", ...rest } = Astro.props;
+const { intent = "ghost", size = "medium", rounded = "sm", variant = "default", class: additionalClasses = "", ...rest } = Astro.props;
 ---
 
-<button class={twMerge(button({ intent, size, rounded }), additionalClasses)} {...rest}>
+<button class={twMerge(button({ intent, size, rounded, variant }), additionalClasses)} {...rest}>
   <slot />
 </button>
