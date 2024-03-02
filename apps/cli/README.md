@@ -6,3 +6,8 @@
 #### Need help?
 
     npx ui-gen
+
+
+## Docs
+
+Check out the components at [uicg.pages.dev](https://uicg.pages.dev/)
