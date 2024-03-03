@@ -9,7 +9,7 @@
     "change": "npx changeset",
     "publish": "npx changeset publish",
     "version": "npx changeset version",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,11 @@
     "./packages/*"
   ],
   "dependencies": {
-    "@changesets/cli": "^2.27.1"
+    "@changesets/cli": "^2.27.1",
+    "assert": "^2.1.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "prettier-plugin-astro": "^0.13.0"
   }
 }
