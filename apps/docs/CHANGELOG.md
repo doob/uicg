@@ -1,5 +1,11 @@
 # docs
 
+## 0.2.0
+
+### Minor Changes
+
+- c089d99: Summary
+
 ## 0.1.2
 
 ### Patch Changes
