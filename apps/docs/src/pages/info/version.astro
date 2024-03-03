@@ -1,0 +1,12 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+import fs from 'node:fs/promises'
+
+const url = new URL('../../../package.json', import.meta.url)
+const json = await fs.readFile(url, 'utf-8')
+const data = JSON.parse(json)
+---
+
+<StarlightPage frontmatter={{ title: 'Info' }}>
+  Docs Version: {data.version}
+</StarlightPage>
