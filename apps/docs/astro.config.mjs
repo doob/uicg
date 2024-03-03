@@ -1,15 +1,15 @@
-import { defineConfig } from "astro/config";
-import starlight from "@astrojs/starlight";
+import { defineConfig } from 'astro/config'
+import starlight from '@astrojs/starlight'
 
-import tailwind from "@astrojs/tailwind";
+import tailwind from '@astrojs/tailwind'
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
     starlight({
-      title: "UICG",
+      title: 'UICG',
       logo: {
-        src: "./src/assets/uicg_logo.svg",
+        src: './src/assets/uicg_logo.svg',
         replacesTitle: true,
       },
       social: {
@@ -17,9 +17,9 @@ export default defineConfig({
       },
       sidebar: [
         {
-          label: "Components",
+          label: 'Components',
           autogenerate: {
-            directory: "components",
+            directory: 'components',
           },
         },
         // {
@@ -34,7 +34,14 @@ export default defineConfig({
         //   autogenerate: { directory: "reference" },
         // },
       ],
+      customCss: [
+        // Path to your Tailwind base styles:
+        './src/tailwind.css',
+      ],
     }),
-    tailwind(),
+    tailwind({
+      // Disable the default base styles:
+      applyBaseStyles: false,
+    }),
   ],
-});
+})
