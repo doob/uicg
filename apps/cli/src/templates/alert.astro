@@ -1,40 +1,40 @@
 ---
-import { cva } from "class-variance-authority";
+import { cva } from 'class-variance-authority'
 
-// Define the base and variant classes using cva
-const baseClasses = cva("rounded-md p-4", {
+const baseClasses = cva('rounded-md p-4', {
   variants: {
     size: {
-      small: "text-sm",
-      medium: "text-base",
-      large: "text-lg",
+      small: 'text-sm',
+      medium: 'text-base',
+      large: 'text-lg',
     },
     intent: {
-      success: "bg-green-50 text-green-800 border border-green-200",
-      danger: "bg-red-50 text-red-800 border border-red-200",
-      warning: "bg-yellow-50 text-yellow-800 border border-yellow-200", // Original style
+      success:
+        'bg-green-50 text-green-800 dark:bg-green-200 dark:text-green-900',
+      danger: 'bg-red-50 text-red-800 dark:bg-red-700 dark:text-white',
+      warning:
+        'bg-yellow-50 text-yellow-800 dark:bg-yellow-300 dark:text-yellow-900',
     },
   },
   defaultVariants: {
-    size: "small",
-    intent: "warning", // Default to warning if intent is not specified
+    size: 'small',
+    intent: 'warning',
   },
-});
+})
 
-// Extract props and compute class names
-const { size = "small", intent = "warning" } = Astro.props;
-const className = baseClasses({ size, intent });
+const { size = 'small', intent = 'warning' } = Astro.props
+const className = baseClasses({ size, intent })
 ---
 
 <div class={className}>
   <div class="flex">
-    <div class="flex-shrink-0">
-      <slot name="icon" />
+    <div class="flex-shrink-0 text-lg">
+      <slot name="icon" class="" />
     </div>
     <div class="ml-2 flex-1">
-      <h3 class="font-semibold">
+      <div class="mb-2 font-bold">
         <slot />
-      </h3>
+      </div>
       <div>
         <slot name="description" />
       </div>

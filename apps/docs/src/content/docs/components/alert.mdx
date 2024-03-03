@@ -9,22 +9,22 @@ import importedCode from '/../cli/src/docs/alert-docs.astro?raw';
 
 <Tabs>
   <TabItem label="Preview">
-    <div class="not-content">
+    <div class="not-content flex flex-col gap-4">
     <Alert intent="success" class="not-content">
       <span slot="icon">🤙</span>
-      <h6 contentEditable>You are awesome!</h6>
+      <h4>You are awesome!</h4>
       <p slot="description">You successfully created a new post..</p>
       <Button slot="action" intent="success">Check it out</Button>
     </Alert>
         <Alert intent="warning" class="not-content">
       <span slot="icon">🛟</span>
-      <h6 contentEditable>Hurry up!</h6>
+      <h4>Hurry up!</h4>
       <p slot="description">Your attention is needed</p>
       <Button slot="action" intent="warning">Fix it</Button>
     </Alert>
         <Alert intent="danger" class="not-content">
       <span slot="icon">🚨</span>
-      <h6 contentEditable>Danger</h6>
+      <h4>Danger</h4>
       <p slot="description">Destructive </p>
       <Button slot="action" intent="danger">Confirm</Button>
     </Alert>

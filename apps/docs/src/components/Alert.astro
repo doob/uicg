@@ -1,27 +1,29 @@
 ---
-import { cva } from "class-variance-authority";
+import { cva } from 'class-variance-authority'
 
-const baseClasses = cva("rounded-md p-4", {
+const baseClasses = cva('rounded-md p-4', {
   variants: {
     size: {
-      small: "text-sm",
-      medium: "text-base",
-      large: "text-lg",
+      small: 'text-sm',
+      medium: 'text-base',
+      large: 'text-lg',
     },
     intent: {
-      success: "bg-green-50 text-green-800 dark:bg-green-200 dark:text-green-100",
-      danger: "bg-red-50 text-red-800 dark:bg-red-800 dark:text-red-100",
-      warning: "bg-yellow-50 text-yellow-800 dark:bg-yellow-200 dark:text-yellow-100",
+      success:
+        'bg-green-50 text-green-800 dark:bg-green-200 dark:text-green-900',
+      danger: 'bg-red-50 text-red-800 dark:bg-red-700 dark:text-white',
+      warning:
+        'bg-yellow-50 text-yellow-800 dark:bg-yellow-300 dark:text-yellow-900',
     },
   },
   defaultVariants: {
-    size: "small",
-    intent: "warning",
+    size: 'small',
+    intent: 'warning',
   },
-});
+})
 
-const { size = "small", intent = "warning" } = Astro.props;
-const className = baseClasses({ size, intent });
+const { size = 'small', intent = 'warning' } = Astro.props
+const className = baseClasses({ size, intent })
 ---
 
 <div class={className}>
@@ -30,7 +32,7 @@ const className = baseClasses({ size, intent });
       <slot name="icon" class="" />
     </div>
     <div class="ml-2 flex-1">
-      <div class="font-bold mb-2">
+      <div class="mb-2 font-bold">
         <slot />
       </div>
       <div>
