@@ -12,7 +12,7 @@
     "test": "node --test",
     "release": "npm run release --workspaces && release-it",
     "release:docs": "npm run release --workspace apps/docs && release-it",
-    "release:cli": "npm run release --workspace apps/docs && release-it"
+    "release:cli": "npm run release --workspace apps/cli && release-it"
   },
   "author": "",
   "license": "ISC",
