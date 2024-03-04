@@ -1,7 +1,7 @@
 {
   "name": "docs",
   "type": "module",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "private": true,
   "scripts": {
     "dev": "astro dev",
@@ -22,11 +22,6 @@
     "tailwindcss": "^3.4.1"
   },
   "release-it": {
-    "plugins": {
-      "@release-it/conventional-changelog": {
-        "infile": "CHANGELOG.md"
-      }
-    },
     "git": false,
     "npm": {
       "publish": false

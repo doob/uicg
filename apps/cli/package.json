@@ -29,11 +29,6 @@
     "tailwind-merge": "^2.2.1"
   },
   "release-it": {
-    "plugins": {
-      "@release-it/conventional-changelog": {
-        "infile": "CHANGELOG.md"
-      }
-    },
     "git": false
   }
 }
