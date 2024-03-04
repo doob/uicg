@@ -8,21 +8,21 @@ import { fileURLToPath } from 'url'
 import {
   checkPackageExists,
   findConfigFile,
+  libPath,
   localPath,
   success,
-} from './utils.js' // Add missing import statement
+} from './utils.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+const TAILWIND_CONFIG_FILE = 'tailwind.config.mjs'
+const UI_CONFIG_FILE = 'ui-config.json'
 
 /**
  * Verify project dependencies
  */
 export async function verifyProjectDependencies() {
-  const dependencies = [
-    '@astrojs/tailwind',
-    'tailwind-merge',
-    'class-variance-authority',
-  ]
+  const dependencies = ['tailwind-merge', 'class-variance-authority']
   for (const dependency of dependencies) {
     checkAndInstallPackage(dependency)
   }
@@ -103,12 +103,65 @@ export async function verifyCompilerOptions(answers, options) {
  * @param {object} answers
  */
 export async function writeConfigFile(answers) {
-  const templatePath = path.join(__dirname, 'templates', 'ui-config.json')
+  const templatePath = path.join(__dirname, 'templates', UI_CONFIG_FILE)
   const template = fs.readFileSync(templatePath, 'utf-8')
   const compiledTemplate = handlebars.compile(template)
   const output = compiledTemplate(answers)
 
-  const filePath = localPath(`ui-config.json`)
+  const filePath = localPath(UI_CONFIG_FILE)
   fs.writeFileSync(filePath, output, 'utf-8')
-  console.log(success('✅ Created ui-config.json'))
+  console.log(success('✅ ' + UI_CONFIG_FILE))
+}
+
+export async function verifyTailwindConfig(answers, options) {
+  if (options?.yes)
+    return execSync(`npx astro add tailwind -y`, {
+      stdio: 'inherit',
+    })
+
+  const gotconf = await tailwindConfigExists()
+
+  if (!gotconf) {
+    await inquirer
+      .prompt([
+        {
+          type: 'confirm',
+          name: 'addTailwindConfig',
+          message: `Missing ${TAILWIND_CONFIG_FILE}. Should i add tailwind for you?`,
+          default: true,
+        },
+      ])
+      .then((_answers) => {
+        if (_answers.addTailwindConfig) {
+          execSync(`npx astro add tailwind${options?.y && ' -y'}`, {
+            stdio: 'inherit',
+          })
+        }
+      })
+      .catch((error) => {
+        if (error.isTtyError) {
+          // Prompt couldn't be rendered in the current environment
+        } else {
+          // Something else went wrong
+        }
+      })
+  }
+
+  return true
+}
+
+async function tailwindConfigExists() {
+  const directoryPath = localPath('.')
+  const searchFileNameWithoutExtension = 'tailwind.config'
+
+  const files = fs.readdirSync(directoryPath)
+
+  // Filtering files that match the searchFileName without considering the extension
+  const foundFiles = files.filter((file) => {
+    // Extract the filename without extension
+    const filenameWithoutExtension = path.parse(file).name
+    return filenameWithoutExtension === searchFileNameWithoutExtension
+  })
+
+  return foundFiles.length > 0
 }

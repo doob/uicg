@@ -5,15 +5,15 @@ import { twMerge } from 'tailwind-merge'
 interface MenuItem {
   name: string
   href: string
-  icon: string // Assuming icons are SVG paths for simplicity
+  icon?: string // Assuming icons are SVG paths for simplicity
   current?: boolean // Optional, to highlight the current active menu item
 }
 
 interface Props {
   menuItems: MenuItem[]
   bookmarkItems?: MenuItem[] // Optional, for teams section
-  intent: string
-  class: string
+  intent?: string
+  class?: string
 }
 
 const baseClasses = cva('inset-y-0 z-50 flex w-72 flex-col', {

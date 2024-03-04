@@ -11,6 +11,7 @@ import {
   verifyCompilerOptions,
   verifyProjectDependencies,
   writeConfigFile,
+  verifyTailwindConfig,
 } from './src/lib.js'
 import {
   checkConfig,
@@ -26,7 +27,8 @@ const packageJson = JSON.parse(readFileSync('../package.json'))
 const install = async (answers, options) => {
   await verifyProjectDependencies()
   await verifyCompilerOptions(answers, options)
-  await writeConfigFile(answers)
+  await verifyTailwindConfig(answers, options)
+  await writeConfigFile(answers, options)
 }
 
 program
@@ -61,7 +63,7 @@ program
         answers[q.name] = q.default
       }
 
-      return install(answers)
+      return install(answers, options)
     }
 
     inquirer.prompt(questions).then(async (answers) => {
