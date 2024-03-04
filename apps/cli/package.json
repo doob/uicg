@@ -1,6 +1,6 @@
 {
   "name": "ui-gen",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "User interface component generator library that outputs components for Astro using Tailwind CSS",
   "main": "src/index.mjs",
   "type": "module",
