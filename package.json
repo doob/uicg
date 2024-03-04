@@ -9,7 +9,8 @@
     "change": "npx changeset",
     "publish": "npx changeset publish",
     "version": "npx changeset version",
-    "test": "node --test"
+    "test": "node --test",
+    "release": "npm run release --workspaces && release-it"
   },
   "author": "",
   "license": "ISC",
@@ -20,9 +21,18 @@
   ],
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
+    "@release-it/bumper": "^6.0.1",
     "assert": "^2.1.0",
     "prettier": "^3.2.5",
     "prettier-plugin-astro": "^0.13.0",
     "prettier-plugin-tailwindcss": "^0.5.11"
+  },
+  "release-it": {
+    "git": {
+      "requireCleanWorkingDir": false
+    },
+    "npm": {
+      "publish": false
+    }
   }
 }
