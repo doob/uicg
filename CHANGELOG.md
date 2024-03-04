@@ -1,5 +1,17 @@
 
 
+## [0.2.0](https://github.com/doob/uicg/compare/0.1.0...0.2.0) (2024-03-04)
+
+
+### Features
+
+* rm changeset/cli related from README ([d648ab0](https://github.com/doob/uicg/commit/d648ab0a016c64bd0d7ded94414a8628953caa04))
+
+
+### Bug Fixes
+
+* add tailwind to astro ([8f993b1](https://github.com/doob/uicg/commit/8f993b12d872289452f21d517570a763fbc2ab78))
+
 ## [0.1.0](https://github.com/doob/uicg/compare/0.0.3...0.1.0) (2024-03-04)
 
 
