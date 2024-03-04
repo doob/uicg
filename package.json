@@ -6,9 +6,6 @@
   "scripts": {
     "publish:cli": "npm publish --workspace apps/cli",
     "docs": "npm run dev --workspace apps/docs",
-    "change": "npx changeset",
-    "publish": "npx changeset publish",
-    "version": "npx changeset version",
     "test": "node --test",
     "release": "npm run release --workspaces && release-it",
     "release:docs": "npm run release --workspace=apps/docs && release-it",
@@ -22,62 +19,11 @@
     "./packages/*"
   ],
   "devDependencies": {
-    "@changesets/cli": "^2.27.1",
     "@release-it/bumper": "^6.0.1",
     "@release-it/conventional-changelog": "^8.0.1",
     "assert": "^2.1.0",
     "prettier": "^3.2.5",
     "prettier-plugin-astro": "^0.13.0",
     "prettier-plugin-tailwindcss": "^0.5.11"
-  },
-  "release-it": {
-    "plugins": {
-      "@release-it/conventional-changelog": {
-        "infile": "CHANGELOG.md",
-        "preset": {
-          "name": "conventionalcommits",
-          "types": [
-            {
-              "type": "feat",
-              "section": "Features"
-            },
-            {
-              "type": "fix",
-              "section": "Bug Fixes"
-            },
-            {
-              "type": "chore",
-              "hidden": true
-            },
-            {
-              "type": "docs",
-              "hidden": true
-            },
-            {
-              "type": "style",
-              "hidden": true
-            },
-            {
-              "type": "refactor",
-              "hidden": true
-            },
-            {
-              "type": "perf",
-              "hidden": true
-            },
-            {
-              "type": "test",
-              "hidden": true
-            }
-          ]
-        }
-      }
-    },
-    "git": {
-      "requireCleanWorkingDir": false
-    },
-    "npm": {
-      "publish": false
-    }
   }
 }
