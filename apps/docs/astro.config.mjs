@@ -35,12 +35,10 @@ export default defineConfig({
         // },
       ],
       customCss: [
-        // Path to your Tailwind base styles:
         './src/tailwind.css',
       ],
     }),
     tailwind({
-      // Disable the default base styles:
       applyBaseStyles: false,
     }),
   ],
