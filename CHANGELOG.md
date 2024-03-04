@@ -1,5 +1,13 @@
 
 
+## [0.1.0](https://github.com/doob/uicg/compare/0.0.3...0.1.0) (2024-03-04)
+
+
+### Features
+
+* move release-it config to .release-it.json ([88d4878](https://github.com/doob/uicg/commit/88d4878ca6b9d5212d5a4843ae81b4b481e0a302))
+* remove @changesets/cli ([63aaaa7](https://github.com/doob/uicg/commit/63aaaa776896c87d4a4b3f0b1d3083d1a22f297f))
+
 ## [0.0.3](https://github.com/doob/uicg/compare/0.0.2...0.0.3) (2024-03-04)
 
 
