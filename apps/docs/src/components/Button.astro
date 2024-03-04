@@ -20,16 +20,16 @@ const button = cva(
     variants: {
       intent: {
         primary: [
-          'bg-blue-500',
+          'bg-primary-500',
           'text-white',
           'border-transparent',
-          'hover:bg-blue-600',
+          'hover:bg-primary-600',
         ],
         secondary: [
-          'bg-white',
-          'text-gray-800',
-          'border-gray-400',
-          'hover:bg-gray-100',
+          'bg-secondary-300',
+          'text-black',
+          //'border-secondary-400',
+          'hover:bg-secondary-500',
         ],
         danger: [
           'bg-red-500',
@@ -85,7 +85,13 @@ const button = cva(
         intent: 'primary',
         variant: 'outlined',
         className:
-          'text-blue-500 bg-transparent border border-blue-500 hover:bg-transparent hover:border-blue-700 hover:text-blue-700',
+          'text-primary-500 bg-transparent border border-primary-500 hover:bg-transparent hover:border-primary-700 hover:text-primary-700',
+      },
+      {
+        intent: 'secondary',
+        variant: 'outlined',
+        className:
+          'text-secondary-500 bg-transparent border border-secondary-500 hover:bg-transparent hover:border-secondary-600 hover:text-secondary-600',
       },
       {
         intent: 'success',

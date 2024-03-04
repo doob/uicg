@@ -18,6 +18,14 @@ import importedCode from "/../cli/src/docs/modal-docs.astro?raw";
           <Button slot="close">Close</Button>
           <Button slot="action" intent="primary" onclick="alert('U did it!')">Got it</Button>
       </Modal>
+
+      <h3>Server data</h3>
+      <Button hx-post="/htmx/modal" hx-target="#serverDialog" swap onclick="window.serverDialog.showModal()">
+        GET /htmx/modal
+      </Button>
+      <Modal id="serverDialog" />
+      
+
   </div>
 
   </TabItem>
@@ -34,3 +42,5 @@ import importedCode from "/../cli/src/docs/modal-docs.astro?raw";
 <hr />
 
 ### Properties
+
+<script is:inline src="https://unpkg.com/htmx.org@1.9.10"></script>
