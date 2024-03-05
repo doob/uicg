@@ -1,23 +1,31 @@
 ---
-import { cva } from "class-variance-authority";
+import { cva } from 'class-variance-authority'
 
-const baseClasses = cva("m-auto p-4 shadow-xl rounded-md w-full sm:w-3/4 md:w-1/2 backdrop:bg-black/10 backdrop:backdrop-blur-sm", {
-  variants: {
-    intent: {
-      info: "",
-      success: "bg-green-50 text-green-800 border border-green-200",
-      danger: "bg-red-50 text-red-800 border border-red-200",
-      warning: "bg-yellow-50 text-yellow-800 border border-yellow-200", // Original style
+export interface Props {
+  intent: 'info' | 'success' | 'danger' | 'warning'
+  closeOutside: boolean
+  id: string
+}
+
+const baseClasses = cva(
+  'm-auto p-4 shadow-xl rounded-md w-full sm:w-3/4 md:w-1/2 backdrop:bg-black/10 backdrop:backdrop-blur-sm',
+  {
+    variants: {
+      intent: {
+        info: '',
+        success: 'bg-green-50 text-green-800 border border-green-200',
+        danger: 'bg-red-50 text-red-800 border border-red-200',
+        warning: 'bg-yellow-50 text-yellow-800 border border-yellow-200', // Original style
+      },
     },
-  },
-  defaultVariants: {
-    intent: "info",
-  },
-});
+    defaultVariants: {
+      intent: 'info',
+    },
+  }
+)
 
-const { intent = "info" } = Astro.props;
-const className = baseClasses({ intent });
-const { id } = Astro.props;
+const { closeOutside = true, id, intent = 'info' } = Astro.props
+const className = baseClasses({ intent })
 ---
 
 <dialog id={id} class={className}>
@@ -29,3 +37,10 @@ const { id } = Astro.props;
     </div>
   </form>
 </dialog>
+
+<script define:vars={{ closeOutside, id }}>
+  if (closeOutside) {
+    const currentDialog = document.getElementById(id)
+    currentDialog.addEventListener('click', () => currentDialog.close())
+  }
+</script>

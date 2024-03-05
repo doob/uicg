@@ -24,13 +24,30 @@ import importedCode from "/../cli/src/docs/modal-docs.astro?raw";
         GET /htmx/modal
       </Button>
       <Modal id="serverDialog" />
-      
-
   </div>
 
   </TabItem>
   <TabItem label="Code">
-    <Code code={importedCode} lang="js" />
+    ```astro
+    ---
+    import Button from "@components/Button.astro";
+    import Modal from "@components/Modal.astro";
+    ---
+    <Button onclick="window.normalDialog.showModal()">
+      Open dialog
+    </Button>
+    <Modal id="normalDialog">
+      <h4>This is your dialog</h4>
+      <p>Naughty running cat bite off human's toes spit up on light gray carpet instead of adjacent linoleum.</p>
+      <Button slot="close">Close</Button>
+      <Button slot="action" intent="primary">Got it</Button>
+    </Modal>
+
+    <Button hx-get="/htmx/modal" hx-target="#serverDialog" onclick="window.serverDialog.showModal()">
+      GET /htmx/modal
+    </Button>
+    <Modal id="serverDialog" />
+    ```
   </TabItem>
   <TabItem label="Install">
     ```sh
@@ -42,5 +59,27 @@ import importedCode from "/../cli/src/docs/modal-docs.astro?raw";
 <hr />
 
 ### Properties
+
+##### `id` (required)
+
+**type:** `string`
+
+**default:** `dialog`
+
+##### `intent`
+
+**type:** `string`
+
+**default:** `info`
+
+**options**: `info`, `success`, `warning`, `danger`
+
+##### `closeOutside`
+
+**type:** `boolean`
+
+**default:** `true`
+
+Closes the modal when clicking outside.
 
 <script is:inline src="https://unpkg.com/htmx.org@1.9.10"></script>
