@@ -20,7 +20,7 @@ import importedCode from "/../cli/src/docs/modal-docs.astro?raw";
       </Modal>
 
       <h3>Server data</h3>
-      <Button hx-post="/htmx/modal" hx-target="#serverDialog" swap onclick="window.serverDialog.showModal()">
+      <Button hx-get="/htmx/modal" hx-target="#serverDialog" onclick="window.serverDialog.showModal()">
         GET /htmx/modal
       </Button>
       <Modal id="serverDialog" />
