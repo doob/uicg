@@ -22,6 +22,12 @@ export default defineConfig({
             directory: 'components',
           },
         },
+        {
+          label: 'Composed components',
+          autogenerate: {
+            directory: 'composed_components',
+          },
+        },
         // {
         //   label: "Guides",
         //   items: [
