@@ -4,6 +4,11 @@
   "description": "User interface component generator library that outputs components for Astro using Tailwind CSS",
   "main": "src/index.mjs",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/doob/uicg.git",
+    "directory": "apps/cli"
+  },
   "publishConfig": {
     "access": "public"
   },
