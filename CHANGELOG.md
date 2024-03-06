@@ -1,5 +1,12 @@
 
 
+## [0.2.3](https://github.com/doob/uicg/compare/0.2.2...0.2.3) (2024-03-06)
+
+
+### Bug Fixes
+
+* github repo paths ([83c21d6](https://github.com/doob/uicg/commit/83c21d640aa52d065aca84c4442c165fd4f3eed4))
+
 ## [0.2.2](https://github.com/doob/uicg/compare/0.2.1...0.2.2) (2024-03-06)
 
 ## [0.2.0](https://github.com/doob/uicg/compare/0.1.0...0.2.0) (2024-03-06)
