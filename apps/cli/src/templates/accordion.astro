@@ -1,0 +1,128 @@
+---
+import { cva } from 'class-variance-authority'
+import { twMerge } from 'tailwind-merge'
+
+interface AccordionItem {
+  title: string
+  content: string
+  open: boolean
+}
+
+interface AccordionProps {
+  class: string
+  intent?:
+    | 'primary'
+    | 'secondary'
+    | 'danger'
+    | 'warning'
+    | 'success'
+    | 'info'
+    | 'ghost'
+  items: AccordionItem[]
+}
+
+const baseClasses = cva('focus:outline-none focus:ring-2 focus:ring-offset-2', {
+  variants: {
+    intent: {
+      primary: [
+        'bg-primary-500',
+        'text-white',
+        'border-transparent',
+        'hover:bg-primary-600',
+      ],
+      secondary: [
+        'bg-secondary-300',
+        'text-black',
+        //'border-secondary-400',
+        'hover:bg-secondary-500',
+      ],
+      danger: [
+        'bg-red-500',
+        'text-white',
+        'border-transparent',
+        'hover:bg-red-600',
+      ],
+      warning: [
+        'bg-yellow-500',
+        'text-white',
+        'border-transparent',
+        'hover:bg-yellow-600',
+      ],
+      success: [
+        'bg-green-500',
+        'text-white',
+        'border border-green-500',
+        'hover:bg-green-600',
+      ],
+      info: [
+        'bg-blue-500',
+        'text-white',
+        'border-transparent',
+        'hover:bg-blue-600',
+      ],
+      ghost: [
+        'bg-gray-200',
+        'text-gray-800',
+        'border-gray-400',
+        'hover:bg-gray-100',
+      ],
+    },
+    variant: {
+      default: [],
+      contained: 'border !text-white',
+      outlined: 'border bg-transparent',
+      text: 'border border-transparent bg-transparent hover:!bg-opacity-10',
+    },
+    size: {
+      small: ['text-sm', 'py-1', 'px-2'],
+      medium: ['text-base', 'py-2', 'px-4'],
+      large: ['text-lg', 'py-3', 'px-5'],
+    },
+    rounded: {
+      none: ['rounded-none'],
+      sm: ['rounded-sm'],
+      md: ['rounded-md'],
+      full: ['rounded-full'],
+    },
+  },
+})
+
+const {
+  class: additionalClasses = '',
+  intent,
+  items,
+} = Astro.props as AccordionProps
+
+const className = twMerge(baseClasses({ intent }), additionalClasses)
+const activeClasses = 'bg-opacity-10'
+---
+
+<div class={className}>
+  {
+    items.map((item: AccordionItem, index) => (
+      <Fragment key={index}>
+        <button
+          data-accordion-button
+          class={`accordion-header w-full cursor-pointer bg-gray-100 px-4 py-2 text-left font-medium text-gray-800 dark:bg-slate-800 dark:text-gray-300 ${item.open && 'bg-red-400'}`}
+        >
+          {item.title}
+        </button>
+        <div
+          class={`rounded-b-md p-4 dark:text-gray-300 ${!item.open && 'hidden'}`}
+        >
+          {item.content}
+        </div>
+      </Fragment>
+    ))
+  }
+</div>
+
+<script>
+  const buttons = document.querySelectorAll('[data-accordion-button]')
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      button.nextElementSibling.classList.toggle('hidden')
+    })
+  })
+</script>
