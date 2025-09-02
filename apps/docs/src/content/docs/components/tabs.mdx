@@ -1,0 +1,50 @@
+---
+title: Tabs
+---
+
+import { Aside, Tabs, TabItem, Code } from '@astrojs/starlight/components'
+import Sidebar from '@components/Sidebar.astro'
+import MenuItem from '@components/MenuItem.astro'
+
+export const items = [
+    { name: 'Team', icon: '👬' },
+    { name: 'Projects', icon: '✏️' },
+    { name: 'Calendar', icon: '🗓️' },
+    { name: 'Reports', icon: '📊' },
+]
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content relative">
+        <Tabs>
+            <TabItem label="Stars" icon="star">
+                Sirius, Vega, Betelgeuse
+            </TabItem>
+            <TabItem label="Moons" icon="moon">
+                Io, Europa, Ganymede
+            </TabItem>
+        </Tabs>
+    </div>
+
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Tabs>
+        <TabItem label="Stars" icon="star">
+            Sirius, Vega, Betelgeuse
+        </TabItem>
+        <TabItem label="Moons" icon="moon">
+            Io, Europa, Ganymede
+        </TabItem>
+    </Tabs>
+
+      ```
+
+  </TabItem>
+  <TabItem label="Install">
+    ```sh
+    npx ui-gen add tabs
+    ```
+  </TabItem>
+</Tabs>
+

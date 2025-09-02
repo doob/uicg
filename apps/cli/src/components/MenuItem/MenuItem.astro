@@ -1,0 +1,20 @@
+---
+import { twMerge } from 'tailwind-merge'
+
+const { title, class: className } = Astro.props
+---
+
+<a
+  href="#"
+  class={twMerge(
+    `group flex gap-x-3 items-center justify-center sm:justify-start rounded-md p-2 text-sm font-semibold leading-6 no-underline grayscale transition-all duration-200 hover:scale-105 hover:bg-indigo-700 hover:text-white hover:grayscale-0 dark:text-gray-200`,
+    className
+  )}
+>
+  <slot name="icon" />
+  <div class="flex h-5 w-5 items-center justify-center rounded-sm bg-slate-900 text-center text-xs sm:hidden">
+    {title[0]}
+  </div>
+
+  <div class="hidden justify-center sm:flex">{title}</div>
+</a>

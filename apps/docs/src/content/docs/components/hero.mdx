@@ -1,0 +1,20 @@
+---
+title: Hero
+---
+
+import Hero from '@components/Hero.astro'
+
+<div class="not-content">
+<Hero data={{
+    title: 'Welcome',
+    tagline: 'The hero component is used to display a large image or video with a title and description.',
+    image: {
+        file: 'https://source.unsplash.com/1600x900/?nature,water',
+    },
+    alt: 'Nature and water',
+    actions: [
+        { text: 'Got it', url: '#', intent: 'secondary', variant: 'outlined'},
+        { text: 'Learn more', url: '#', variant: 'text'}
+    ]
+}} />
+</div>

@@ -1,0 +1,99 @@
+---
+import { cva } from 'class-variance-authority'
+import { twMerge } from 'tailwind-merge'
+
+// Props definition
+interface FieldsetProps {
+  class?: string
+  legend?: string
+  intent?: 'info' | 'danger'
+}
+
+const {
+  class: additionalClasses = '',
+  intent = 'info',
+  legend,
+} = Astro.props as FieldsetProps
+
+const baseClasses = cva(
+  //'m-auto p-4 shadow-xl rounded-md w-full sm:w-3/4 md:w-1/2 backdrop:bg-black/10 backdrop:backdrop-blur-sm',
+  'border rounded-md p-4 space-y-5',
+  {
+    variants: {
+      intent: {
+        info: 'border-gray-900 text-gray-800 dark:text-gray-300 dark:border-gray-400',
+        danger: 'border-red-500 dark:text-red-500 dark:border-red-700',
+      },
+    },
+    defaultVariants: {
+      intent: 'info',
+    },
+  }
+)
+
+const className = twMerge(baseClasses({ intent }), additionalClasses)
+---
+
+<fieldset class={className}>
+  {legend && <legend>{legend}</legend>}
+  <slot />
+</fieldset>
+<!-- 
+<fieldset class={className}>
+  {legend && <legend>{legend}</legend>}
+  <div class="space-y-5">
+    <div class="relative flex items-start">
+      <div class="flex h-6 items-center">
+        <input
+          id="comments"
+          aria-describedby="comments-description"
+          name="comments"
+          type="checkbox"
+          class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+        />
+      </div>
+      <div class="ml-3 text-sm leading-6">
+        <label for="comments" class="font-medium text-gray-900">Comments</label>
+        <p id="comments-description" class="text-gray-500">
+          Get notified when someones posts a comment on a posting.
+        </p>
+      </div>
+    </div>
+    <div class="relative flex items-start">
+      <div class="flex h-6 items-center">
+        <input
+          id="candidates"
+          aria-describedby="candidates-description"
+          name="candidates"
+          type="checkbox"
+          class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+        />
+      </div>
+      <div class="ml-3 text-sm leading-6">
+        <label for="candidates" class="font-medium text-gray-900"
+          >Candidates</label
+        >
+        <p id="candidates-description" class="text-gray-500">
+          Get notified when a candidate applies for a job.
+        </p>
+      </div>
+    </div>
+    <div class="relative flex items-start">
+      <div class="flex h-6 items-center">
+        <input
+          id="offers"
+          aria-describedby="offers-description"
+          name="offers"
+          type="checkbox"
+          class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+        />
+      </div>
+      <div class="ml-3 text-sm leading-6">
+        <label for="offers" class="font-medium text-gray-900">Offers</label>
+        <p id="offers-description" class="text-gray-500">
+          Get notified when a candidate accepts or rejects an offer.
+        </p>
+      </div>
+    </div>
+  </div>
+</fieldset> -->

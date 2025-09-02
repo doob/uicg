@@ -1,0 +1,22 @@
+---
+title: Fieldset
+---
+
+import Fieldset from '@components/Fieldset.astro';
+import Input from '@components/Input.astro';
+import Checkbox from '@components/Checkbox.astro';
+
+<div class="not-content">
+    <Fieldset legend="Personal Information">
+        <div class="grid grid-cols-1 gap-4">
+            <Input label="Name" id="name" />
+            <Input type="email" label="Email" id="email" />
+        </div>
+    </Fieldset>
+
+
+
+    <Fieldset intent="danger" legend="Destructive Warning">
+        <Checkbox />
+    </Fieldset>
+</div>

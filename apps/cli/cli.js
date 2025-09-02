@@ -77,7 +77,10 @@ program
   .action(async (component) => {
     await checkConfig()
 
-    const templatePath = fileExists('templates', `${component}.astro`)
+    const templatePath = fileExists(
+      'components',
+      `/${component}/${component}.astro`
+    )
     if (!templatePath) {
       console.log(error(`Missing component template: ${component}`))
       process.exit(1)
@@ -92,8 +95,9 @@ program
   .command('list')
   .description('List available components')
   .action(async (component) => {
-    const directoryPath = libPath('templates')
+    const directoryPath = libPath('components')
     const files = fs.readdirSync(directoryPath)
+    console.log(files)
 
     console.log(chalk.bold('\nAvailable components:'))
     console.log(

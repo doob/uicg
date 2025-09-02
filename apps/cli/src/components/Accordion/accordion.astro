@@ -100,29 +100,59 @@ const activeClasses = 'bg-opacity-10'
 <div class={className}>
   {
     items.map((item: AccordionItem, index) => (
-      <Fragment key={index}>
-        <button
+      <details key={index}>
+        <summary
           data-accordion-button
-          class={`accordion-header w-full cursor-pointer bg-gray-100 px-4 py-2 text-left font-medium text-gray-800 dark:bg-slate-800 dark:text-gray-300 ${item.open && 'bg-red-400'}`}
+          class={`accordion-header flex w-full cursor-pointer bg-gray-100 px-4 py-2 text-left font-medium text-gray-800 dark:bg-slate-800 dark:text-gray-300`}
         >
           {item.title}
-        </button>
-        <div
-          class={`rounded-b-md p-4 dark:text-gray-300 ${!item.open && 'hidden'}`}
-        >
-          {item.content}
-        </div>
-      </Fragment>
+          <svg
+            aria-hidden="true"
+            class="caret ml-auto h-6 w-6 items-center transition-all duration-200"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            style="--sl-icon-size: 2.25rem;"
+          >
+            <path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z" />
+          </svg>
+        </summary>
+        <div class={`rounded-b-md p-4 dark:text-gray-300`}>{item.content}</div>
+      </details>
     ))
   }
 </div>
 
 <script>
-  const buttons = document.querySelectorAll('[data-accordion-button]')
+  // import slugify from 'slugify'
+  // const urlSearchParams = new URLSearchParams(window.location.search)
+  // const params = Object.fromEntries(urlSearchParams.entries())
+  // console.log('params', params)
 
-  buttons.forEach((button) => {
-    button.addEventListener('click', () => {
-      button.nextElementSibling.classList.toggle('hidden')
-    })
-  })
+  // const buttons = document.querySelectorAll('[data-accordion-button]')
+
+  // buttons.forEach((button) => {
+  //   button.addEventListener('click', () => {
+  //     const id = slugify(button.textContent, { lower: true })
+  //     button.nextElementSibling.classList.toggle('hidden')
+
+  //     const isHidden = button.nextElementSibling.classList.contains('hidden')
+
+  //     if (isHidden) {
+  //       delete params[id]
+  //     } else {
+  //       params[id] = true
+  //     }
+
+  //     //button.nextElementSibling.classList.toggle('bg-red-500')
+  //     //${item.open && 'bg-red-400'}
+  //   })
+  // })
 </script>
+
+<style>
+  [open] > summary .caret {
+    transform: rotate(90deg);
+  }
+</style>

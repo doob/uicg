@@ -4,23 +4,28 @@ title: Accordion
 
 import { Tabs, TabItem, Code } from '@astrojs/starlight/components';
 import Accordion from "@components/Accordion.astro";
+import AccordionContent from "@components/AccordionContent.astro";
 
 export const component = 'accordion';
 
 export const items = [
-    { title: 'Section 1', content: 'Content for Section 1...' },
-    { title: 'Section 2', content: 'Open section by property from items', open: true },
-    { title: 'Section 3', content: 'Content for Section 3...' },
-    // Add more sections as needed
+  { title: 'Shipping address', content: 'AccordionContent' },
+  { title: 'Section 2', content: 'Open section by property from items', open: true },
+  { title: 'Section 3', content: 'Content for Section 3...' },
+  // Add more sections as needed
 ];
 
 <Tabs>
   <TabItem label="Preview">
     <Accordion items={items} class="not-content" />
-
   </TabItem>
   <TabItem label="Code">
     ```astro
+    ---
+    const items = [
+      { title: 'Section 1', content: 'Content for Section 1...', open: true }
+    ]
+    ---
     <Accordion items={items} />
     ```
   </TabItem>
