@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.0.1](https://github.com/doob/uicg/compare/1.0.0...1.0.1) (2025-09-08)
+
 ## [1.0.0](https://github.com/doob/uicg/compare/0.2.3...1.0.0) (2025-09-08)
 
 ### ⚠ BREAKING CHANGES
