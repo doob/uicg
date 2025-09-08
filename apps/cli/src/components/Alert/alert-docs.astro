@@ -1,11 +1,33 @@
 ---
-import Alert from "{{ aliases.components }}/Alert.astro";
-import Button from "{{ aliases.components }}/Button.astro";
+import Alert from '{{ aliases.components }}/Alert.astro'
+import Button from '{{ aliases.components }}/Button.astro'
 ---
 
-<Alert intent="success" class="not-content">
-  <span slot="icon">🤙</span>
-  <h6>You are awesome!</h6>
-  <p slot="description">You successfully created a new post..</p>
-  <Button slot="action" intent="success">Check it out</Button>
+<!-- Success Alert with default icon -->
+<Alert intent="success" variant="default" dismissible class="mb-4">
+  <strong>Success!</strong>
+  <p slot="description">Your changes have been saved successfully.</p>
+  <Button slot="action" variant="outlined" intent="success" size="small">View Details</Button>
+</Alert>
+
+<!-- Warning Alert with custom icon -->
+<Alert intent="warning" variant="filled" size="lg" class="mb-4">
+  <span slot="icon">⚠️</span>
+  <strong>Warning</strong>
+  <p slot="description">Your subscription will expire in 3 days. Please renew to continue using all features.</p>
+  <Button slot="action" variant="outlined" intent="warning" size="small">Renew Now</Button>
+</Alert>
+
+<!-- Danger Alert with subtle variant -->
+<Alert intent="danger" variant="subtle" dismissible class="mb-4">
+  <strong>Error Occurred</strong>
+  <p slot="description">Unable to save your changes. Please try again or contact support if the problem persists.</p>
+  <Button slot="action" variant="text" intent="danger" size="small">Retry</Button>
+</Alert>
+
+<!-- Info Alert with outlined variant -->
+<Alert intent="info" variant="outlined" icon={false}>
+  <strong>New Feature Available</strong>
+  <p slot="description">We've added dark mode support! Check it out in your settings.</p>
+  <Button slot="action" variant="outlined" intent="info" size="small">Learn More</Button>
 </Alert>

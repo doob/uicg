@@ -1,158 +1,365 @@
 ---
-import { cva } from 'class-variance-authority'
+/**
+ * Accordion Component - WCAG AA Compliant
+ *
+ * This component meets WCAG 2.1 AA accessibility standards:
+ * - Minimum 4.5:1 contrast ratio for normal text
+ * - Minimum 3:1 contrast ratio for large text
+ * - Proper ARIA attributes and roles
+ * - Keyboard navigation support
+ * - Screen reader compatibility
+ */
+import type { HTMLAttributes } from 'astro/types'
+import { cva, type VariantProps } from 'class-variance-authority'
 import { twMerge } from 'tailwind-merge'
 
-interface AccordionItem {
+export interface AccordionItem {
   title: string
   content: string
-  open: boolean
+  open?: boolean
+  disabled?: boolean
 }
 
-interface AccordionProps {
-  class: string
-  intent?:
-    | 'primary'
-    | 'secondary'
-    | 'danger'
-    | 'warning'
-    | 'success'
-    | 'info'
-    | 'ghost'
+export interface AccordionProps extends HTMLAttributes<'div'>, VariantProps<typeof accordionVariants> {
   items: AccordionItem[]
+  allowMultiple?: boolean
+  collapsible?: boolean
 }
 
-const baseClasses = cva('focus:outline-none focus:ring-2 focus:ring-offset-2', {
+const accordionVariants = cva('w-full', {
   variants: {
-    intent: {
-      primary: [
-        'bg-primary-500',
-        'text-white',
-        'border-transparent',
-        'hover:bg-primary-600',
-      ],
-      secondary: [
-        'bg-secondary-300',
-        'text-black',
-        //'border-secondary-400',
-        'hover:bg-secondary-500',
-      ],
-      danger: [
-        'bg-red-500',
-        'text-white',
-        'border-transparent',
-        'hover:bg-red-600',
-      ],
-      warning: [
-        'bg-yellow-500',
-        'text-white',
-        'border-transparent',
-        'hover:bg-yellow-600',
-      ],
-      success: [
-        'bg-green-500',
-        'text-white',
-        'border border-green-500',
-        'hover:bg-green-600',
-      ],
-      info: [
-        'bg-blue-500',
-        'text-white',
-        'border-transparent',
-        'hover:bg-blue-600',
-      ],
-      ghost: [
-        'bg-gray-200',
-        'text-gray-800',
-        'border-gray-400',
-        'hover:bg-gray-100',
-      ],
-    },
     variant: {
-      default: [],
-      contained: 'border !text-white',
-      outlined: 'border bg-transparent',
-      text: 'border border-transparent bg-transparent hover:!bg-opacity-10',
+      default: 'border border-gray-200/20 rounded-xl overflow-hidden bg-white dark:border-gray-700/20 dark:bg-gray-800/20',
+      separated: 'space-y-3',
+      minimal: 'space-y-1',
     },
     size: {
-      small: ['text-sm', 'py-1', 'px-2'],
-      medium: ['text-base', 'py-2', 'px-4'],
-      large: ['text-lg', 'py-3', 'px-5'],
+      sm: 'text-sm',
+      md: 'text-base',
+      lg: 'text-lg',
     },
-    rounded: {
-      none: ['rounded-none'],
-      sm: ['rounded-sm'],
-      md: ['rounded-md'],
-      full: ['rounded-full'],
-    },
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
   },
 })
 
-const {
-  class: additionalClasses = '',
-  intent,
-  items,
-} = Astro.props as AccordionProps
+const accordionItemVariants = cva('group', {
+  variants: {
+    variant: {
+      default: 'border-b border-gray-200 last:border-b-0 dark:border-gray-700',
+      separated: 'border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow dark:border-gray-700 dark:bg-gray-800',
+      minimal: 'border-b border-gray-100 last:border-b-0 dark:border-gray-800',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+})
 
-const className = twMerge(baseClasses({ intent }), additionalClasses)
-const activeClasses = 'bg-opacity-10'
+const accordionTriggerVariants = cva(
+  'flex w-full items-center justify-between text-left font-medium transition-all focus:outline-none focus:ring-2 focus:ring-grey-500 focus:ring-offset-4 disabled:pointer-events-none disabled:opacity-50 dark:focus:ring-gray-400',
+  {
+    variants: {
+      variant: {
+        default: 'py-4 px-6 hover:bg-gray-50 dark:hover:bg-gray-700/50 bg-gray-500/10',
+        separated: 'py-4 px-6 hover:bg-gray-50 dark:hover:bg-gray-700/50 bg-gray-500/10',
+        minimal: 'py-3 px-0 hover:text-gray-600 dark:hover:text-gray-300 bg-gray-500/10',
+      },
+      size: {
+        sm: 'text-sm py-3',
+        md: 'text-base py-4',
+        lg: 'text-lg py-5',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'md',
+    },
+  }
+)
+
+const accordionContentVariants = cva('overflow-hidden transition-all duration-200 m-4 ', {
+  variants: {
+    variant: {
+      default: 'pb-4 px-6 pt-0 text-gray-600 dark:text-gray-300',
+      separated: 'pb-4 px-6 pt-0 text-gray-600 dark:text-gray-300',
+      minimal: 'pb-3 px-0 pt-0 text-gray-600 dark:text-gray-300',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+})
+
+const { variant = 'default', size = 'md', items, allowMultiple = false, collapsible = true, class: additionalClasses = '', ...rest } = Astro.props as AccordionProps
+
+const accordionId = `accordion-${Math.random().toString(36).substring(2, 9)}`
 ---
 
-<div class={className}>
+<div id={accordionId} class={twMerge(accordionVariants({ variant, size }), additionalClasses)} data-accordion-root data-allow-multiple={allowMultiple} data-collapsible={collapsible} {...rest}>
   {
-    items.map((item: AccordionItem, index) => (
-      <details key={index}>
-        <summary
-          data-accordion-button
-          class={`accordion-header flex w-full cursor-pointer bg-gray-100 px-4 py-2 text-left font-medium text-gray-800 dark:bg-slate-800 dark:text-gray-300`}
-        >
-          {item.title}
-          <svg
-            aria-hidden="true"
-            class="caret ml-auto h-6 w-6 items-center transition-all duration-200"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            style="--sl-icon-size: 2.25rem;"
+    items.map((item, index) => {
+      const itemId = `${accordionId}-item-${index}`
+      const triggerId = `${accordionId}-trigger-${index}`
+      const contentId = `${accordionId}-content-${index}`
+
+      return (
+        <div class={accordionItemVariants({ variant })}>
+          <h3>
+            <button
+              id={triggerId}
+              type="button"
+              class={accordionTriggerVariants({ variant, size })}
+              aria-expanded={item.open ? 'true' : 'false'}
+              aria-controls={contentId}
+              data-accordion-trigger
+              data-index={index}
+              disabled={item.disabled}
+            >
+              <span class="text-left text-gray-900 dark:text-gray-100">{item.title}</span>
+              <svg
+                class="h-5 w-5 shrink-0 text-gray-500 transition-transform duration-200 dark:text-gray-400"
+                aria-hidden="true"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </h3>
+          <div
+            id={contentId}
+            role="region"
+            aria-labelledby={triggerId}
+            class={twMerge(
+              accordionContentVariants({ variant }),
+              'data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down',
+              item.open ? 'data-[state=open]' : 'data-[state=closed] hidden'
+            )}
+            data-accordion-content
+            data-index={index}
           >
-            <path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z" />
-          </svg>
-        </summary>
-        <div class={`rounded-b-md p-4 dark:text-gray-300`}>{item.content}</div>
-      </details>
-    ))
+            <div class="leading-relaxed">
+              <Fragment set:html={item.content} />
+            </div>
+          </div>
+        </div>
+      )
+    })
   }
 </div>
 
-<script>
-  // import slugify from 'slugify'
-  // const urlSearchParams = new URLSearchParams(window.location.search)
-  // const params = Object.fromEntries(urlSearchParams.entries())
-  // console.log('params', params)
+<script is:inline>
+  /**
+   * Accordion JavaScript - WCAG Compliant
+   * Handles keyboard navigation, state management, and accessibility
+   */
 
-  // const buttons = document.querySelectorAll('[data-accordion-button]')
+  class AccordionController {
+    constructor(root) {
+      this.root = root
+      this.allowMultiple = root.dataset.allowMultiple === 'true'
+      this.collapsible = root.dataset.collapsible === 'true'
+      this.triggers = root.querySelectorAll('[data-accordion-trigger]')
+      this.contents = root.querySelectorAll('[data-accordion-content]')
 
-  // buttons.forEach((button) => {
-  //   button.addEventListener('click', () => {
-  //     const id = slugify(button.textContent, { lower: true })
-  //     button.nextElementSibling.classList.toggle('hidden')
+      this.init()
+    }
 
-  //     const isHidden = button.nextElementSibling.classList.contains('hidden')
+    init() {
+      // Add event listeners to triggers
+      this.triggers.forEach((trigger) => {
+        trigger.addEventListener('click', (e) => this.handleClick(e))
+        trigger.addEventListener('keydown', (e) => this.handleKeydown(e))
+      })
 
-  //     if (isHidden) {
-  //       delete params[id]
-  //     } else {
-  //       params[id] = true
-  //     }
+      // Set initial states
+      this.updateStates()
+    }
 
-  //     //button.nextElementSibling.classList.toggle('bg-red-500')
-  //     //${item.open && 'bg-red-400'}
-  //   })
-  // })
+    handleClick(event) {
+      const trigger = event.currentTarget
+      const index = parseInt(trigger.dataset.index)
+
+      if (trigger.disabled) return
+
+      const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
+
+      // Close all if not allowing multiple
+      if (!this.allowMultiple && !isExpanded) {
+        this.triggers.forEach((t, i) => {
+          if (i !== index) {
+            this.setItemState(i, false)
+          }
+        })
+      }
+
+      // Toggle current item
+      if (this.collapsible || !isExpanded) {
+        this.setItemState(index, !isExpanded)
+      }
+    }
+
+    handleKeydown(event) {
+      const trigger = event.currentTarget
+      const index = parseInt(trigger.dataset.index)
+
+      switch (event.key) {
+        case 'ArrowDown':
+          event.preventDefault()
+          this.focusNextTrigger(index)
+          break
+        case 'ArrowUp':
+          event.preventDefault()
+          this.focusPreviousTrigger(index)
+          break
+        case 'Home':
+          event.preventDefault()
+          this.triggers[0]?.focus()
+          break
+        case 'End':
+          event.preventDefault()
+          this.triggers[this.triggers.length - 1]?.focus()
+          break
+      }
+    }
+
+    setItemState(index, isOpen) {
+      const trigger = this.triggers[index]
+      const content = this.contents[index]
+      const item = trigger.closest('[class*="group"]')
+
+      if (!trigger || !content) return
+
+      trigger.setAttribute('aria-expanded', isOpen.toString())
+
+      if (isOpen) {
+        content.classList.remove('hidden')
+        content.setAttribute('data-state', 'open')
+        item?.setAttribute('data-state', 'open')
+      } else {
+        content.classList.add('hidden')
+        content.setAttribute('data-state', 'closed')
+        item?.setAttribute('data-state', 'closed')
+      }
+    }
+
+    focusNextTrigger(currentIndex) {
+      const nextIndex = (currentIndex + 1) % this.triggers.length
+      this.triggers[nextIndex]?.focus()
+    }
+
+    focusPreviousTrigger(currentIndex) {
+      const prevIndex = currentIndex === 0 ? this.triggers.length - 1 : currentIndex - 1
+      this.triggers[prevIndex]?.focus()
+    }
+
+    updateStates() {
+      this.triggers.forEach((trigger, index) => {
+        const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
+        this.setItemState(index, isExpanded)
+      })
+    }
+  }
+
+  // Initialize all accordions on the page
+  document.addEventListener('DOMContentLoaded', () => {
+    const accordions = document.querySelectorAll('[data-accordion-root]')
+    accordions.forEach((accordion) => new AccordionController(accordion))
+  })
+
+  // Re-initialize if content is dynamically added
+  if (typeof window !== 'undefined') {
+    window.AccordionController = AccordionController
+  }
 </script>
 
 <style>
-  [open] > summary .caret {
-    transform: rotate(90deg);
+  /* Custom accordion animations */
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+
+  .animate-accordion-down {
+    animation: accordion-down 0.2s ease-out;
+  }
+
+  .animate-accordion-up {
+    animation: accordion-up 0.2s ease-out;
+  }
+
+  /* Better state transitions */
+  [data-accordion-trigger] svg {
+    transition: transform 0.2s ease-in-out;
+  }
+
+  [data-state='open'] [data-accordion-trigger] svg {
+    transform: rotate(180deg);
+  }
+
+  /* Content styling for better readability */
+  [data-accordion-content] p {
+    margin: 0 0 0.75rem 0;
+  }
+
+  [data-accordion-content] p:last-child {
+    margin-bottom: 0;
+  }
+
+  [data-accordion-content] ul,
+  [data-accordion-content] ol {
+    margin: 0 0 0.75rem 0;
+    padding-left: 1.5rem;
+  }
+
+  [data-accordion-content] li {
+    margin-bottom: 0.25rem;
+  }
+
+  [data-accordion-content] kbd {
+    background: #f1f5f9;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+    border: 1px solid #e2e8f0;
+  }
+
+  [data-accordion-content] code {
+    background: #f1f5f9;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+  }
+
+  /* Dark mode content styling */
+  @media (prefers-color-scheme: dark) {
+    [data-accordion-content] kbd {
+      background: #374151;
+      border-color: #4b5563;
+      color: #f9fafb;
+    }
+
+    [data-accordion-content] code {
+      background: #374151;
+      color: #f9fafb;
+    }
   }
 </style>

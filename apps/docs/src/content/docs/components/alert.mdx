@@ -1,35 +1,50 @@
 ---
 title: Alert
+description: WCAG AA compliant alert component for displaying important messages to users.
 ---
 
 import { Tabs, TabItem, Code } from '@astrojs/starlight/components';
-import Alert from "@components/Alert.astro";
-import Button from "@components/Button.astro";
+import Alert from "../../../../../cli/src/components/Alert/alert.astro";
+import Button from "../../../../../cli/src/components/Button/button.astro";
 import importedCode from '/../cli/src/components/Alert/alert-docs.astro?raw';
 
 <Tabs>
   <TabItem label="Preview">
     <div class="not-content flex flex-col gap-4">
-    <Alert intent="success" class="not-content">
-      <span slot="icon">🤙</span>
-      #### You are awesome!
-      <p slot="description">You successfully created a new post..</p>
-      <Button slot="action" intent="success">Check it out</Button>
-    </Alert>
-        <Alert intent="warning" class="not-content">
-      <span slot="icon">🛟</span>
-      #### Hurry up!
-      <p slot="description">Your attention is needed</p>
-      <Button slot="action" intent="warning">Fix it</Button>
-    </Alert>
-        <Alert intent="danger" class="not-content">
-      <span slot="icon">🚨</span>
-      #### Danger
-      <p slot="description">Destructive </p>
-      <Button slot="action" intent="danger">Confirm</Button>
-    </Alert>
-  </div>
-
+      {/* Default variants */}
+      <Alert intent="success" dismissible>
+        <strong>Success!</strong>
+        <p slot="description">Your changes have been saved successfully.</p>
+        <Button slot="action" variant="outlined" intent="success" size="small">View Details</Button>
+      </Alert>
+      
+      <Alert intent="info" variant="outlined">
+        <strong>New Feature Available</strong>
+        <p slot="description">We've added dark mode support! Check it out in your settings.</p>
+        <Button slot="action" variant="outlined" intent="info" size="small">Learn More</Button>
+      </Alert>
+      
+      <Alert intent="warning" variant="filled" size="sm">
+        <span slot="icon">⚠️</span>
+        <strong>Warning</strong>
+        <p slot="description">Your subscription expires in 3 days.</p>
+        <Button slot="action" variant="outlined" intent="warning" size="small">Renew</Button>
+      </Alert>
+      
+      <Alert intent="danger" variant="subtle" dismissible>
+        <strong>Error Occurred</strong>
+        <p slot="description">Unable to save changes. Please try again.</p>
+        <Button slot="action" variant="text" intent="danger" size="small">Retry</Button>
+      </Alert>
+      
+      {/* Custom icon example */}
+      <Alert intent="info" icon={false} size="lg">
+        <span slot="icon">🎉</span>
+        <strong>Welcome to the platform!</strong>
+        <p slot="description">Take a tour to discover all the amazing features we have to offer.</p>
+        <Button slot="action" variant="outlined" intent="info" size="small">Start Tour</Button>
+      </Alert>
+    </div>
   </TabItem>
   <TabItem label="Code">
     <Code code={importedCode} lang="js" />
@@ -45,27 +60,153 @@ import importedCode from '/../cli/src/components/Alert/alert-docs.astro?raw';
 
 ### Properties
 
-#### `intent` _string_
+#### `intent`
 
 **type:** `string`
 
-**options:** `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `ghost`
+**options:** `info`, `success`, `warning`, `danger`
 
-**default:** `ghost`
+**default:** `info`
 
+Controls the semantic meaning and color scheme of the alert.
+
+#### `variant`
+
+**type:** `string`
+
+**options:** `default`, `filled`, `outlined`, `subtle`
+
+**default:** `default`
+
+- `default` - Standard background with border
+- `filled` - Bold filled background  
+- `outlined` - Border only with transparent background
+- `subtle` - Minimal styling with subtle background
 
 #### `size`
 
 **type:** `string`
 
-**options:** `small`, `medium`, `large`
+**options:** `sm`, `md`, `lg`
 
-**default:** `medium`
+**default:** `md`
 
-#### `roundness`
+Controls the padding and text size of the alert.
 
-**type:** `string`
+#### `dismissible`
 
-**options:** `small`, `medium`, `large`
+**type:** `boolean`
 
-**default:** `medium`
+**default:** `false`
+
+When `true`, shows a close button that allows users to dismiss the alert.
+
+#### `icon`
+
+**type:** `boolean`
+
+**default:** `true`
+
+When `true`, shows the default icon for the intent. Set to `false` to hide the default icon (you can still provide a custom icon via the `icon` slot).
+
+### Slots
+
+#### Default slot
+
+The main title/heading content of the alert.
+
+#### `icon`
+
+Custom icon content. Overrides the default icon when provided.
+
+#### `description`
+
+Secondary descriptive text for the alert.
+
+#### `action`
+
+Action buttons or links (typically placed on the right side).
+
+### Examples
+
+#### Basic Alert
+
+```astro
+<Alert intent="success">
+  Operation completed successfully!
+</Alert>
+```
+
+#### Alert with Description
+
+```astro
+<Alert intent="warning">
+  <strong>Warning</strong>
+  <p slot="description">This action cannot be undone.</p>
+</Alert>
+```
+
+#### Dismissible Alert with Action
+
+```astro
+<Alert intent="info" dismissible>
+  <strong>New Update Available</strong>
+  <p slot="description">Version 2.0 includes new features and bug fixes.</p>
+  <Button slot="action" variant="outlined" intent="info" size="small">
+    Update Now
+  </Button>
+</Alert>
+```
+
+#### Custom Icon Alert
+
+```astro
+<Alert intent="success" icon={false}>
+  <span slot="icon">🎉</span>
+  <strong>Congratulations!</strong>
+  <p slot="description">You've completed all tasks.</p>
+</Alert>
+```
+
+#### Filled Variant
+
+```astro
+<Alert intent="danger" variant="filled">
+  <strong>Critical Error</strong>
+  <p slot="description">System backup failed. Please contact support.</p>
+  <Button slot="action" variant="outlined" intent="danger" size="small">
+    Contact Support
+  </Button>
+</Alert>
+```
+
+## Accessibility
+
+This Alert component is fully WCAG 2.1 AA compliant:
+
+### ♿ **Color Contrast**
+- **4.5:1+ contrast ratio** for all text combinations
+- **Improved color palette** using amber instead of yellow for better contrast
+- **Dark mode support** with appropriate contrast adjustments
+
+### 🎯 **ARIA Support**
+- `role="alert"` for screen reader announcements
+- `aria-label` on dismiss button
+- `aria-hidden="true"` on decorative icons
+
+### ⌨️ **Keyboard Navigation**
+- Dismiss button is focusable and keyboard accessible
+- Proper focus indicators with visible outlines
+- Tab order follows logical flow
+
+### 📱 **Screen Reader Support**
+- Semantic HTML structure
+- Descriptive button labels
+- Alert role ensures important messages are announced
+
+### 🎨 **Visual Accessibility**
+- High contrast borders and backgrounds
+- Clear visual hierarchy
+- Consistent spacing and typography
+
+The component automatically handles focus management and provides clear visual feedback for all interactive elements.

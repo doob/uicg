@@ -1,134 +1,188 @@
 ---
-// import { Image } from 'astro:assets'
+import type { HTMLAttributes } from 'astro/types'
+import Button from '../Button/button.astro'
 
-const { data } = Astro.props.entry
-const { title = data.title, tagline, image, actions = [] } = data.hero || {}
-
-const imageAttrs = {
-  loading: 'eager' as const,
-  decoding: 'async' as const,
-  width: 400,
-  height: 400,
-  alt: image?.alt || '',
+interface HeroAction {
+  text: string
+  href?: string
+  onclick?: string
+  intent?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'ghost'
+  variant?: 'default' | 'contained' | 'outlined' | 'text'
+  size?: 'small' | 'medium' | 'large'
 }
 
-// let darkImage: ImageMetadata | undefined
-// let lightImage: ImageMetadata | undefined
+interface HeroImage {
+  src: string
+  alt: string
+  width?: number
+  height?: number
+}
 
-// if (image) {
-//   if ('file' in image) {
-//     darkImage = image.file
-//   } else if ('dark' in image) {
-//     darkImage = image.dark
-//     lightImage = image.light
-//   } else {
-//     rawHtml = image.html
-//   }
-// }
+export interface HeroProps extends HTMLAttributes<'section'> {
+  title: string
+  subtitle?: string
+  description?: string
+  image?: HeroImage | string
+  backgroundImage?: string
+  backgroundColor?: string
+  textAlign?: 'left' | 'center' | 'right'
+  size?: 'small' | 'medium' | 'large'
+  actions?: HeroAction[]
+  overlay?: boolean
+  gradient?: boolean
+}
 
-let rawHtml: string | undefined
+const {
+  title,
+  subtitle,
+  description,
+  image,
+  backgroundImage,
+  backgroundColor = 'transparent',
+  textAlign = 'center',
+  size = 'medium',
+  actions = [],
+  overlay = false,
+  gradient = false,
+  class: additionalClasses = '',
+  ...rest
+} = Astro.props as HeroProps
+
+// Handle legacy data prop structure
+const legacyData = Astro.props.data
+if (legacyData && !title) {
+  const { title: legacyTitle, tagline, image: legacyImage, actions: legacyActions = [] } = legacyData.hero || legacyData
+  Object.assign(Astro.props, {
+    title: legacyTitle,
+    subtitle: tagline,
+    image: legacyImage?.file || legacyImage,
+    actions: legacyActions,
+  })
+}
+
+const hasImage = image || backgroundImage
+const imageUrl = typeof image === 'string' ? image : image?.src || backgroundImage
 ---
 
-<div class="hero">
-  {rawHtml && <div class="hero-html sl-flex" set:html={rawHtml} />}
-  <div class="sl-flex stack">
-    <div class="sl-flex copy">
-      <h1 id={'PAGE_TITLE_ID'} data-page-title set:html={title} />
-      {tagline && <div class="tagline" set:html={tagline} />}
+<section
+  class={`relative flex items-center overflow-hidden bg-white dark:bg-slate-900 bg-cover bg-center bg-no-repeat transition-colors duration-300 ${
+    size === 'small' ? 'min-h-[300px] py-12' : size === 'large' ? 'min-h-[700px] py-24 lg:min-h-[800px]' : 'min-h-[500px] py-16'
+  } ${additionalClasses}`}
+  style={`${backgroundColor !== 'transparent' ? `background-color: ${backgroundColor};` : ''} ${backgroundImage ? `background-image: url(${backgroundImage});` : ''}`}
+  {...rest}
+>
+  {overlay && <div class="absolute inset-0 z-10 bg-black/40 dark:bg-black/60" />}
+  {gradient && <div class="absolute inset-0 z-10 bg-gradient-to-br from-blue-600/80 to-purple-700/80 dark:from-blue-800/90 dark:to-indigo-800/90" />}
+
+  <div class={`relative z-20 w-full max-w-6xl mx-auto px-6 md:px-8 lg:px-12 ${hasImage && !backgroundImage ? 'grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center' : ''}`}>
+    <div class={`flex flex-col gap-8 ${textAlign === 'left' ? 'text-left items-start' : textAlign === 'right' ? 'text-right items-end' : 'text-center items-center'}`}>
+      <div class="flex flex-col gap-4">
+        <h1
+          class={`font-extrabold leading-tight m-0 transition-all duration-300 opacity-0 hero-animate ${
+            size === 'small' ? 'text-4xl md:text-5xl' : size === 'large' ? 'text-5xl md:text-7xl' : 'text-5xl md:text-6xl'
+          } ${
+            overlay || gradient
+              ? 'bg-gradient-to-br from-white to-slate-100 bg-clip-text text-transparent'
+              : 'bg-gradient-to-br from-gray-800 to-gray-600 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent'
+          }`}
+        >
+          {title}
+        </h1>
+
+        {
+          subtitle && (
+            <p
+              class={`hero-animate-delay-1 m-0 font-semibold opacity-0 transition-colors duration-300 ${size === 'small' ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'} ${
+                overlay || gradient ? 'text-white/95' : 'text-gray-600 dark:text-slate-300'
+              }`}
+            >
+              {subtitle}
+            </p>
+          )
+        }
+
+        {
+          description && (
+            <p
+              class={`hero-animate-delay-2 m-0 leading-relaxed opacity-0 transition-colors duration-300 ${
+                textAlign === 'center' ? 'mx-auto max-w-3xl' : textAlign === 'right' ? 'ml-auto max-w-3xl' : 'max-w-3xl'
+              } ${size === 'small' ? 'text-base md:text-lg' : 'text-lg md:text-xl'} ${overlay || gradient ? 'text-white/85' : 'text-gray-600 dark:text-slate-400'}`}
+            >
+              {description}
+            </p>
+          )
+        }
+      </div>
+
+      {
+        actions.length > 0 && (
+          <div class={`hero-animate-delay-3 flex flex-wrap gap-4 opacity-0 md:gap-6 ${textAlign === 'left' ? 'justify-start' : textAlign === 'right' ? 'justify-end' : 'justify-center'}`}>
+            {actions.map((action) =>
+              action.href ? (
+                <a href={action.href} class="no-underline">
+                  <Button intent={action.intent || 'primary'} variant={action.variant || 'default'} size={action.size || 'medium'}>
+                    {action.text}
+                  </Button>
+                </a>
+              ) : (
+                <Button intent={action.intent || 'primary'} variant={action.variant || 'default'} size={action.size || 'medium'} {...(action.onclick ? { onclick: action.onclick } : {})}>
+                  {action.text}
+                </Button>
+              )
+            )}
+          </div>
+        )
+      }
     </div>
+
     {
-      actions.length > 0 && (
-        <div class="sl-flex actions">
-          {actions.map(({ text, ...attrs }) => (
-            <div {...attrs} set:html={text} />
-          ))}
+      hasImage && !backgroundImage && (
+        <div class="hero-animate-delay-4 flex items-center justify-center opacity-0">
+          <img
+            src={typeof image === 'string' ? image : image?.src}
+            alt={typeof image === 'string' ? '' : image?.alt || ''}
+            width={typeof image === 'string' ? undefined : image?.width}
+            height={typeof image === 'string' ? undefined : image?.height}
+            loading="eager"
+            decoding="async"
+            class="h-auto max-w-full rounded-xl shadow-2xl dark:border dark:border-white/10 dark:shadow-black/40"
+          />
         </div>
       )
     }
   </div>
-</div>
+</section>
 
 <style>
-  .hero {
-    display: grid;
-    align-items: center;
-    gap: 1rem;
-    padding-bottom: 1rem;
-  }
-
-  .hero > img,
-  .hero > .hero-html {
-    object-fit: contain;
-    width: min(70%, 20rem);
-    height: auto;
-    margin-inline: auto;
-  }
-
-  .stack {
-    flex-direction: column;
-    gap: clamp(1.5rem, calc(1.5rem + 1vw), 2rem);
-    text-align: center;
-  }
-
-  .copy {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-  }
-
-  .copy > * {
-    max-width: 50ch;
-  }
-
-  h1 {
-    font-size: clamp(
-      var(--sl-text-3xl),
-      calc(0.25rem + 5vw),
-      var(--sl-text-6xl)
-    );
-    line-height: var(--sl-line-height-headings);
-    font-weight: 600;
-    color: var(--sl-color-white);
-  }
-
-  .tagline {
-    font-size: clamp(
-      var(--sl-text-base),
-      calc(0.0625rem + 2vw),
-      var(--sl-text-xl)
-    );
-    color: var(--sl-color-gray-2);
-  }
-
-  .actions {
-    gap: 1rem 2rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  @media (min-width: 50rem) {
-    .hero {
-      grid-template-columns: 7fr 4fr;
-      gap: 3%;
-      padding-block: clamp(2.5rem, calc(1rem + 10vmin), 10rem);
+  /* Animation keyframes for hero entrance */
+  @keyframes heroFadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
     }
-
-    .hero > img,
-    .hero > .hero-html {
-      order: 2;
-      width: min(100%, 25rem);
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
+  }
 
-    .stack {
-      text-align: start;
-    }
+  .hero-animate {
+    animation: heroFadeInUp 0.8s ease-out forwards;
+  }
 
-    .copy {
-      align-items: flex-start;
-    }
+  .hero-animate-delay-1 {
+    animation: heroFadeInUp 0.8s ease-out 0.1s forwards;
+  }
 
-    .actions {
-      justify-content: flex-start;
-    }
+  .hero-animate-delay-2 {
+    animation: heroFadeInUp 0.8s ease-out 0.2s forwards;
+  }
+
+  .hero-animate-delay-3 {
+    animation: heroFadeInUp 0.8s ease-out 0.3s forwards;
+  }
+
+  .hero-animate-delay-4 {
+    animation: heroFadeInUp 0.8s ease-out 0.4s forwards;
   }
 </style>

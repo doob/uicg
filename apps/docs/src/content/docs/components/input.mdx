@@ -2,20 +2,124 @@
 title: Input
 ---
 
-import { Tabs, TabItem, Code } from '@astrojs/starlight/components';
-import Input from "@components/Input.astro";
-import importedCode from '/../cli/src/docs/button-docs.astro?raw';
+import { Tabs, TabItem, Code } from '@astrojs/starlight/components'
+import Input from '../../../../../cli/src/components/Input/input.astro'
 
-export const component = 'input';
+export const component = 'Input'
 
 <Tabs>
   <TabItem label="Preview">
-    <Input label="Label" id="x" />
+    <div class="not-content space-y-8">
+      <h4 class="text-lg font-semibold mt-6 mb-3">Basic Inputs</h4>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Input label="Full Name" placeholder="Enter your full name" />
+        <Input label="Email Address" type="email" placeholder="you@example.com" required={true} />
+        <Input label="Phone Number" type="tel" placeholder="+1 (555) 123-4567" />
+        <Input label="Website" type="url" placeholder="https://example.com" />
+      </div>
+      
+      <h4 class="text-lg font-semibold mt-6 mb-3">Input States</h4>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Input label="Default State" placeholder="Normal input" helperText="This is a helper text" />
+        <Input label="Error State" placeholder="Enter valid data" errorMessage="This field is required" />
+        <Input label="Success State" placeholder="Valid input" successMessage="Looks good!" />
+        <Input label="Disabled State" placeholder="Cannot edit" disabled={true} />
+      </div>
+      
+      <h4 class="text-lg font-semibold mt-6 mb-3">Input Sizes</h4>
+      <div class="space-y-4">
+        <Input label="Small Input" size="small" placeholder="Small size" />
+        <Input label="Medium Input" size="medium" placeholder="Medium size (default)" />
+        <Input label="Large Input" size="large" placeholder="Large size" />
+      </div>
+      
+      <h4 class="text-lg font-semibold mt-6 mb-3">With Prefix & Suffix</h4>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Input label="Amount" type="number" prefix="$" placeholder="0.00" />
+        <Input label="Domain" type="text" suffix=".com" placeholder="mysite" />
+        <Input label="Weight" type="number" placeholder="Enter weight" suffix="kg" />
+        <Input label="Percentage" type="number" placeholder="Enter value" suffix="%" />
+      </div>
+      
+      <h4 class="text-lg font-semibold mt-6 mb-3">Loading State</h4>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Input label="Checking Availability" placeholder="Enter username" loading={true} />
+        <Input label="Validating Email" type="email" placeholder="Enter email" loading={true} />
+      </div>
+      
+      <h4 class="text-lg font-semibold mt-6 mb-3">Date & Time Inputs</h4>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Input label="Birth Date" type="date" />
+        <Input label="Appointment Time" type="datetime-local" />
+        <Input label="Meeting Time" type="time" />
+        <Input label="Event Month" type="month" />
+      </div>
+      
+      <h4 class="text-lg font-semibold mt-6 mb-3">Rounded Variants</h4>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Input label="No Radius" rounded="none" placeholder="Sharp corners" />
+        <Input label="Small Radius" rounded="sm" placeholder="Small rounded" />
+        <Input label="Medium Radius" rounded="md" placeholder="Medium rounded (default)" />
+        <Input label="Large Radius" rounded="lg" placeholder="Large rounded" />
+        <Input label="Full Radius" rounded="full" placeholder="Fully rounded" />
+      </div>
+      
+      <h4 class="text-lg font-semibold mt-6 mb-3">Special Input Types</h4>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Input label="Password" type="password" placeholder="Enter password" />
+        <Input label="Search" type="search" placeholder="Search..." />
+        <Input label="Age" type="number" placeholder="Enter age" min="0" max="120" />
+      </div>
+    </div>
   </TabItem>
   <TabItem label="Code">
-    ```astro
-    <Input label="Label" id="x" />
-    ```
+    <Code code={`<!-- Basic Input -->
+<Input 
+  label="Full Name" 
+  placeholder="Enter your full name" 
+  required={true}
+/>
+
+<!-- Input with Error -->
+<Input 
+  label="Email" 
+  type="email" 
+  placeholder="you@example.com"
+  errorMessage="Please enter a valid email"
+/>
+
+<!-- Input with Success -->
+<Input 
+  label="Username" 
+  placeholder="Choose username"
+  successMessage="Username is available!"
+/>
+
+<!-- Input with Prefix/Suffix -->
+<Input 
+  label="Price" 
+  type="number" 
+  prefix="$" 
+  suffix="USD"
+  placeholder="0.00"
+/>
+
+<!-- Loading State -->
+<Input 
+  label="Checking..." 
+  placeholder="Enter value"
+  loading={true}
+/>
+
+<!-- Different Sizes -->
+<Input label="Small" size="small" />
+<Input label="Medium" size="medium" />
+<Input label="Large" size="large" />
+
+<!-- Date/Time Inputs -->
+<Input label="Date" type="date" />
+<Input label="Time" type="time" />
+<Input label="DateTime" type="datetime-local" />`} lang="astro" />
   </TabItem>
   <TabItem label="Install">
     <Code code={`npx ui-gen add ${component}`} lang="js" />
@@ -26,27 +130,201 @@ export const component = 'input';
 
 ### Properties
 
-#### `intent`
+#### `label`
 
 **type:** `string`
 
-**options:** `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `ghost`
+**default:** `undefined`
 
-**default:** `ghost`
+The label text displayed above the input field.
 
+#### `type`
+
+**type:** `string`
+
+**options:** `'text'`, `'email'`, `'password'`, `'number'`, `'tel'`, `'url'`, `'search'`, `'date'`, `'datetime-local'`, `'time'`, `'month'`, `'week'`
+
+**default:** `'text'`
+
+The HTML input type attribute.
 
 #### `size`
 
 **type:** `string`
 
-**options:** `small`, `medium`, `large`
+**options:** `'small'`, `'medium'`, `'large'`
 
-**default:** `medium`
+**default:** `'medium'`
 
-#### `roundness`
+Controls the input size and padding.
+
+#### `state`
 
 **type:** `string`
 
-**options:** `small`, `medium`, `large`
+**options:** `'default'`, `'error'`, `'success'`, `'warning'`
 
-**default:** `medium`
+**default:** `'default'`
+
+Visual state of the input. Automatically determined if error or success messages are provided.
+
+#### `rounded`
+
+**type:** `string`
+
+**options:** `'none'`, `'sm'`, `'md'`, `'lg'`, `'full'`
+
+**default:** `'md'`
+
+Controls the border radius of the input.
+
+#### `placeholder`
+
+**type:** `string`
+
+**default:** `undefined`
+
+Placeholder text displayed when the input is empty.
+
+#### `helperText`
+
+**type:** `string`
+
+**default:** `undefined`
+
+Helper text displayed below the input to provide additional guidance.
+
+#### `errorMessage`
+
+**type:** `string`
+
+**default:** `undefined`
+
+Error message displayed below the input. Automatically sets state to 'error'.
+
+#### `successMessage`
+
+**type:** `string`
+
+**default:** `undefined`
+
+Success message displayed below the input. Automatically sets state to 'success'.
+
+#### `required`
+
+**type:** `boolean`
+
+**default:** `false`
+
+Marks the field as required and displays a red asterisk (*) next to the label.
+
+#### `disabled`
+
+**type:** `boolean`
+
+**default:** `false`
+
+Disables the input field.
+
+#### `loading`
+
+**type:** `boolean`
+
+**default:** `false`
+
+Shows a loading spinner and disables the input.
+
+#### `prefix`
+
+**type:** `string`
+
+**default:** `undefined`
+
+Text or symbol displayed at the beginning of the input (e.g., "$", "@").
+
+#### `suffix`
+
+**type:** `string`
+
+**default:** `undefined`
+
+Text or symbol displayed at the end of the input (e.g., ".com", "%", "kg").
+
+#### `id`
+
+**type:** `string`
+
+**default:** `auto-generated`
+
+Unique identifier for the input. If not provided, one will be automatically generated.
+
+### Accessibility
+
+The Input component is built with comprehensive accessibility features:
+
+- **WCAG 2.1 AA Compliant** with proper color contrast and focus indicators
+- **Semantic HTML** with proper label association using `for` attribute
+- **ARIA attributes** including `aria-invalid`, `aria-describedby`, and `role` attributes
+- **Screen reader support** with descriptive error and success messages
+- **Keyboard navigation** with full tab support and focus management
+- **Required field indication** with both visual (*) and semantic markup
+- **Live regions** for dynamic error and success messages (`role="alert"` and `role="status"`)
+- **Unique IDs** automatically generated to ensure proper label association
+
+### Examples
+
+#### Basic Form Input
+
+```astro
+<Input 
+  label="Email Address"
+  type="email"
+  placeholder="Enter your email"
+  required={true}
+  helperText="We'll never share your email"
+/>
+```
+
+#### Input with Validation
+
+```astro
+<Input 
+  label="Username"
+  placeholder="Choose a username"
+  errorMessage="Username already taken"
+/>
+```
+
+#### Currency Input
+
+```astro
+<Input 
+  label="Price"
+  type="number"
+  prefix="$"
+  suffix="USD"
+  placeholder="0.00"
+  step="0.01"
+/>
+```
+
+#### Search Input
+
+```astro
+<Input 
+  label="Search Products"
+  type="search"
+  placeholder="Search..."
+  prefix="🔍"
+/>
+```
+
+#### Date Input
+
+```astro
+<Input 
+  label="Birth Date"
+  type="date"
+  required={true}
+/>
+```

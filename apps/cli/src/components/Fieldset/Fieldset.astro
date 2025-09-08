@@ -1,0 +1,141 @@
+---
+import { cva, type VariantProps } from 'class-variance-authority'
+import { twMerge } from 'tailwind-merge'
+import type { HTMLAttributes } from 'astro/types'
+
+/**
+ * Props for the Fieldset component
+ */
+export interface FieldsetProps extends Omit<HTMLAttributes<'fieldset'>, 'size'>, VariantProps<typeof fieldsetVariants> {
+  /** Additional CSS classes to apply */
+  class?: string
+  /** Legend text for the fieldset */
+  legend?: string
+  /** Description text below the legend */
+  description?: string
+  /** Visual intent/state of the fieldset */
+  intent?: 'default' | 'primary' | 'success' | 'warning' | 'danger'
+  /** Size variant of the fieldset */
+  size?: 'small' | 'medium' | 'large'
+  /** Whether the fieldset is disabled */
+  disabled?: boolean
+  /** Whether the fieldset content is required */
+  required?: boolean
+  /** Whether to show a subtle background */
+  background?: boolean
+}
+
+const {
+  class: additionalClasses = '',
+  intent = 'default' as const,
+  size = 'medium' as const,
+  legend,
+  description,
+  disabled = false,
+  required = false,
+  background = false,
+  ...rest
+} = Astro.props as FieldsetProps
+
+const fieldsetVariants = cva('relative border rounded-lg transition-all duration-200 focus-within:ring-2 focus-within:ring-offset-2', {
+  variants: {
+    intent: {
+      default: 'border-gray-200 dark:border-gray-700 focus-within:ring-blue-500/20 focus-within:border-blue-500',
+      primary: 'border-blue-200 dark:border-blue-800 focus-within:ring-blue-500/20 focus-within:border-blue-500',
+      success: 'border-green-200 dark:border-green-800 focus-within:ring-green-500/20 focus-within:border-green-500',
+      warning: 'border-yellow-200 dark:border-yellow-800 focus-within:ring-yellow-500/20 focus-within:border-yellow-500',
+      danger: 'border-red-200 dark:border-red-800 focus-within:ring-red-500/20 focus-within:border-red-500',
+    },
+    size: {
+      small: 'p-4',
+      medium: 'p-6',
+      large: 'p-8',
+    },
+    disabled: {
+      true: 'opacity-60 cursor-not-allowed pointer-events-none',
+      false: '',
+    },
+    background: {
+      true: 'bg-gray-50/50 dark:bg-gray-900/20',
+      false: 'bg-transparent',
+    },
+  },
+  defaultVariants: {
+    intent: 'default',
+    size: 'medium',
+    disabled: false,
+    background: false,
+  },
+})
+
+const legendVariants = cva('font-semibold leading-tight transition-colors duration-200', {
+  variants: {
+    intent: {
+      default: 'text-gray-900 dark:text-gray-100',
+      primary: 'text-blue-900 dark:text-blue-100',
+      success: 'text-green-900 dark:text-green-100',
+      warning: 'text-yellow-900 dark:text-yellow-100',
+      danger: 'text-red-900 dark:text-red-100',
+    },
+    size: {
+      small: 'text-sm px-2',
+      medium: 'text-base px-3',
+      large: 'text-lg px-4',
+    },
+  },
+})
+
+const descriptionVariants = cva('text-sm leading-relaxed transition-colors duration-200', {
+  variants: {
+    intent: {
+      default: 'text-gray-600 dark:text-gray-400',
+      primary: 'text-blue-600 dark:text-blue-400',
+      success: 'text-green-600 dark:text-green-400',
+      warning: 'text-yellow-600 dark:text-yellow-400',
+      danger: 'text-red-600 dark:text-red-400',
+    },
+    size: {
+      small: 'mt-1',
+      medium: 'mt-2',
+      large: 'mt-3',
+    },
+  },
+})
+
+const contentVariants = cva('space-y-4', {
+  variants: {
+    size: {
+      small: 'mt-3',
+      medium: 'mt-4',
+      large: 'mt-6',
+    },
+  },
+})
+
+const fieldsetClasses = twMerge(fieldsetVariants({ intent, size, disabled, background }), additionalClasses)
+
+const legendClasses = legendVariants({ intent, size })
+const descriptionClasses = descriptionVariants({ intent, size })
+const contentClasses = contentVariants({ size })
+---
+
+<fieldset class={fieldsetClasses} disabled={disabled} {...rest}>
+  {
+    legend && (
+      <legend class={legendClasses}>
+        {legend}
+        {required && (
+          <span class="ml-1 text-red-500" aria-label="required">
+            *
+          </span>
+        )}
+      </legend>
+    )
+  }
+
+  {description && <div class={descriptionClasses}>{description}</div>}
+
+  <div class={contentClasses}>
+    <slot />
+  </div>
+</fieldset>

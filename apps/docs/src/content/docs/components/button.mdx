@@ -3,7 +3,7 @@ title: Button
 ---
 
 import { Tabs, TabItem, Code } from '@astrojs/starlight/components'
-import Button, { variants } from '@components/Button.astro'
+import Button from '../../../../../cli/src/components/Button/button.astro'
 import importedCode from '/../cli/src/docs/button-docs.astro?raw'
 
 export const component = 'Button'
@@ -17,21 +17,17 @@ export const component = 'Button'
         <Button intent="secondary">Secondary</Button>
         <Button intent="success">Success</Button>
         <Button intent="danger">Danger</Button>
+        <Button intent="warning">Warning</Button>
+        <Button intent="info">Info</Button>
       </div>
       <div class="mt-4 flex gap-4">
         <Button>Default</Button>
-        <Button intent="primary" variant="outlined">
-          Primary
-        </Button>
-        <Button intent="secondary" variant="outlined">
-          Secondary
-        </Button>
-        <Button intent="success" variant="outlined">
-          Success
-        </Button>
-        <Button intent="danger" variant="outlined">
-          Danger
-        </Button>
+        <Button intent="primary" variant="outlined">Primary</Button>
+        <Button intent="secondary" variant="outlined">Secondary</Button>
+        <Button intent="success" variant="outlined">Success</Button>
+        <Button intent="danger" variant="outlined">Danger</Button>
+        <Button intent="warning" variant="outlined">Warning</Button>
+        <Button intent="info" variant="outlined">Info</Button>
       </div>
       <div class="mt-4 flex gap-4">
         <Button>
@@ -109,6 +105,46 @@ export const component = 'Button'
           No thanx
         </Button>
       </div>
+      
+      <h4 class="text-lg font-semibold mt-6 mb-3">Loading State</h4>
+      <div class="mt-4 flex gap-4">
+        <Button loading={true}>Loading</Button>
+        <Button intent="primary" loading={true}>Primary Loading</Button>
+        <Button intent="success" loading={true} data-loading-text="Saving your changes...">Save Document</Button>
+      </div>
+      
+      <h4 class="text-lg font-semibold mt-6 mb-3">Disabled State</h4>
+      <div class="mt-4 flex gap-4">
+        <Button disabled={true}>Disabled</Button>
+        <Button intent="primary" disabled={true}>Primary Disabled</Button>
+        <Button intent="danger" variant="outlined" disabled={true}>Outlined Disabled</Button>
+      </div>
+      
+      <h4 class="text-lg font-semibold mt-6 mb-3">Sizes</h4>
+      <div class="mt-4 flex gap-4 items-center">
+        <Button size="small">Small</Button>
+        <Button size="medium">Medium</Button>
+        <Button size="large">Large</Button>
+      </div>
+      
+      <h4 class="text-lg font-semibold mt-6 mb-3">Icon Slots</h4>
+      <div class="mt-4 flex gap-4">
+        <Button intent="primary"><svg slot="icon-left" class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" /></svg>Add Item</Button>
+        <Button intent="success" iconPosition="right">Next Step<svg slot="icon-right" class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg></Button>
+      </div>
+      
+      <h4 class="text-lg font-semibold mt-6 mb-3">Variants & Rounded</h4>
+      <div class="mt-4 flex gap-4">
+        <Button intent="primary" variant="contained">Contained</Button>
+        <Button intent="primary" variant="outlined">Outlined</Button>
+        <Button intent="primary" variant="text">Text</Button>
+      </div>
+      <div class="mt-4 flex gap-4">
+        <Button intent="primary" rounded="none">Square</Button>
+        <Button intent="primary" rounded="sm">Small</Button>
+        <Button intent="primary" rounded="md">Medium</Button>
+        <Button intent="primary" rounded="full">Full</Button>
+      </div>
     </div>
   </TabItem>
   <TabItem label="Code">
@@ -131,6 +167,18 @@ export const component = 'Button'
 
 **default:** `ghost`
 
+Defines the visual intent and color scheme of the button.
+
+#### `variant`
+
+**type:** `string`
+
+**options:** `default`, `contained`, `outlined`, `text`
+
+**default:** `default`
+
+Controls the button style variant. `outlined` creates a border-only button, `text` removes background, `contained` adds a border with background.
+
 #### `size`
 
 **type:** `string`
@@ -139,10 +187,125 @@ export const component = 'Button'
 
 **default:** `medium`
 
-#### `roundness`
+Controls the button size and padding.
+
+#### `rounded`
 
 **type:** `string`
 
-**options:** `small`, `medium`, `large`
+**options:** `none`, `sm`, `md`, `full`
 
-**default:** `medium`
+**default:** `md`
+
+Controls the border radius of the button.
+
+#### `loading`
+
+**type:** `boolean`
+
+**default:** `false`
+
+Shows a loading spinner and disables the button. When `true`, the button becomes non-interactive.
+
+#### `disabled`
+
+**type:** `boolean`
+
+**default:** `false`
+
+Disables the button, making it non-interactive and applying disabled styling.
+
+#### `data-loading-text`
+
+**type:** `string`
+
+**default:** `undefined`
+
+Custom text announced to screen readers when the button is in loading state. Falls back to "Loading..." if not provided.
+
+#### `iconPosition`
+
+**type:** `string`
+
+**options:** `left`, `right`
+
+**default:** `left`
+
+Controls the position of icon slots. Use with `slot="icon-left"` or `slot="icon-right"` for proper icon placement.
+
+### Slots
+
+#### Default Slot
+
+The main content of the button (text, icons, or other elements).
+
+```astro
+<Button>Click me</Button>
+```
+
+#### `icon-left`
+
+Icon displayed on the left side of the button text.
+
+```astro
+<Button>
+  <svg slot="icon-left" class="h-4 w-4">...</svg>
+  Save
+</Button>
+```
+
+#### `icon-right`
+
+Icon displayed on the right side of the button text.
+
+```astro
+<Button iconPosition="right">
+  Next
+  <svg slot="icon-right" class="h-4 w-4">...</svg>
+</Button>
+```
+
+### Accessibility
+
+This button component is designed with accessibility in mind and includes:
+
+- **WCAG 2.1 AA compliance** with proper color contrast ratios
+- **Keyboard navigation** support (Tab, Enter, Space)
+- **Screen reader compatibility** with proper ARIA attributes
+- **Focus indicators** that meet visibility requirements
+- **Loading state announcements** for assistive technology
+- **Minimum touch target size** of 44×44 pixels
+- **Disabled state** that doesn't rely solely on color
+
+### Examples
+
+#### Basic Usage
+
+```astro
+<Button intent="primary">Primary Button</Button>
+<Button intent="secondary" variant="outlined">Secondary</Button>
+```
+
+#### With Loading State
+
+```astro
+<Button loading={true} data-loading-text="Saving...">
+  Save Document
+</Button>
+```
+
+#### With Icons
+
+```astro
+<!-- Using default slot (backward compatible) -->
+<Button intent="success">
+  <svg class="h-5 w-5">...</svg>
+  Success
+</Button>
+
+<!-- Using icon slots (recommended) -->
+<Button intent="primary">
+  <svg slot="icon-left" class="h-4 w-4">...</svg>
+  Add Item
+</Button>
+```

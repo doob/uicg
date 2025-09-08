@@ -3,16 +3,19 @@ import colors from 'tailwindcss/colors'
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  content: [
+    './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
+    '../cli/src/components/**/*.{astro,js,ts}',
+  ],
   theme: {
     fontFamily: {
-      sans: ['Graphik', 'sans-serif'],
-      serif: ['Merriweather', 'serif'],
+      // sans: ['Graphik', 'sans-serif'],
+      // serif: ['Merriweather', 'serif'],
     },
     extend: {
       colors: {
         primary: colors.indigo,
-        secondary: colors.yellow,
+        secondary: colors.green,
         neutral: colors.gray,
       },
       spacing: {

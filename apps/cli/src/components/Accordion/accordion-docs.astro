@@ -1,15 +1,47 @@
 ---
-import Accordion from '@components/Accordion.astro'
-
-export const items = [
-  { title: 'Section 1', content: 'Content for Section 1...' },
-  {
-    title: 'Section 2',
-    content: 'Open section by property from items',
-    open: true,
-  },
-  { title: 'Section 3', content: 'Content for Section 3...' },
-]
+import Accordion from '{{ aliases.components }}/Accordion.astro'
 ---
 
-<Accordion items={items} />
+<!-- Basic Accordion -->
+<Accordion
+  items={[
+    {
+      title: 'Is this component accessible?',
+      content: '<p>Yes! This accordion is fully WCAG 2.1 AA compliant with proper keyboard navigation and screen reader support.</p>',
+      open: true,
+    },
+    {
+      title: 'Can I customize the styling?',
+      content: '<p>Absolutely! The component supports multiple variants (default, separated, minimal) and integrates seamlessly with Tailwind CSS.</p>',
+    },
+    {
+      title: 'How does keyboard navigation work?',
+      content: '<p>Use <kbd>Arrow Up/Down</kbd> to navigate, <kbd>Home/End</kbd> to jump to first/last, and <kbd>Enter/Space</kbd> to toggle sections.</p>',
+    },
+  ]}
+  variant="default"
+/>
+
+<!-- Separated Cards with Multiple Open -->
+<div class="mt-6">
+  <Accordion
+    items={[
+      {
+        title: '🚀 Performance Features',
+        content: '<ul><li>Zero runtime dependencies</li><li>Optimized animations</li><li>Minimal JavaScript footprint</li></ul>',
+        open: true,
+      },
+      {
+        title: '♿ Accessibility Features',
+        content: '<ul><li>Full WCAG 2.1 AA compliance</li><li>Screen reader support</li><li>Keyboard navigation</li><li>Focus management</li></ul>',
+        open: true,
+      },
+      {
+        title: '🎨 Styling Options',
+        content: '<ul><li>Three visual variants</li><li>Multiple size options</li><li>Tailwind CSS integration</li><li>Custom class support</li></ul>',
+      },
+    ]}
+    variant="separated"
+    allowMultiple={true}
+  />
+</div>

@@ -1,22 +1,148 @@
 ---
 title: Fieldset
+description: A flexible fieldset component for grouping related form controls with modern styling and accessibility features.
 ---
 
-import Fieldset from '@components/Fieldset.astro';
-import Input from '@components/Input.astro';
-import Checkbox from '@components/Checkbox.astro';
+import Fieldset from '../../../../../cli/src/components/Fieldset/Fieldset.astro';
+import Input from '../../../../../cli/src/components/Input/input.astro';
+import Button from '../../../../../cli/src/components/Button/button.astro';
+
+## Preview
+
+<div class="not-content space-y-8">
+  <Fieldset legend="Personal Information" description="Please provide your basic contact details."> <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> <Input label="First Name" placeholder="Enter your first name" required /> <Input label="Last Name" placeholder="Enter your last name" required /> <Input type="email" label="Email" placeholder="your.email@example.com" required /> <Input type="tel" label="Phone" placeholder="+1 (555) 123-4567" /> </div> </Fieldset>
+
+  <Fieldset intent="primary" legend="Preferences" size="large" background> <div class="space-y-4"> <Input label="Preferred Language" placeholder="Select your language" /> <Input label="Time Zone" placeholder="Select your timezone" /> <Input type="textarea" label="Bio" placeholder="Tell us about yourself..." rows="3" /> </div> </Fieldset>
+
+  <Fieldset intent="warning" legend="Security Settings" required description="These settings affect your account security."> <div class="space-y-4"> <Input type="password" label="Current Password" placeholder="Enter current password" required /> <Input type="password" label="New Password" placeholder="Enter new password" required /> <Input type="password" label="Confirm Password" placeholder="Confirm new password" required /> </div> </Fieldset>
+
+  <Fieldset intent="danger" legend="Dangerous Actions" description="These actions cannot be undone." size="small"> <div class="space-y-4"> <Input label="Type 'DELETE' to confirm" placeholder="DELETE" /> <Button intent="danger" variant="outline">Delete Account</Button> </div> </Fieldset>
+</div>
+
+## Intent Variants
+
+<div class="not-content space-y-6">
+  <Fieldset intent="default" legend="Default Fieldset"> <Input label="Default input" placeholder="Default styling" /> </Fieldset>
+
+  <Fieldset intent="primary" legend="Primary Fieldset"> <Input label="Primary input" placeholder="Primary styling" /> </Fieldset>
+
+  <Fieldset intent="success" legend="Success Fieldset"> <Input label="Success input" placeholder="Success styling" /> </Fieldset>
+
+  <Fieldset intent="warning" legend="Warning Fieldset"> <Input label="Warning input" placeholder="Warning styling" /> </Fieldset>
+
+  <Fieldset intent="danger" legend="Danger Fieldset"> <Input label="Danger input" placeholder="Danger styling" /> </Fieldset>
+</div>
+
+## Sizes
+
+<div class="not-content space-y-6">
+  <Fieldset size="small" legend="Small Fieldset" description="Compact spacing for dense forms"> <Input label="Small input" placeholder="Small fieldset" /> </Fieldset>
+
+  <Fieldset size="medium" legend="Medium Fieldset" description="Default spacing for most forms"> <Input label="Medium input" placeholder="Medium fieldset" /> </Fieldset>
+
+  <Fieldset size="large" legend="Large Fieldset" description="Generous spacing for prominent forms"> <Input label="Large input" placeholder="Large fieldset" /> </Fieldset>
+</div>
+
+## States
+
+<div class="not-content space-y-6">
+  <Fieldset legend="Required Fieldset" required description="All fields in this group are required"> <Input label="Required field" required placeholder="This field is required" /> </Fieldset>
+
+  <Fieldset legend="Disabled Fieldset" disabled description="This fieldset is disabled"> <Input label="Disabled field" placeholder="Cannot interact" disabled /> </Fieldset>
+
+  <Fieldset legend="Background Fieldset" background description="Subtle background for visual separation"> <Input label="Background field" placeholder="With background" /> </Fieldset>
+</div>
+
+## Properties
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `legend` | `string` | - | Legend text for the fieldset |
+| `description` | `string` | - | Description text below the legend |
+| `intent` | `'default' \| 'primary' \| 'success' \| 'warning' \| 'danger'` | `'default'` | Visual intent/state of the fieldset |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Size variant affecting padding and spacing |
+| `disabled` | `boolean` | `false` | Whether the fieldset is disabled |
+| `required` | `boolean` | `false` | Whether the fieldset content is required (shows asterisk) |
+| `background` | `boolean` | `false` | Whether to show a subtle background |
+| `class` | `string` | - | Additional CSS classes to apply |
+
+## Accessibility
+
+The Fieldset component follows WCAG 2.1 AA guidelines:
+
+### Screen Reader Support
+- **Semantic HTML**: Uses native `<fieldset>` and `<legend>` elements for proper structure
+- **Group Identification**: Screen readers announce the legend when entering the fieldset
+- **Required Indicator**: Visual and semantic indication of required fields
+
+### Keyboard Navigation
+- **Focus Management**: Proper focus-within styling for keyboard navigation
+- **Disabled State**: Prevents interaction when disabled
+
+### Visual Accessibility
+- **High Contrast**: Meets WCAG contrast requirements in all color variants
+- **Focus Indicators**: Clear focus rings for keyboard navigation
+- **Color Independence**: Information not conveyed by color alone
+
+### ARIA Support
+- **Required Fields**: Uses `aria-label` for required field indicators
+- **Disabled State**: Properly communicates disabled state to assistive technology
+
+## Examples
+
+### Basic Contact Form
 
 <div class="not-content">
-    <Fieldset legend="Personal Information">
-        <div class="grid grid-cols-1 gap-4">
-            <Input label="Name" id="name" />
-            <Input type="email" label="Email" id="email" />
-        </div>
-    </Fieldset>
-
-
-
-    <Fieldset intent="danger" legend="Destructive Warning">
-        <Checkbox />
-    </Fieldset>
+  <Fieldset legend="Contact Information" description="We'll use this information to reach out to you."> <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> <Input label="Full Name" placeholder="John Doe" required /> <Input type="email" label="Email Address" placeholder="john@example.com" required /> <Input type="tel" label="Phone Number" placeholder="+1 (555) 123-4567" /> <Input label="Company" placeholder="Acme Inc." /> </div> </Fieldset>
 </div>
+
+### Payment Information
+
+<div class="not-content">
+  <Fieldset intent="primary" legend="Payment Details" required background> <div class="space-y-4"> <Input label="Cardholder Name" placeholder="John Doe" required /> <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> <Input label="Card Number" placeholder="1234 5678 9012 3456" required /> <Input label="Expiry Date" placeholder="MM/YY" required /> </div> <Input label="CVV" placeholder="123" required /> </div> </Fieldset>
+</div>
+
+### Settings Group
+
+<div class="not-content">
+  <Fieldset intent="success" legend="Notification Preferences" size="large" description="Choose how you'd like to be notified."> <div class="space-y-4"> <Input label="Email Frequency" placeholder="Daily" /> <Input label="SMS Notifications" placeholder="Important only" /> <Input type="textarea" label="Custom Message" placeholder="Add a personal touch to notifications..." rows="3" /> </div> </Fieldset>
+</div>
+
+```astro
+<!-- Basic Usage -->
+<Fieldset legend="Personal Information">
+  <Input label="Name" placeholder="Enter your name" />
+  <Input type="email" label="Email" placeholder="your@email.com" />
+</Fieldset>
+
+<!-- With Description and Intent -->
+<Fieldset 
+  intent="primary" 
+  legend="Account Settings" 
+  description="Manage your account preferences"
+  required
+>
+  <Input label="Username" required />
+  <Input type="password" label="Password" required />
+</Fieldset>
+
+<!-- Large with Background -->
+<Fieldset 
+  size="large" 
+  background 
+  legend="Profile Information"
+  description="This information will be displayed publicly"
+>
+  <Input label="Display Name" />
+  <Input type="textarea" label="Bio" rows="4" />
+</Fieldset>
+
+<!-- Disabled State -->
+<Fieldset 
+  legend="Restricted Section" 
+  disabled
+  description="You don't have permission to edit these fields"
+>
+  <Input label="Admin Setting" disabled />
+</Fieldset>
+```

@@ -3,70 +3,49 @@ import type { HTMLAttributes } from 'astro/types'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { twMerge } from 'tailwind-merge'
 
-export interface ButtonProps
-  extends HTMLAttributes<'button'>,
-    VariantProps<typeof button> {}
-
-interface MenuItem {
-  name: string
-  href: string
-  icon: string // Assuming icons are SVG paths for simplicity
-  current?: boolean // Optional, to highlight the current active menu item
+/**
+ * Button component props interface
+ * @interface ButtonProps
+ * @extends HTMLAttributes<'button'>
+ * @extends VariantProps<typeof buttonVariants>
+ */
+export interface ButtonProps extends HTMLAttributes<'button'>, VariantProps<typeof buttonVariants> {
+  /** Show loading state with spinner */
+  loading?: boolean
+  /** Disable the button */
+  disabled?: boolean
+  /** Text to show in aria-label when loading */
+  'data-loading-text'?: string
+  /** Position of icon slot (left or right) */
+  iconPosition?: 'left' | 'right'
 }
 
-const button = cva(
-  'font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 flex justify-center items-center gap-3',
+const buttonVariants = cva(
+  'font-semibold focus:outline-none focus-visible:ring-4 focus-visible:ring-offset-2 flex justify-center items-center gap-3 transition-all duration-200 ease-in-out disabled:cursor-not-allowed disabled:pointer-events-none min-h-[44px] min-w-[44px]',
   {
     variants: {
       intent: {
-        primary: [
-          'bg-primary-500',
-          //'text-white',
-          'border-transparent',
-          'hover:bg-primary-600',
-        ],
-        secondary: [
-          'bg-secondary-300',
-          'text-black',
-          //'border-secondary-400',
-          'hover:bg-secondary-500',
-        ],
-        danger: [
-          'bg-red-500',
-          'text-white',
-          'border-transparent',
-          'hover:bg-red-600',
-        ],
-        warning: [
-          'bg-yellow-500',
-          'text-white',
-          'border-transparent',
-          'hover:bg-yellow-600',
-        ],
-        success: [
-          'bg-green-500',
-          'text-white',
-          'border border-green-500',
-          'hover:bg-green-600',
-        ],
-        info: [
-          'bg-blue-500',
-          'text-white',
-          'border-transparent',
-          'hover:bg-blue-600',
-        ],
-        ghost: [
-          'bg-gray-200',
-          'text-gray-800',
-          'border-gray-400',
-          'hover:bg-gray-100',
-        ],
+        primary: ['bg-primary-600', 'text-white', 'border-transparent', 'hover:bg-primary-600', 'focus:ring-primary-500', 'active:bg-primary-700'],
+        secondary: ['bg-secondary-600', 'text-white', 'hover:bg-secondary-400', 'focus:ring-secondary-500', 'active:bg-secondary-500'],
+        danger: ['bg-red-500', 'text-white', 'border-transparent', 'hover:bg-red-600', 'focus:ring-red-500', 'active:bg-red-700'],
+        warning: ['bg-orange-500', 'text-white', 'border-transparent', 'hover:bg-orange-600', 'focus:ring-orange-500', 'active:bg-orange-700'],
+        success: ['bg-green-500', 'text-white', 'border-transparent', 'hover:bg-green-600', 'focus:ring-green-500', 'active:bg-green-700'],
+        info: ['bg-blue-500', 'text-white', 'border-transparent', 'hover:bg-blue-600', 'focus:ring-blue-500', 'active:bg-blue-700'],
+        ghost: ['bg-gray-100', 'text-gray-900', 'border-gray-300', 'hover:bg-gray-200', 'focus:ring-gray-500', 'active:bg-gray-300'],
       },
       variant: {
         default: [],
-        contained: 'border !text-white',
-        outlined: 'border bg-transparent',
-        text: 'border border-transparent bg-transparent hover:!bg-opacity-10',
+        contained: 'border',
+        outlined: 'border bg-transparent hover:bg-opacity-10',
+        text: 'border border-transparent bg-transparent hover:bg-opacity-10',
+      },
+      loading: {
+        true: 'cursor-wait opacity-80',
+        false: '',
+      },
+      disabled: {
+        true: 'opacity-60 bg-opacity-50 border-gray-300 hover:bg-gray-300 focus:ring-gray-300',
+        false: '',
       },
       size: {
         small: ['text-sm', 'py-1', 'px-2'],
@@ -84,50 +63,71 @@ const button = cva(
       {
         intent: 'primary',
         variant: 'outlined',
-        className:
-          'text-primary-500 bg-transparent border border-primary-500 hover:bg-transparent hover:border-primary-700 hover:text-primary-700',
+        className: 'text-primary-500 bg-transparent border border-primary-500 hover:bg-transparent hover:border-primary-700 hover:text-primary-700',
       },
       {
         intent: 'secondary',
         variant: 'outlined',
-        className:
-          'text-secondary-500 bg-transparent border border-secondary-500 hover:bg-transparent hover:border-secondary-600 hover:text-secondary-600',
+        className: 'text-secondary-500 bg-transparent border border-secondary-500 hover:bg-transparent hover:border-secondary-600 hover:text-secondary-600',
       },
       {
         intent: 'success',
         variant: 'outlined',
-        className:
-          'text-green-500 bg-transparent border border-green-500 hover:bg-transparent hover:border-green-700 hover:text-green-700',
+        className: 'text-green-500 bg-transparent border border-green-500 hover:bg-transparent hover:border-green-700 hover:text-green-700',
       },
       {
         intent: 'danger',
         variant: 'outlined',
-        className:
-          'text-red-500 bg-transparent border border-red-500 hover:bg-transparent hover:border-red-700 hover:text-red-700',
+        className: 'text-red-500 bg-transparent border border-red-500 hover:bg-transparent hover:border-red-700 hover:text-red-700',
       },
       {
         intent: 'ghost',
         variant: 'outlined',
-        className:
-          'text-gray-500 bg-transparent border border-gray-500 hover:bg-transparent hover:border-gray-700 hover:text-gray-700',
+        className: 'text-gray-500 bg-transparent border border-gray-500 hover:bg-transparent hover:border-gray-700 hover:text-gray-700',
       },
     ],
   }
 )
 
 const {
-  intent = 'primary',
+  intent = 'ghost',
   size = 'medium',
   rounded = 'md',
   variant = 'default',
+  loading = false,
+  disabled = false,
+  'data-loading-text': loadingText,
+  iconPosition = 'left',
   class: additionalClasses = '',
   ...rest
 } = Astro.props as ButtonProps
 ---
 
 <button
-  class={twMerge(button({ intent, size, rounded, variant }), additionalClasses)}
+  class={twMerge(buttonVariants({ intent, size, rounded, variant, loading, disabled: disabled && !loading }), additionalClasses)}
+  disabled={disabled || loading}
+  aria-disabled={disabled || loading}
+  aria-busy={loading}
+  aria-label={loading && loadingText ? loadingText : rest['aria-label']}
   {...rest}
 >
+  {
+    loading && (
+      <>
+        <svg class="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+          <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+        </svg>
+        <span class="sr-only" aria-live="polite">
+          {loadingText || 'Loading...'}
+        </span>
+      </>
+    )
+  }
+
+  {!loading && iconPosition === 'left' && <slot name="icon-left" />}
+
   <slot />
+
+  {!loading && iconPosition === 'right' && <slot name="icon-right" />}
 </button>

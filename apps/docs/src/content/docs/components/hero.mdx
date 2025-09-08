@@ -2,19 +2,352 @@
 title: Hero
 ---
 
-import Hero from '@components/Hero.astro'
+import { Tabs, TabItem, Code } from '@astrojs/starlight/components'
+import Hero from '../../../../../cli/src/components/Hero/hero.astro'
 
-<div class="not-content">
-<Hero data={{
-    title: 'Welcome',
-    tagline: 'The hero component is used to display a large image or video with a title and description.',
-    image: {
-        file: 'https://source.unsplash.com/1600x900/?nature,water',
-    },
-    alt: 'Nature and water',
-    actions: [
-        { text: 'Got it', url: '#', intent: 'secondary', variant: 'outlined'},
-        { text: 'Learn more', url: '#', variant: 'text'}
-    ]
-}} />
-</div>
+export const component = 'Hero'
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content">
+      <h4 class="text-lg font-semibold mt-6 mb-3">Basic Hero</h4>
+      <Hero 
+        title="Welcome to Our Platform"
+        subtitle="Build amazing experiences with our component library"
+        description="Create beautiful, accessible user interfaces with our comprehensive set of components designed for modern web applications."
+        actions={[
+          { text: 'Get Started', intent: 'primary' },
+          { text: 'Learn More', intent: 'secondary', variant: 'outlined' }
+        ]}
+      />
+      
+      <h4 class="text-lg font-semibold mt-6 mb-3">Hero with Image</h4>
+      <Hero 
+        title="Powerful Solutions"
+        subtitle="Transform your ideas into reality"
+        image="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+        actions={[
+          { text: 'Start Building', intent: 'primary' }
+        ]}
+      />
+      
+      <h4 class="text-lg font-semibold mt-6 mb-3">Hero with Background</h4>
+      <Hero 
+        title="Stunning Visuals"
+        subtitle="Make an impact with beautiful backgrounds"
+        description="Use background images and overlays to create compelling hero sections that capture attention."
+        backgroundImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+        overlay={true}
+        textAlign="center"
+        actions={[
+          { text: 'Explore', intent: 'primary', variant: 'contained' },
+          { text: 'Watch Demo', intent: 'secondary', variant: 'outlined' }
+        ]}
+      />
+      
+      <h4 class="text-lg font-semibold mt-6 mb-3">Hero with Gradient</h4>
+      <Hero 
+        title="Modern Design"
+        subtitle="Beautiful gradients and animations"
+        description="Stand out with gradient backgrounds and smooth animations that bring your content to life."
+        gradient={true}
+        size="large"
+        textAlign="center"
+        actions={[
+          { text: 'Try It Now', intent: 'primary', size: 'large' }
+        ]}
+      />
+      
+      <h4 class="text-lg font-semibold mt-6 mb-3">Sizes & Alignment</h4>
+      <div class="space-y-4">
+        <Hero 
+          title="Small Hero"
+          subtitle="Compact and efficient"
+          size="small"
+          textAlign="left"
+          actions={[{ text: 'Action', intent: 'primary', size: 'small' }]}
+        />
+        
+        <Hero 
+          title="Right Aligned"
+          subtitle="Different text alignment options"
+          textAlign="right"
+          
+          actions={[{ text: 'Right Action', intent: 'secondary' }]}
+        />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    <Code code={`<!-- Basic Hero -->
+<Hero 
+  title="Welcome to Our Platform"
+  subtitle="Build amazing experiences"
+  description="Create beautiful, accessible user interfaces."
+  actions={[
+    { text: 'Get Started', intent: 'primary' },
+    { text: 'Learn More', intent: 'secondary', variant: 'outlined' }
+  ]}
+/>
+
+<!-- Hero with Background Image -->
+<Hero 
+  title="Stunning Visuals"
+  subtitle="Make an impact"
+  backgroundImage="/hero-bg.jpg"
+  overlay={true}
+  actions={[
+    { text: 'Explore', intent: 'primary' }
+  ]}
+/>
+
+<!-- Hero with Gradient -->
+<Hero 
+  title="Modern Design"
+  subtitle="Beautiful gradients"
+  gradient={true}
+  size="large"
+  textAlign="center"
+/>`} lang="astro" />
+  </TabItem>
+  <TabItem label="Install">
+    <Code code={`npx ui-gen add ${component}`} lang="js" />
+  </TabItem>
+</Tabs>
+
+<hr />
+
+### Properties
+
+#### `title`
+
+**type:** `string`
+
+**required:** `true`
+
+The main heading text for the hero section.
+
+#### `subtitle`
+
+**type:** `string`
+
+**default:** `undefined`
+
+Optional subtitle text displayed below the title.
+
+#### `description`
+
+**type:** `string`
+
+**default:** `undefined`
+
+Optional longer description text for additional context.
+
+#### `image`
+
+**type:** `HeroImage | string`
+
+**default:** `undefined`
+
+Image to display alongside the hero content. Can be a string URL or an object with `src`, `alt`, `width`, and `height` properties.
+
+#### `backgroundImage`
+
+**type:** `string`
+
+**default:** `undefined`
+
+URL for a background image. When used, the hero content will overlay the background.
+
+#### `backgroundColor`
+
+**type:** `string`
+
+**default:** `'transparent'`
+
+Background color for the hero section. Accepts any valid CSS color value.
+
+#### `textAlign`
+
+**type:** `string`
+
+**options:** `'left'`, `'center'`, `'right'`
+
+**default:** `'center'`
+
+Controls the text alignment of the hero content.
+
+#### `size`
+
+**type:** `string`
+
+**options:** `'small'`, `'medium'`, `'large'`
+
+**default:** `'medium'`
+
+Controls the overall height and padding of the hero section.
+
+#### `actions`
+
+**type:** `HeroAction[]`
+
+**default:** `[]`
+
+Array of action buttons to display. Each action can have `text`, `href`, `intent`, `variant`, and `size` properties.
+
+#### `overlay`
+
+**type:** `boolean`
+
+**default:** `false`
+
+Adds a dark overlay when using background images to improve text readability.
+
+#### `gradient`
+
+**type:** `boolean`
+
+**default:** `false`
+
+Applies a beautiful gradient background (blue to purple).
+
+### Action Properties
+
+Each action in the `actions` array supports the following properties:
+
+#### `text`
+
+**type:** `string`
+
+**required:** `true`
+
+The button text to display.
+
+#### `href`
+
+**type:** `string`
+
+**default:** `undefined`
+
+URL for the button link.
+
+#### `intent`
+
+**type:** `string`
+
+**options:** `'primary'`, `'secondary'`, `'success'`, `'warning'`, `'danger'`, `'info'`, `'ghost'`
+
+**default:** `'primary'`
+
+Visual intent/color scheme for the button.
+
+#### `variant`
+
+**type:** `string`
+
+**options:** `'default'`, `'contained'`, `'outlined'`, `'text'`
+
+**default:** `'default'`
+
+Button variant style.
+
+#### `size`
+
+**type:** `string`
+
+**options:** `'small'`, `'medium'`, `'large'`
+
+**default:** `'medium'`
+
+Button size.
+
+### Accessibility
+
+The Hero component includes comprehensive accessibility features:
+
+- **Semantic HTML** using `<section>` element
+- **Proper heading hierarchy** with `<h1>` for titles
+- **Screen reader friendly** structure
+- **Keyboard navigation** support for action buttons
+- **Responsive design** that works on all devices
+- **High contrast** text options with overlay/gradient support
+- **Excellent dark mode** with proper contrast ratios and smooth transitions
+
+### Dark Mode
+
+The Hero component features excellent dark mode support with:
+
+- **Automatic dark mode detection** via `prefers-color-scheme`
+- **Class-based dark mode** support (`.dark` class)
+- **Enhanced typography** with high-contrast gradients in dark mode
+- **Improved image styling** with subtle borders and enhanced shadows
+- **Refined overlay and gradient backgrounds** optimized for dark themes
+- **Smooth transitions** between light and dark modes
+- **WCAG-compliant contrast ratios** in both light and dark modes
+
+### Examples
+
+#### Basic Hero with Actions
+
+```astro
+<Hero 
+  title="Welcome to Our Platform"
+  subtitle="Build amazing experiences"
+  description="Create beautiful, accessible user interfaces with our comprehensive component library."
+  actions={[
+    { text: 'Get Started', intent: 'primary' },
+    { text: 'View Docs', intent: 'secondary', variant: 'outlined' }
+  ]}
+/>
+```
+
+#### Hero with Background Image
+
+```astro
+<Hero 
+  title="Stunning Visuals"
+  subtitle="Make an impact"
+  backgroundImage="/hero-background.jpg"
+  overlay={true}
+  textAlign="center"
+  size="large"
+  actions={[
+    { text: 'Explore Features', intent: 'primary', size: 'large' }
+  ]}
+/>
+```
+
+#### Hero with Side Image
+
+```astro
+<Hero 
+  title="Powerful Solutions"
+  subtitle="Transform your ideas"
+  image={{
+    src: "/hero-image.jpg",
+    alt: "Product showcase",
+    width: 600,
+    height: 400
+  }}
+  textAlign="left"
+  actions={[
+    { text: 'Start Building', intent: 'primary' },
+    { text: 'Learn More', intent: 'ghost', variant: 'text' }
+  ]}
+/>
+```
+
+#### Gradient Hero
+
+```astro
+<Hero 
+  title="Modern Design"
+  subtitle="Beautiful gradients and animations"
+  gradient={true}
+  size="large"
+  textAlign="center"
+  actions={[
+    { text: 'Try It Now', intent: 'primary', size: 'large' }
+  ]}
+/>
+```

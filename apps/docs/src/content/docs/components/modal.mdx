@@ -3,9 +3,9 @@ title: Modal
 ---
 
 import { Tabs, TabItem, Code } from "@astrojs/starlight/components";
-import Alert from "@components/Alert.astro";
-import Button from "@components/Button.astro";
-import Modal from "@components/Modal.astro";
+import Alert from "../../../../../cli/src/components/Alert/alert.astro";
+import Button from "../../../../../cli/src/components/Button/button.astro";
+import Modal from "../../../../../cli/src/components/Modal/modal.astro";
 import importedCode from "/../cli/src/components/Modal/modal-docs.astro?raw";
 
 <Tabs>
@@ -30,8 +30,8 @@ import importedCode from "/../cli/src/components/Modal/modal-docs.astro?raw";
   <TabItem label="Code">
     ```astro
     ---
-    import Button from "@components/Button.astro";
-    import Modal from "@components/Modal.astro";
+    import Button from "../../../../../cli/src/components/Button/button.astro";
+    import Modal from "../../../../../cli/src/components/Modal/modal.astro";
     ---
     <Button onclick="window.normalDialog.showModal()">
       Open dialog

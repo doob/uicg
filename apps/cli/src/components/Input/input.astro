@@ -1,30 +1,202 @@
 ---
-// Import Astro's Component and tailwind-merge
+import type { HTMLAttributes } from 'astro/types'
+import { cva, type VariantProps } from 'class-variance-authority'
 import { twMerge } from 'tailwind-merge'
 
-// Collect all props, including standard input attributes
-const { variant = 'default', label, id, className = '', ...rest } = Astro.props
-
-// Define base and variant-specific classes
-const baseClasses =
-  'bg-slate-700 bg-opacity-20 p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-gray-200 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
-const variantClasses = {
-  default: 'ring-gray-300 dark:ring-gray-700 focus:ring-blue-500',
-  error:
-    'border-red-500 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500',
+export interface InputProps extends Omit<HTMLAttributes<'input'>, 'size'>, VariantProps<typeof inputVariants> {
+  /** Input label text */
+  label?: string
+  /** Helper text below the input */
+  helperText?: string
+  /** Error message to display */
+  errorMessage?: string
+  /** Success message to display */
+  successMessage?: string
+  /** Required field indicator */
+  required?: boolean
+  /** Disabled state */
+  disabled?: boolean
+  /** Input placeholder text */
+  placeholder?: string
+  /** Input type */
+  type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'date' | 'datetime-local' | 'time' | 'month' | 'week'
+  /** Prefix icon or text */
+  prefix?: string
+  /** Suffix icon or text */
+  suffix?: string
+  /** Loading state */
+  loading?: boolean
+  /** Auto-resize for textarea-like behavior */
+  autoResize?: boolean
 }
-const labelClasses =
-  'block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100'
 
-// Merge classes dynamically
-const inputClasses = twMerge(baseClasses, variantClasses[variant], className)
+const inputVariants = cva(
+  'w-full border-0 bg-white text-gray-900 placeholder:text-gray-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300 ease-in-out',
+  {
+    variants: {
+      size: {
+        small: 'text-sm py-2.5 px-3 h-9',
+        medium: 'text-sm py-3 px-4 h-11',
+        large: 'text-base py-3.5 px-4 h-12',
+      },
+      state: {
+        default: 'shadow-sm border border-gray-200 hover:border-gray-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10',
+        error: 'shadow-sm border border-red-300 hover:border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-500/10 bg-red-50/50',
+        success: 'shadow-sm border border-green-300 hover:border-green-400 focus:border-green-500 focus:ring-4 focus:ring-green-500/10 bg-green-50/50',
+        warning: 'shadow-sm border border-yellow-300 hover:border-yellow-400 focus:border-yellow-500 focus:ring-4 focus:ring-yellow-500/10 bg-yellow-50/50',
+      },
+      rounded: {
+        none: 'rounded-none',
+        sm: 'rounded-md',
+        md: 'rounded-lg',
+        lg: 'rounded-xl',
+        full: 'rounded-full',
+      },
+    },
+    defaultVariants: {
+      size: 'medium',
+      state: 'default',
+      rounded: 'md',
+    },
+  }
+)
+
+const {
+  label,
+  helperText,
+  errorMessage,
+  successMessage,
+  required = false,
+  disabled = false,
+  placeholder,
+  type = 'text',
+  prefix,
+  suffix,
+  loading = false,
+  autoResize = false,
+  size = 'medium' as const,
+  state = 'default' as const,
+  rounded = 'md' as const,
+  id,
+  class: additionalClasses = '',
+  ...rest
+} = Astro.props as InputProps
+
+// Determine the actual state based on messages
+const actualState = errorMessage ? 'error' : successMessage ? 'success' : state
+
+// Generate unique ID if not provided
+const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`
+
+// Helper text ID for aria-describedby
+const helperTextId = `${inputId}-helper`
+const errorTextId = `${inputId}-error`
+
+const inputClasses = twMerge(inputVariants({ size, state: actualState, rounded }), prefix && 'pl-12', suffix && 'pr-12', additionalClasses)
+
+const labelClasses = 'block text-sm font-semibold text-gray-800 mb-2'
+const helperTextClasses = 'mt-2 text-xs text-gray-500 flex items-center gap-1'
+const errorTextClasses = 'mt-2 text-xs text-red-600 flex items-center gap-1.5 font-medium'
+const successTextClasses = 'mt-2 text-xs text-green-600 flex items-center gap-1.5 font-medium'
 ---
 
-{
-  label && id ? (
-    <label for={id} class={labelClasses}>
-      {label}
-    </label>
-  ) : null
-}
-<input id={id} {...rest} class={inputClasses} />
+<div class="input-group">
+  {
+    label && (
+      <label for={inputId} class={labelClasses}>
+        {label}
+        {required && (
+          <span class="ml-1 text-sm text-red-500" aria-label="required">
+            *
+          </span>
+        )}
+      </label>
+    )
+  }
+
+  <div class="relative">
+    {
+      prefix && (
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+          <span class="text-sm font-medium text-gray-400">{prefix}</span>
+        </div>
+      )
+    }
+
+    {
+      loading && (
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+          <svg class="h-4 w-4 animate-spin text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+            <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+          </svg>
+        </div>
+      )
+    }
+
+    {
+      suffix && !loading && (
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+          <span class="text-sm font-medium text-gray-400">{suffix}</span>
+        </div>
+      )
+    }
+
+    <input
+      id={inputId}
+      type={type}
+      class={inputClasses}
+      placeholder={placeholder}
+      required={required}
+      disabled={disabled || loading}
+      aria-invalid={errorMessage ? 'true' : 'false'}
+      aria-describedby={[helperText && helperTextId, errorMessage && errorTextId, successMessage && `${inputId}-success`].filter(Boolean).join(' ') || undefined}
+      {...rest}
+    />
+  </div>
+
+  {
+    helperText && !errorMessage && !successMessage && (
+      <p id={helperTextId} class={helperTextClasses}>
+        <svg class="h-3 w-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <span>{helperText}</span>
+      </p>
+    )
+  }
+
+  {
+    errorMessage && (
+      <p id={errorTextId} class={errorTextClasses} role="alert">
+        <svg class="h-3.5 w-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <span>{errorMessage}</span>
+      </p>
+    )
+  }
+
+  {
+    successMessage && (
+      <p id={`${inputId}-success`} class={successTextClasses} role="status">
+        <svg class="h-3.5 w-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.236 4.53L8.53 10.3a.75.75 0 00-1.06 1.061l1.5 1.5a.75.75 0 001.137-.089l4-5.5z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <span>{successMessage}</span>
+      </p>
+    )
+  }
+</div>

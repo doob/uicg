@@ -1,32 +1,104 @@
 ---
 title: Accordion
+description: WCAG AA compliant accordion component for organizing content in collapsible sections.
 ---
 
 import { Tabs, TabItem, Code } from '@astrojs/starlight/components';
-import Accordion from "@components/Accordion.astro";
-import AccordionContent from "@components/AccordionContent.astro";
+import Accordion from "../../../../../cli/src/components/Accordion/accordion.astro";
 
 export const component = 'accordion';
 
-export const items = [
-  { title: 'Shipping address', content: 'AccordionContent' },
-  { title: 'Section 2', content: 'Open section by property from items', open: true },
-  { title: 'Section 3', content: 'Content for Section 3...' },
-  // Add more sections as needed
+export const basicItems = [
+  {
+    title: 'What is this component?',
+    content: '<p>A fully accessible accordion component built with WCAG 2.1 AA compliance in mind.</p>'
+  },
+  {
+    title: 'How does keyboard navigation work?',
+    content: '<p>Use <kbd>Arrow Up/Down</kbd> to navigate between headers, <kbd>Home/End</kbd> to jump to first/last, and <kbd>Enter/Space</kbd> to toggle sections.</p>',
+    open: true
+  },
+  {
+    title: 'Can I customize the styling?',
+    content: '<p>Yes! The component supports multiple variants, sizes, and can be styled with Tailwind classes.</p>'
+  },
+];
+
+export const separatedItems = [
+  {
+    title: '🚀 Performance',
+    content: '<p>Lightweight and fast with minimal JavaScript overhead.</p><ul><li>Zero runtime dependencies</li><li>Optimized animations</li><li>Efficient event handling</li></ul>'
+  },
+  {
+    title: '♿ Accessibility',
+    content: '<p>Full WCAG 2.1 AA compliance with proper ARIA attributes.</p><ul><li>Screen reader support</li><li>Keyboard navigation</li><li>Focus management</li></ul>'
+  },
+  {
+    title: '🎨 Customization',
+    content: '<p>Multiple variants and complete Tailwind integration.</p><ul><li>Three visual variants</li><li>Multiple size options</li><li>Custom styling support</li></ul>'
+  },
+];
+
+export const minimalItems = [
+  { title: 'Getting Started', content: '<p>Install the component using: <code>npx ui-gen add accordion</code></p>' },
+  { title: 'Basic Usage', content: '<p>Import and use with your items array. See examples below.</p>' },
+  { title: 'Advanced Features', content: '<p>Supports allowMultiple, collapsible behavior, and disabled states.</p>' },
 ];
 
 <Tabs>
   <TabItem label="Preview">
-    <Accordion items={items} class="not-content" />
+    <div class="not-content space-y-8">
+      {/* Default variant */}
+      <div>
+        <h4 class="mb-3 text-lg font-semibold">Default Accordion</h4>
+        <Accordion items={basicItems} variant="default" />
+      </div>
+      
+      {/* Separated variant */}
+      <div>
+        <h4 class="mb-3 text-lg font-semibold">Separated Cards</h4>
+        <Accordion items={separatedItems} variant="separated" allowMultiple={true} />
+      </div>
+      
+      {/* Minimal variant */}
+      <div>
+        <h4 class="mb-3 text-lg font-semibold">Minimal Style</h4>
+        <Accordion items={minimalItems} variant="minimal" size="sm" />
+      </div>
+    </div>
   </TabItem>
   <TabItem label="Code">
     ```astro
     ---
     const items = [
-      { title: 'Section 1', content: 'Content for Section 1...', open: true }
+      { 
+        title: 'Section 1', 
+        content: '<p>Content for Section 1...</p>',
+        open: true 
+      },
+      { 
+        title: 'Section 2', 
+        content: '<p>Content for Section 2...</p>' 
+      }
     ]
     ---
+    
+    <!-- Default accordion -->
     <Accordion items={items} />
+    
+    <!-- Separated cards variant -->
+    <Accordion 
+      items={items} 
+      variant="separated" 
+      allowMultiple={true} 
+    />
+    
+    <!-- Minimal variant -->
+    <Accordion 
+      items={items} 
+      variant="minimal" 
+      size="sm" 
+    />
     ```
   </TabItem>
   <TabItem label="Install">
@@ -40,4 +112,113 @@ export const items = [
 
 #### `items`
 
-**type:** `array`
+**type:** `AccordionItem[]`
+
+**required:** `true`
+
+Array of accordion items. Each item should have:
+- `title` (string) - The header text
+- `content` (string) - HTML content (can include markup)
+- `open` (boolean, optional) - Whether the item starts expanded
+- `disabled` (boolean, optional) - Whether the item is disabled
+
+#### `variant`
+
+**type:** `string`
+
+**options:** `default`, `separated`, `minimal`
+
+**default:** `default`
+
+- `default` - Single bordered container with internal dividers
+- `separated` - Individual cards with spacing between them
+- `minimal` - Clean style with minimal borders
+
+#### `size`
+
+**type:** `string`
+
+**options:** `sm`, `md`, `lg`
+
+**default:** `md`
+
+Controls the text size and padding of the accordion.
+
+#### `allowMultiple`
+
+**type:** `boolean`
+
+**default:** `false`
+
+When `true`, multiple sections can be expanded simultaneously. When `false`, expanding one section closes others.
+
+#### `collapsible`
+
+**type:** `boolean`
+
+**default:** `true`
+
+When `false`, at least one section must always remain open (requires at least one item to start with `open: true`).
+
+### Accessibility Features
+
+This Accordion component is fully WCAG 2.1 AA compliant:
+
+#### ⌨️ **Keyboard Navigation**
+- **Arrow Up/Down** - Navigate between accordion headers
+- **Home/End** - Jump to first/last header
+- **Enter/Space** - Toggle the focused section
+- **Tab** - Move focus to the next focusable element
+
+#### 🎯 **ARIA Support**
+- `aria-expanded` indicates whether each section is open/closed
+- `aria-controls` links headers to their content regions
+- `role="region"` on content areas for screen reader navigation
+- `aria-labelledby` connects content to headers
+
+#### 📱 **Screen Reader Support**
+- Semantic HTML structure with proper heading levels
+- Descriptive button labels
+- Content regions are properly announced
+- State changes are communicated
+
+#### 🎨 **Visual Accessibility**
+- High contrast focus indicators
+- Clear visual hierarchy
+- Consistent spacing and typography
+- Smooth animations that respect `prefers-reduced-motion`
+
+### Examples
+
+#### Basic Accordion
+
+```astro
+---
+const items = [
+  { title: 'Question 1', content: '<p>Answer to question 1</p>' },
+  { title: 'Question 2', content: '<p>Answer to question 2</p>', open: true }
+]
+---
+<Accordion items={items} />
+```
+
+#### Multiple Sections Open
+
+```astro
+<Accordion 
+  items={items} 
+  allowMultiple={true}
+  variant="separated" 
+/>
+```
+
+#### Minimal FAQ Style
+
+```astro
+<Accordion 
+  items={faqItems} 
+  variant="minimal"
+  size="sm"
+  collapsible={false}
+/>
+```
