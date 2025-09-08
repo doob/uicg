@@ -1,4 +1,15 @@
+# Changelog
 
+## [1.0.0](https://github.com/doob/uicg/compare/0.2.3...1.0.0) (2025-09-08)
+
+### ⚠ BREAKING CHANGES
+
+* Hero component now uses Tailwind classes instead of custom CSS,
+requiring projects to have Tailwind CSS configured for proper styling.
+
+### Features
+
+* major component library improvements and documentation overhaul ([a1c00f7](https://github.com/doob/uicg/commit/a1c00f7c92b0dab269dc1d325001dc3ba0f04322))
 
 ## [0.2.3](https://github.com/doob/uicg/compare/0.2.2...0.2.3) (2024-03-06)
 
