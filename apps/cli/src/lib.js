@@ -133,7 +133,7 @@ export async function verifyTailwindConfig(answers, options) {
       ])
       .then((_answers) => {
         if (_answers.addTailwindConfig) {
-          execSync(`npx astro add tailwind${options?.yes && ' -y'}`, {
+          execSync(`npx astro add tailwind${options?.yes ? ' -y' : ''}`, {
             stdio: 'inherit',
           })
         }
