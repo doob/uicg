@@ -1,0 +1,21 @@
+---
+export interface SelectGroupProps {
+  class?: string
+  label?: string
+}
+
+const { class: className, label, ...props } = Astro.props
+
+const groupId = `select-group-${Math.random().toString(36).substr(2, 9)}`
+---
+
+<div role="group" aria-labelledby={label ? groupId : undefined} class={className} {...props}>
+  {
+    label && (
+      <div id={groupId} class="py-2 pl-3 pr-9 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400" role="presentation">
+        {label}
+      </div>
+    )
+  }
+  <slot />
+</div>

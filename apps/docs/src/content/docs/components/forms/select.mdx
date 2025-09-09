@@ -1,0 +1,464 @@
+---
+title: Select
+description: A customizable dropdown selection component with search and multiple selection support
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components'
+import Select from '../../../../../../../apps/cli/src/components/Select/select.astro'
+import SelectItem from '../../../../../../../apps/cli/src/components/Select/select-item.astro'
+import SelectGroup from '../../../../../../../apps/cli/src/components/Select/select-group.astro'
+
+The Select component provides a rich dropdown interface for selecting from a list of options. It supports single and multiple selection, search functionality, keyboard navigation, and option grouping.
+
+## Basic Usage
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <Select placeholder="Choose a fruit">
+        <SelectItem value="apple">Apple</SelectItem>
+        <SelectItem value="banana">Banana</SelectItem>
+        <SelectItem value="orange">Orange</SelectItem>
+      </Select>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    ---
+    import Select from '@uicg/cli/components/Select/select.astro'
+    import SelectItem from '@uicg/cli/components/Select/select-item.astro'
+    ---
+
+    <Select placeholder="Choose a fruit">
+      <SelectItem value="apple">Apple</SelectItem>
+      <SelectItem value="banana">Banana</SelectItem>
+      <SelectItem value="orange">Orange</SelectItem>
+    </Select>
+    ```
+  </TabItem>
+</Tabs>
+
+## With Label and Description
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <Select 
+        label="Favorite Fruit"
+        description="Select your preferred fruit"
+        placeholder="Choose a fruit"
+      >
+        <SelectItem value="apple">Apple</SelectItem>
+        <SelectItem value="banana">Banana</SelectItem>
+        <SelectItem value="orange">Orange</SelectItem>
+      </Select>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Select 
+      label="Favorite Fruit"
+      description="Select your preferred fruit"
+      placeholder="Choose a fruit"
+    >
+      <SelectItem value="apple">Apple</SelectItem>
+      <SelectItem value="banana">Banana</SelectItem>
+      <SelectItem value="orange">Orange</SelectItem>
+    </Select>
+    ```
+  </TabItem>
+</Tabs>
+
+## Sizes
+
+```astro
+<!-- Small -->
+<Select size="small" placeholder="Small select">
+  <SelectItem value="option1">Option 1</SelectItem>
+  <SelectItem value="option2">Option 2</SelectItem>
+</Select>
+
+<!-- Medium (default) -->
+<Select size="medium" placeholder="Medium select">
+  <SelectItem value="option1">Option 1</SelectItem>
+  <SelectItem value="option2">Option 2</SelectItem>
+</Select>
+
+<!-- Large -->
+<Select size="large" placeholder="Large select">
+  <SelectItem value="option1">Option 1</SelectItem>
+  <SelectItem value="option2">Option 2</SelectItem>
+</Select>
+```
+
+<div class="not-content">
+  <div class="border rounded-lg p-6 bg-white dark:bg-gray-900 space-y-4">
+    <div>
+      <label class="block text-sm font-medium mb-1">Small</label>
+      <Select size="small" placeholder="Small select">
+        <SelectItem value="option1">Option 1</SelectItem>
+        <SelectItem value="option2">Option 2</SelectItem>
+      </Select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium mb-1">Medium</label>
+      <Select size="medium" placeholder="Medium select">
+        <SelectItem value="option1">Option 1</SelectItem>
+        <SelectItem value="option2">Option 2</SelectItem>
+      </Select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium mb-1">Large</label>
+      <Select size="large" placeholder="Large select">
+        <SelectItem value="option1">Option 1</SelectItem>
+        <SelectItem value="option2">Option 2</SelectItem>
+      </Select>
+    </div>
+  </div>
+</div>
+
+## Intent Variants
+
+```astro
+<!-- Default -->
+<Select intent="default" placeholder="Default select">
+  <SelectItem value="option1">Option 1</SelectItem>
+</Select>
+
+<!-- Primary -->
+<Select intent="primary" placeholder="Primary select">
+  <SelectItem value="option1">Option 1</SelectItem>
+</Select>
+
+<!-- Success -->
+<Select intent="success" placeholder="Success select">
+  <SelectItem value="option1">Option 1</SelectItem>
+</Select>
+
+<!-- Warning -->
+<Select intent="warning" placeholder="Warning select">
+  <SelectItem value="option1">Option 1</SelectItem>
+</Select>
+
+<!-- Danger -->
+<Select intent="danger" placeholder="Danger select">
+  <SelectItem value="option1">Option 1</SelectItem>
+</Select>
+```
+
+<div class="not-content">
+  <div class="border rounded-lg p-6 bg-white dark:bg-gray-900 space-y-4">
+    <div>
+      <label class="block text-sm font-medium mb-1">Default</label>
+      <Select intent="default" placeholder="Default select">
+        <SelectItem value="option1">Option 1</SelectItem>
+      </Select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium mb-1">Primary</label>
+      <Select intent="primary" placeholder="Primary select">
+        <SelectItem value="option1">Option 1</SelectItem>
+      </Select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium mb-1">Success</label>
+      <Select intent="success" placeholder="Success select">
+        <SelectItem value="option1">Option 1</SelectItem>
+      </Select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium mb-1">Warning</label>
+      <Select intent="warning" placeholder="Warning select">
+        <SelectItem value="option1">Option 1</SelectItem>
+      </Select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium mb-1">Danger</label>
+      <Select intent="danger" placeholder="Danger select">
+        <SelectItem value="option1">Option 1</SelectItem>
+      </Select>
+    </div>
+  </div>
+</div>
+
+## Multiple Selection
+
+```astro
+<Select 
+  multiple={true}
+  label="Multiple Selection"
+  placeholder="Choose multiple options"
+>
+  <SelectItem value="apple">Apple</SelectItem>
+  <SelectItem value="banana">Banana</SelectItem>
+  <SelectItem value="orange">Orange</SelectItem>
+  <SelectItem value="grape">Grape</SelectItem>
+  <SelectItem value="strawberry">Strawberry</SelectItem>
+</Select>
+```
+
+<div class="not-content">
+  <div class="border rounded-lg p-6 bg-white dark:bg-gray-900">
+    <Select 
+      multiple={true}
+      label="Multiple Selection"
+      placeholder="Choose multiple options"
+    >
+      <SelectItem value="apple">Apple</SelectItem>
+      <SelectItem value="banana">Banana</SelectItem>
+      <SelectItem value="orange">Orange</SelectItem>
+      <SelectItem value="grape">Grape</SelectItem>
+      <SelectItem value="strawberry">Strawberry</SelectItem>
+    </Select>
+  </div>
+</div>
+
+## Searchable Select
+
+```astro
+<Select 
+  searchable={true}
+  label="Searchable Select"
+  placeholder="Search for a country"
+>
+  <SelectItem value="us">United States</SelectItem>
+  <SelectItem value="ca">Canada</SelectItem>
+  <SelectItem value="mx">Mexico</SelectItem>
+  <SelectItem value="uk">United Kingdom</SelectItem>
+  <SelectItem value="fr">France</SelectItem>
+  <SelectItem value="de">Germany</SelectItem>
+  <SelectItem value="jp">Japan</SelectItem>
+  <SelectItem value="au">Australia</SelectItem>
+</Select>
+```
+
+<div class="not-content">
+  <div class="border rounded-lg p-6 bg-white dark:bg-gray-900">
+    <Select 
+      searchable={true}
+      label="Searchable Select"
+      placeholder="Search for a country"
+    >
+      <SelectItem value="us">United States</SelectItem>
+      <SelectItem value="ca">Canada</SelectItem>
+      <SelectItem value="mx">Mexico</SelectItem>
+      <SelectItem value="uk">United Kingdom</SelectItem>
+      <SelectItem value="fr">France</SelectItem>
+      <SelectItem value="de">Germany</SelectItem>
+      <SelectItem value="jp">Japan</SelectItem>
+      <SelectItem value="au">Australia</SelectItem>
+    </Select>
+  </div>
+</div>
+
+## Grouped Options
+
+```astro
+<Select label="Grouped Options" placeholder="Choose an option">
+  <SelectGroup label="Fruits">
+    <SelectItem value="apple">Apple</SelectItem>
+    <SelectItem value="banana">Banana</SelectItem>
+    <SelectItem value="orange">Orange</SelectItem>
+  </SelectGroup>
+  <SelectGroup label="Vegetables">
+    <SelectItem value="carrot">Carrot</SelectItem>
+    <SelectItem value="broccoli">Broccoli</SelectItem>
+    <SelectItem value="spinach">Spinach</SelectItem>
+  </SelectGroup>
+</Select>
+```
+
+<div class="not-content">
+  <div class="border rounded-lg p-6 bg-white dark:bg-gray-900">
+    <Select label="Grouped Options" placeholder="Choose an option">
+      <SelectGroup label="Fruits">
+        <SelectItem value="apple">Apple</SelectItem>
+        <SelectItem value="banana">Banana</SelectItem>
+        <SelectItem value="orange">Orange</SelectItem>
+      </SelectGroup>
+      <SelectGroup label="Vegetables">
+        <SelectItem value="carrot">Carrot</SelectItem>
+        <SelectItem value="broccoli">Broccoli</SelectItem>
+        <SelectItem value="spinach">Spinach</SelectItem>
+      </SelectGroup>
+    </Select>
+  </div>
+</div>
+
+## Disabled State
+
+```astro
+<!-- Disabled select -->
+<Select disabled={true} placeholder="Disabled select">
+  <SelectItem value="option1">Option 1</SelectItem>
+  <SelectItem value="option2">Option 2</SelectItem>
+</Select>
+
+<!-- Select with disabled options -->
+<Select placeholder="Select with disabled options">
+  <SelectItem value="option1">Available Option</SelectItem>
+  <SelectItem value="option2" disabled={true}>Disabled Option</SelectItem>
+  <SelectItem value="option3">Another Available Option</SelectItem>
+</Select>
+```
+
+<div class="not-content">
+  <div class="border rounded-lg p-6 bg-white dark:bg-gray-900 space-y-4">
+    <div>
+      <label class="block text-sm font-medium mb-1">Disabled Select</label>
+      <Select disabled={true} placeholder="Disabled select">
+        <SelectItem value="option1">Option 1</SelectItem>
+        <SelectItem value="option2">Option 2</SelectItem>
+      </Select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium mb-1">Select with Disabled Options</label>
+      <Select placeholder="Select with disabled options">
+        <SelectItem value="option1">Available Option</SelectItem>
+        <SelectItem value="option2" disabled={true}>Disabled Option</SelectItem>
+        <SelectItem value="option3">Another Available Option</SelectItem>
+      </Select>
+    </div>
+  </div>
+</div>
+
+## Error State
+
+```astro
+<Select 
+  label="Required Field"
+  placeholder="Please select an option"
+  error="This field is required"
+  required={true}
+>
+  <SelectItem value="option1">Option 1</SelectItem>
+  <SelectItem value="option2">Option 2</SelectItem>
+  <SelectItem value="option3">Option 3</SelectItem>
+</Select>
+```
+
+<div class="not-content">
+  <div class="border rounded-lg p-6 bg-white dark:bg-gray-900">
+    <Select 
+      label="Required Field"
+      placeholder="Please select an option"
+      error="This field is required"
+      required={true}
+    >
+      <SelectItem value="option1">Option 1</SelectItem>
+      <SelectItem value="option2">Option 2</SelectItem>
+      <SelectItem value="option3">Option 3</SelectItem>
+    </Select>
+  </div>
+</div>
+
+## Keyboard Navigation
+
+The Select component supports full keyboard navigation:
+
+- **Space/Enter**: Open dropdown or select focused option
+- **Arrow Down**: Open dropdown or move to next option
+- **Arrow Up**: Move to previous option
+- **Escape**: Close dropdown
+- **Type**: Search for options (when searchable is enabled)
+
+## Accessibility
+
+The Select component follows WCAG 2.1 AA guidelines:
+
+- ✅ **Keyboard Navigation**: Full keyboard support for all interactions
+- ✅ **Screen Reader Support**: Proper ARIA attributes and roles
+- ✅ **Focus Management**: Clear focus indicators and logical tab order
+- ✅ **Error Handling**: Accessible error messages with `aria-invalid`
+- ✅ **Required Fields**: Clear indication of required fields
+- ✅ **Labeling**: Proper association between labels and controls
+
+## Properties
+
+### Select
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `placeholder` | `string` | `"Select an option..."` | Placeholder text when no option is selected |
+| `value` | `string \| string[]` | `undefined` | Selected value(s) |
+| `disabled` | `boolean` | `false` | Whether the select is disabled |
+| `required` | `boolean` | `false` | Whether the select is required |
+| `multiple` | `boolean` | `false` | Allow multiple selections |
+| `searchable` | `boolean` | `false` | Enable search functionality |
+| `size` | `"small" \| "medium" \| "large"` | `"medium"` | Size of the select |
+| `intent` | `"default" \| "primary" \| "success" \| "warning" \| "danger"` | `"default"` | Visual style variant |
+| `label` | `string` | `undefined` | Label text |
+| `description` | `string` | `undefined` | Helper text |
+| `error` | `string` | `undefined` | Error message |
+| `class` | `string` | `undefined` | Additional CSS classes |
+| `name` | `string` | `undefined` | Name attribute for form submission |
+
+### SelectItem
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `value` | `string` | **Required** | The value of the option |
+| `disabled` | `boolean` | `false` | Whether the option is disabled |
+| `selected` | `boolean` | `false` | Whether the option is selected |
+| `class` | `string` | `undefined` | Additional CSS classes |
+
+### SelectGroup
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `label` | `string` | `undefined` | Group label |
+| `class` | `string` | `undefined` | Additional CSS classes |
+
+## Examples
+
+### Contact Form Select
+
+```astro
+---
+import Select from '@uicg/cli/components/Select/select.astro'
+import SelectItem from '@uicg/cli/components/Select/select-item.astro'
+---
+
+<form>
+  <Select
+    name="country"
+    label="Country"
+    description="Select your country of residence"
+    required={true}
+    searchable={true}
+  >
+    <SelectItem value="us">United States</SelectItem>
+    <SelectItem value="ca">Canada</SelectItem>
+    <SelectItem value="uk">United Kingdom</SelectItem>
+    <!-- ... more countries -->
+  </Select>
+</form>
+```
+
+### Multi-Select with Categories
+
+```astro
+---
+import Select from '@uicg/cli/components/Select/select.astro'
+import SelectItem from '@uicg/cli/components/Select/select-item.astro'
+import SelectGroup from '@uicg/cli/components/Select/select-group.astro'
+---
+
+<Select
+  multiple={true}
+  label="Skills"
+  placeholder="Select your skills"
+  searchable={true}
+>
+  <SelectGroup label="Frontend">
+    <SelectItem value="react">React</SelectItem>
+    <SelectItem value="vue">Vue</SelectItem>
+    <SelectItem value="angular">Angular</SelectItem>
+  </SelectGroup>
+  <SelectGroup label="Backend">
+    <SelectItem value="node">Node.js</SelectItem>
+    <SelectItem value="python">Python</SelectItem>
+    <SelectItem value="php">PHP</SelectItem>
+  </SelectGroup>
+</Select>
+```

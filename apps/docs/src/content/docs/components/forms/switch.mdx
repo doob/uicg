@@ -1,0 +1,426 @@
+---
+title: Switch
+description: A toggle switch component with smooth animations and accessibility features
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components'
+import Switch from '../../../../../../../apps/cli/src/components/Switch/switch.astro'
+
+The Switch component provides an elegant toggle interface for binary choices with smooth animations, accessibility support, and multiple size and color variants.
+
+## Basic Usage
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <div class="space-y-4">
+        <Switch />
+        <Switch checked />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    ---
+    import Switch from '@uicg/cli/components/Switch/switch.astro'
+    ---
+
+    <Switch />
+    <Switch checked />
+    ```
+  </TabItem>
+</Tabs>
+
+## With Label
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <div class="space-y-4">
+        <Switch label="Enable notifications" />
+        <Switch label="Auto-save drafts" checked />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Switch label="Enable notifications" />
+    <Switch label="Auto-save drafts" checked />
+    ```
+  </TabItem>
+</Tabs>
+
+## With Description
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <div class="space-y-6">
+        <Switch 
+          label="Email notifications"
+          description="Receive email updates about your account activity"
+        />
+        <Switch 
+          label="Two-factor authentication"
+          description="Add an extra layer of security to your account"
+          checked
+        />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Switch 
+      label="Email notifications"
+      description="Receive email updates about your account activity"
+    />
+    <Switch 
+      label="Two-factor authentication"
+      description="Add an extra layer of security to your account"
+      checked
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Sizes
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <div class="space-y-6">
+        <Switch 
+          size="small" 
+          label="Small switch"
+          description="Compact size for dense layouts"
+        />
+        <Switch 
+          size="medium" 
+          label="Medium switch" 
+          description="Default size for most use cases"
+          checked
+        />
+        <Switch 
+          size="large" 
+          label="Large switch"
+          description="Larger size for better touch targets"
+        />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Switch 
+      size="small" 
+      label="Small switch"
+      description="Compact size for dense layouts"
+    />
+    <Switch 
+      size="medium" 
+      label="Medium switch" 
+      description="Default size for most use cases"
+      checked
+    />
+    <Switch 
+      size="large" 
+      label="Large switch"
+      description="Larger size for better touch targets"
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Intent Variants
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <div class="space-y-4">
+        <Switch intent="default" label="Default" checked />
+        <Switch intent="primary" label="Primary" checked />
+        <Switch intent="success" label="Success" checked />
+        <Switch intent="warning" label="Warning" checked />
+        <Switch intent="danger" label="Danger" checked />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Switch intent="default" label="Default" checked />
+    <Switch intent="primary" label="Primary" checked />
+    <Switch intent="success" label="Success" checked />
+    <Switch intent="warning" label="Warning" checked />
+    <Switch intent="danger" label="Danger" checked />
+    ```
+  </TabItem>
+</Tabs>
+
+## Required Field
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <Switch 
+        label="Accept terms and conditions"
+        description="You must accept our terms to continue"
+        required
+      />
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Switch 
+      label="Accept terms and conditions"
+      description="You must accept our terms to continue"
+      required
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Disabled State
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <div class="space-y-4">
+        <Switch 
+          label="Disabled unchecked"
+          description="This option is currently unavailable"
+          disabled
+        />
+        <Switch 
+          label="Disabled checked"
+          description="This setting cannot be changed"
+          checked
+          disabled
+        />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Switch 
+      label="Disabled unchecked"
+      description="This option is currently unavailable"
+      disabled
+    />
+    <Switch 
+      label="Disabled checked"
+      description="This setting cannot be changed"
+      checked
+      disabled
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Form Integration
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <form class="space-y-6">
+        <Switch 
+          name="notifications"
+          value="email"
+          label="Email notifications"
+          description="Receive updates via email"
+        />
+        <Switch 
+          name="notifications"
+          value="push"
+          label="Push notifications"
+          description="Receive push notifications on your device"
+          checked
+        />
+        <Switch 
+          name="privacy"
+          value="public"
+          label="Make profile public"
+          description="Allow others to find and view your profile"
+        />
+      </form>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <form class="space-y-6">
+      <Switch 
+        name="notifications"
+        value="email"
+        label="Email notifications"
+        description="Receive updates via email"
+      />
+      <Switch 
+        name="notifications"
+        value="push"
+        label="Push notifications"
+        description="Receive push notifications on your device"
+        checked
+      />
+      <Switch 
+        name="privacy"
+        value="public"
+        label="Make profile public"
+        description="Allow others to find and view your profile"
+      />
+    </form>
+    ```
+  </TabItem>
+</Tabs>
+
+## Accessibility
+
+The Switch component follows WCAG 2.1 AA guidelines:
+
+- ✅ **Keyboard Navigation**: Full support for Space and Enter keys
+- ✅ **Screen Reader Support**: Proper role and state announcements
+- ✅ **Focus Management**: Clear focus indicators and logical tab order
+- ✅ **Touch Targets**: Minimum 44×44 pixel touch targets
+- ✅ **State Indication**: Clear visual and programmatic state changes
+- ✅ **Form Integration**: Proper form association and value handling
+- ✅ **Required Fields**: Clear indication of required switches
+- ✅ **Descriptions**: Proper association with helper text
+
+## Properties
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `checked` | `boolean` | `false` | Whether the switch is checked |
+| `disabled` | `boolean` | `false` | Whether the switch is disabled |
+| `required` | `boolean` | `false` | Whether the switch is required |
+| `label` | `string` | `undefined` | Label text for the switch |
+| `description` | `string` | `undefined` | Helper text below the label |
+| `size` | `"small" \| "medium" \| "large"` | `"medium"` | Size of the switch |
+| `intent` | `"default" \| "primary" \| "success" \| "warning" \| "danger"` | `"default"` | Color variant |
+| `name` | `string` | `undefined` | Name attribute for form submission |
+| `value` | `string` | `undefined` | Value attribute for form submission |
+| `class` | `string` | `undefined` | Additional CSS classes |
+| `id` | `string` | `auto-generated` | Unique identifier for the switch |
+
+## Events
+
+The Switch component emits the following events:
+
+### `change`
+Standard change event fired when the switch state changes.
+
+### `switchChange` (Custom)
+Custom event with detailed information about the switch change:
+
+```javascript
+switchElement.addEventListener('switchChange', (event) => {
+  console.log('Switch changed:', {
+    checked: event.detail.checked,
+    value: event.detail.value,
+    name: event.detail.name,
+    element: event.detail.element
+  })
+})
+```
+
+## Features
+
+### Smooth Animations
+The switch features smooth transitions for state changes with easing functions that feel natural and responsive.
+
+### Touch-Friendly
+All switch sizes meet or exceed the minimum 44×44 pixel touch target size for mobile accessibility.
+
+### Form Integration
+The switch properly integrates with forms using standard input attributes like `name`, `value`, and `required`.
+
+### Keyboard Support
+Enhanced keyboard support beyond the standard checkbox behavior, including Space and Enter key handling.
+
+### Custom Events
+Emits custom events for advanced use cases like state management and analytics tracking.
+
+## Examples
+
+### Settings Panel
+
+```astro
+---
+import Switch from '@uicg/cli/components/Switch/switch.astro'
+---
+
+<div class="space-y-6">
+  <h3 class="text-lg font-semibold">Notification Settings</h3>
+  
+  <Switch 
+    name="email_notifications"
+    label="Email notifications"
+    description="Receive email updates about your account activity"
+    checked
+  />
+  
+  <Switch 
+    name="push_notifications"
+    label="Push notifications"
+    description="Get notified on your device for important updates"
+  />
+  
+  <Switch 
+    name="marketing_emails"
+    label="Marketing emails"
+    description="Receive promotional content and product updates"
+  />
+</div>
+```
+
+### Feature Toggles
+
+```astro
+<div class="space-y-4">
+  <Switch 
+    intent="success"
+    label="Enable dark mode"
+    description="Switch to a darker color scheme"
+  />
+  
+  <Switch 
+    intent="primary"
+    label="Enable beta features"
+    description="Try out new experimental features"
+  />
+  
+  <Switch 
+    intent="warning"
+    label="Developer mode"
+    description="Enable advanced debugging tools"
+  />
+</div>
+```
+
+### Privacy Settings
+
+```astro
+<form>
+  <div class="space-y-6">
+    <Switch 
+      name="profile_visibility"
+      value="public"
+      label="Public profile"
+      description="Make your profile visible to other users"
+      required
+    />
+    
+    <Switch 
+      name="search_indexing"
+      value="enabled"
+      label="Search engine indexing"
+      description="Allow search engines to index your profile"
+    />
+    
+    <Switch 
+      name="data_sharing"
+      value="analytics"
+      label="Analytics data sharing"
+      description="Help improve our service by sharing usage data"
+      intent="warning"
+    />
+  </div>
+</form>
+```

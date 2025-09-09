@@ -1,0 +1,218 @@
+---
+title: Checkbox
+description: A flexible checkbox component with multiple states, sizes, and accessibility features for form interactions.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Checkbox from '../../../../../../../apps/cli/src/components/Checkbox/checkbox.astro';
+import Fieldset from '../../../../../../../apps/cli/src/components/Fieldset/Fieldset.astro';
+
+## Basic Usage
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900 space-y-4">
+      <Checkbox label="Accept terms and conditions" />
+      <Checkbox checked label="Default checked" />
+      <Checkbox indeterminate label="Indeterminate state" />
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    ---
+    import Checkbox from '@uicg/cli/components/Checkbox/checkbox.astro'
+    ---
+
+    <Checkbox label="Accept terms and conditions" />
+    <Checkbox checked label="Default checked" />
+    <Checkbox indeterminate label="Indeterminate state" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Intent Variants
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900 space-y-4">
+      <Checkbox intent="default" label="Default checkbox" checked />
+      <Checkbox intent="primary" checked label="Primary checkbox" />
+      <Checkbox intent="success" checked label="Success checkbox" />
+      <Checkbox intent="warning" checked label="Warning checkbox" />
+      <Checkbox intent="danger" checked label="Danger checkbox" />
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Checkbox intent="default" label="Default checkbox" checked />
+    <Checkbox intent="primary" checked label="Primary checkbox" />
+    <Checkbox intent="success" checked label="Success checkbox" />
+    <Checkbox intent="warning" checked label="Warning checkbox" />
+    <Checkbox intent="danger" checked label="Danger checkbox" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Sizes
+
+<div class="not-content space-y-6">
+  <Checkbox size="small" checked label="Small checkbox" description="Compact size for dense interfaces" />
+
+  <Checkbox size="medium" checked label="Medium checkbox" description="Default size for most applications" />
+
+  <Checkbox size="large" checked label="Large checkbox" description="Larger size for touch interfaces or prominence" />
+</div>
+
+## States
+
+<div class="not-content space-y-6">
+  <Checkbox label="Unchecked state" description="Default state when not selected" />
+
+  <Checkbox checked label="Checked state" description="Active/selected state" />
+
+  <Checkbox indeterminate label="Indeterminate state" description="Partially selected state, often used in tree structures" />
+
+  <Checkbox required label="Required checkbox" description="Must be checked to proceed" />
+
+  <Checkbox disabled label="Disabled unchecked" description="Cannot be interacted with" />
+
+  <Checkbox disabled checked label="Disabled checked" description="Locked in checked state" />
+</div>
+
+## Form Integration
+
+<div class="not-content space-y-8">
+  <Fieldset legend="Account Preferences" description="Customize your account settings">
+    <div class="space-y-4">
+      <Checkbox name="notifications" value="email" label="Email notifications" description="Receive updates via email" />
+      <Checkbox name="notifications" value="sms" label="SMS notifications" description="Receive updates via SMS" />
+      <Checkbox name="marketing" value="newsletter" label="Newsletter subscription" description="Get our weekly newsletter" />
+      <Checkbox name="privacy" value="data-sharing" intent="warning" label="Data sharing" description="Allow sharing of anonymized data for research" />
+    </div>
+  </Fieldset>
+
+  <Fieldset intent="danger" legend="Account Deletion" description="This action cannot be undone">
+    <div class="space-y-4">
+      <Checkbox required intent="danger" label="I understand this action is permanent" description="Confirm you understand the consequences" />
+      <Checkbox required intent="danger" label="I have backed up my important data" description="Ensure you have saved any important information" />
+    </div>
+  </Fieldset>
+</div>
+
+## Properties
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `checked` | `boolean` | `false` | Whether the checkbox is checked |
+| `indeterminate` | `boolean` | `false` | Whether the checkbox is in an indeterminate state |
+| `disabled` | `boolean` | `false` | Whether the checkbox is disabled |
+| `required` | `boolean` | `false` | Whether the checkbox is required (shows asterisk) |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Size variant of the checkbox |
+| `intent` | `'default' \| 'primary' \| 'success' \| 'warning' \| 'danger'` | `'default'` | Visual intent/state of the checkbox |
+| `label` | `string` | - | Label text for the checkbox |
+| `description` | `string` | - | Description text below the label |
+| `name` | `string` | - | Name attribute for form submission |
+| `value` | `string` | - | Value attribute for form submission |
+| `id` | `string` | auto-generated | Unique identifier for the checkbox |
+| `class` | `string` | - | Additional CSS classes to apply |
+
+## Accessibility
+
+The Checkbox component follows WCAG 2.1 AA guidelines:
+
+### Screen Reader Support
+- **Semantic HTML**: Uses native `<input type="checkbox">` for proper identification
+- **Label Association**: Proper `for` attribute linking labels to inputs
+- **Description Support**: Uses `aria-describedby` for additional context
+- **State Announcement**: Screen readers announce checked/unchecked states
+- **Required Indication**: Both visual and semantic indication of required fields
+
+### Keyboard Navigation
+- **Space Key**: Toggles the checkbox state
+- **Tab Navigation**: Focuses the checkbox in tab order
+- **Focus Indicators**: Clear visual focus rings for keyboard users
+
+### Visual Accessibility
+- **High Contrast**: Meets WCAG contrast requirements in all color variants
+- **Touch Targets**: Minimum 44x44px touch target size (large variant)
+- **Color Independence**: State is indicated by shape/icon, not just color
+- **Motion Sensitivity**: Smooth but not excessive transitions
+
+### State Communication
+- **Indeterminate State**: Properly communicated to assistive technology
+- **Disabled State**: Prevents interaction and announces disability
+- **Error States**: Uses `aria-invalid` for validation feedback
+
+## Examples
+
+### Terms and Conditions
+
+<div class="not-content">
+  <Checkbox required intent="primary" label="I agree to the Terms and Conditions" description="By checking this box, you acknowledge that you have read and agree to our terms of service." />
+</div>
+
+### Newsletter Subscription with Options
+
+<div class="not-content">
+  <Fieldset legend="Newsletter Preferences" description="Choose how you'd like to hear from us">
+    <div class="space-y-4">
+      <Checkbox name="newsletter" value="weekly" label="Weekly newsletter" description="Get our curated content every Monday" />
+      <Checkbox name="newsletter" value="monthly" label="Monthly digest" description="A summary of the month's highlights" />
+      <Checkbox name="newsletter" value="breaking" intent="warning" label="Breaking news alerts" description="Immediate notifications for urgent updates" />
+    </div>
+  </Fieldset>
+</div>
+
+### Multi-level Selection
+
+<div class="not-content">
+  <div class="space-y-3">
+    <Checkbox indeterminate label="Select all features" description="Choose individual features below" />
+    <div class="ml-8 space-y-2">
+      <Checkbox checked label="Advanced analytics" description="Detailed reporting and insights" />
+      <Checkbox label="Team collaboration" description="Share projects with team members" />
+      <Checkbox label="Custom branding" description="Use your own logos and colors" />
+    </div>
+  </div>
+</div>
+
+### Error Validation
+
+<div class="not-content">
+  <div class="space-y-4">
+    <Checkbox intent="danger" required label="Confirm account deletion" description="This action cannot be undone" />
+    <Checkbox intent="success" checked disabled label="Email verified" description="Your email address has been confirmed" />
+  </div>
+</div>
+
+```astro
+<!-- Basic Usage -->
+<Checkbox label="Subscribe to newsletter" />
+
+<!-- With Description -->
+<Checkbox 
+  label="Enable notifications" 
+  description="Get alerts when new content is available"
+/>
+
+<!-- Different States -->
+<Checkbox checked label="Already selected" />
+<Checkbox indeterminate label="Partially selected" />
+<Checkbox disabled label="Cannot be changed" />
+
+<!-- Intent Variants -->
+<Checkbox intent="success" checked label="Completed task" />
+<Checkbox intent="danger" required label="Confirm deletion" />
+
+<!-- Form Integration -->
+<Checkbox 
+  name="preferences" 
+  value="email_notifications"
+  label="Email notifications"
+  required
+/>
+
+<!-- Sizes -->
+<Checkbox size="small" label="Compact checkbox" />
+<Checkbox size="large" label="Large touch target" />
+```

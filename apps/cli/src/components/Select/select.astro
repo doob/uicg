@@ -1,0 +1,584 @@
+---
+import { cva, type VariantProps } from 'class-variance-authority'
+import { twMerge } from 'tailwind-merge'
+
+export interface SelectProps extends Omit<HTMLSelectElement, 'size'>, VariantProps<typeof selectVariants> {
+  class?: string
+  placeholder?: string
+  value?: string | string[]
+  disabled?: boolean
+  required?: boolean
+  multiple?: boolean
+  searchable?: boolean
+  size?: 'small' | 'medium' | 'large'
+  intent?: 'default' | 'primary' | 'success' | 'warning' | 'danger'
+  label?: string
+  description?: string
+  error?: string
+}
+
+const selectVariants = cva(
+  'relative w-full rounded-md border bg-white px-3 py-2 text-left shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+  {
+    variants: {
+      size: {
+        small: 'min-h-[32px] px-2 py-1 text-sm',
+        medium: 'min-h-[40px] px-3 py-2 text-sm',
+        large: 'min-h-[48px] px-4 py-3 text-base',
+      },
+      intent: {
+        default: 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500',
+        primary: 'border-indigo-300 focus:border-indigo-500 focus:ring-indigo-500',
+        success: 'border-green-300 focus:border-green-500 focus:ring-green-500',
+        warning: 'border-yellow-300 focus:border-yellow-500 focus:ring-yellow-500',
+        danger: 'border-red-300 focus:border-red-500 focus:ring-red-500',
+      },
+      disabled: {
+        true: 'cursor-not-allowed opacity-50 bg-gray-50',
+        false: 'cursor-pointer hover:border-gray-400',
+      },
+      hasError: {
+        true: 'border-red-300 focus:border-red-500 focus:ring-red-500',
+        false: '',
+      },
+    },
+    compoundVariants: [
+      {
+        disabled: false,
+        class: 'dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:border-white/20 dark:focus:border-indigo-400 dark:focus:ring-indigo-400',
+      },
+      {
+        hasError: true,
+        class: 'dark:border-red-400 dark:focus:border-red-400 dark:focus:ring-red-400',
+      },
+    ],
+    defaultVariants: {
+      size: 'medium',
+      intent: 'default',
+      disabled: false,
+      hasError: false,
+    },
+  }
+)
+
+const labelVariants = cva('block text-sm font-medium leading-6', {
+  variants: {
+    intent: {
+      default: 'text-gray-900 dark:text-white',
+      primary: 'text-gray-900 dark:text-white',
+      success: 'text-gray-900 dark:text-white',
+      warning: 'text-gray-900 dark:text-white',
+      danger: 'text-red-700 dark:text-red-400',
+    },
+    required: {
+      true: "after:content-['*'] after:ml-0.5 after:text-red-500",
+      false: '',
+    },
+  },
+  defaultVariants: {
+    intent: 'default',
+    required: false,
+  },
+})
+
+const descriptionVariants = cva('mt-1 text-sm', {
+  variants: {
+    intent: {
+      default: 'text-gray-600 dark:text-gray-400',
+      primary: 'text-gray-600 dark:text-gray-400',
+      success: 'text-gray-600 dark:text-gray-400',
+      warning: 'text-gray-600 dark:text-gray-400',
+      danger: 'text-red-600 dark:text-red-400',
+    },
+  },
+  defaultVariants: {
+    intent: 'default',
+  },
+})
+
+const {
+  class: className,
+  placeholder = 'Select an option...',
+  value,
+  disabled = false,
+  required = false,
+  multiple = false,
+  searchable = false,
+  size = 'medium',
+  intent = 'default',
+  label,
+  description,
+  error,
+  ...props
+} = Astro.props
+
+const hasError = !!error
+const selectId = `select-${Math.random().toString(36).substr(2, 9)}`
+const searchId = `search-${selectId}`
+const listboxId = `listbox-${selectId}`
+const descriptionId = description ? `desc-${selectId}` : undefined
+const errorId = error ? `error-${selectId}` : undefined
+
+// Use static slot name for Astro compatibility
+---
+
+<div class="w-full">
+  {
+    label && (
+      <label for={selectId} class={labelVariants({ intent: hasError ? 'danger' : intent, required })}>
+        {label}
+      </label>
+    )
+  }
+
+  <div class="relative mt-1">
+    <!-- Hidden native select for form submission -->
+    <select id={selectId} name={props.name} multiple={multiple} required={required} disabled={disabled} class="sr-only" aria-hidden="true" tabindex="-1" {...props}>
+      <slot name="options" />
+    </select>
+
+    <!-- Custom select trigger -->
+    <button
+      type="button"
+      class={twMerge(
+        selectVariants({
+          size,
+          intent: hasError ? 'danger' : intent,
+          disabled,
+          hasError,
+        }),
+        className
+      )}
+      aria-haspopup="listbox"
+      aria-expanded="false"
+      aria-labelledby={label ? selectId : undefined}
+      aria-describedby={[descriptionId, errorId].filter(Boolean).join(' ') || undefined}
+      aria-invalid={hasError}
+      disabled={disabled}
+      data-select-trigger
+      data-select-id={selectId}
+    >
+      <span class="block truncate text-left" data-select-value>
+        {placeholder}
+      </span>
+      <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+        <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-select-icon>
+          <path
+            fill-rule="evenodd"
+            d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04L10 14.148l2.7-1.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z"
+            clip-rule="evenodd"></path>
+        </svg>
+      </span>
+    </button>
+
+    <!-- Search input (when searchable) -->
+    {
+      searchable && (
+        <input
+          type="text"
+          id={searchId}
+          class="absolute inset-0 w-full cursor-pointer opacity-0"
+          placeholder="Search options..."
+          aria-hidden="true"
+          tabindex="-1"
+          data-select-search
+          data-select-id={selectId}
+        />
+      )
+    }
+
+    <!-- Dropdown options -->
+    <div
+      id={listboxId}
+      role="listbox"
+      aria-labelledby={label ? selectId : undefined}
+      aria-multiselectable={multiple}
+      class="absolute z-10 mt-1 hidden max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800 dark:ring-white/10"
+      data-select-dropdown
+      data-select-id={selectId}
+    >
+      <slot />
+    </div>
+  </div>
+
+  {
+    description && !error && (
+      <p id={descriptionId} class={descriptionVariants({ intent })}>
+        {description}
+      </p>
+    )
+  }
+
+  {
+    error && (
+      <p id={errorId} class={descriptionVariants({ intent: 'danger' })} role="alert">
+        {error}
+      </p>
+    )
+  }
+</div>
+
+<script>
+  interface SelectState {
+    isOpen: boolean
+    selectedValues: string[]
+    searchValue: string
+    focusedIndex: number
+  }
+
+  class SelectManager {
+    private selectStates = new Map<string, SelectState>()
+
+    constructor() {
+      this.init()
+    }
+
+    private init() {
+      document.addEventListener('DOMContentLoaded', () => {
+        this.setupSelects()
+      })
+
+      // Handle dynamic content
+      const observer = new MutationObserver(() => {
+        this.setupSelects()
+      })
+      observer.observe(document.body, { childList: true, subtree: true })
+    }
+
+    private setupSelects() {
+      const selects = document.querySelectorAll('[data-select-trigger]')
+
+      selects.forEach((trigger) => {
+        const selectId = trigger.getAttribute('data-select-id')
+        if (!selectId || this.selectStates.has(selectId)) return
+
+        // Initialize state
+        this.selectStates.set(selectId, {
+          isOpen: false,
+          selectedValues: [],
+          searchValue: '',
+          focusedIndex: -1,
+        })
+
+        this.setupSelectEvents(selectId)
+      })
+    }
+
+    private setupSelectEvents(selectId: string) {
+      const trigger = document.querySelector(`[data-select-trigger][data-select-id="${selectId}"]`) as HTMLButtonElement
+      const dropdown = document.querySelector(`[data-select-dropdown][data-select-id="${selectId}"]`) as HTMLElement
+      const searchInput = document.querySelector(`[data-select-search][data-select-id="${selectId}"]`) as HTMLInputElement
+      const hiddenSelect = document.getElementById(selectId) as HTMLSelectElement
+
+      if (!trigger || !dropdown) return
+
+      // Toggle dropdown
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault()
+        this.toggleDropdown(selectId)
+      })
+
+      // Close on outside click
+      document.addEventListener('click', (e) => {
+        const target = e.target as Element
+        if (!trigger.contains(target) && !dropdown.contains(target)) {
+          this.closeDropdown(selectId)
+        }
+      })
+
+      // Keyboard navigation
+      trigger.addEventListener('keydown', (e) => {
+        this.handleKeyNavigation(e, selectId)
+      })
+
+      // Search functionality
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const target = e.target as HTMLInputElement
+          this.handleSearch(target.value, selectId)
+        })
+      }
+
+      // Option selection
+      dropdown.addEventListener('click', (e) => {
+        const option = (e.target as Element).closest('[data-select-option]')
+        if (option) {
+          const value = option.getAttribute('data-value')
+          if (value) {
+            this.selectOption(selectId, value)
+          }
+        }
+      })
+
+      // Handle escape key
+      dropdown.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          this.closeDropdown(selectId)
+          trigger.focus()
+        }
+      })
+    }
+
+    private toggleDropdown(selectId: string) {
+      const state = this.selectStates.get(selectId)
+      if (!state) return
+
+      if (state.isOpen) {
+        this.closeDropdown(selectId)
+      } else {
+        this.openDropdown(selectId)
+      }
+    }
+
+    private openDropdown(selectId: string) {
+      const state = this.selectStates.get(selectId)
+      const trigger = document.querySelector(`[data-select-trigger][data-select-id="${selectId}"]`) as HTMLButtonElement
+      const dropdown = document.querySelector(`[data-select-dropdown][data-select-id="${selectId}"]`) as HTMLElement
+      const searchInput = document.querySelector(`[data-select-search][data-select-id="${selectId}"]`) as HTMLInputElement
+
+      if (!state || !trigger || !dropdown) return
+
+      state.isOpen = true
+      dropdown.classList.remove('hidden')
+      trigger.setAttribute('aria-expanded', 'true')
+
+      // Focus search input if searchable
+      if (searchInput) {
+        searchInput.classList.remove('opacity-0')
+        searchInput.setAttribute('aria-hidden', 'false')
+        searchInput.setAttribute('tabindex', '0')
+        setTimeout(() => searchInput.focus(), 0)
+      }
+
+      this.updateDropdownPosition(selectId)
+    }
+
+    private closeDropdown(selectId: string) {
+      const state = this.selectStates.get(selectId)
+      const trigger = document.querySelector(`[data-select-trigger][data-select-id="${selectId}"]`) as HTMLButtonElement
+      const dropdown = document.querySelector(`[data-select-dropdown][data-select-id="${selectId}"]`) as HTMLElement
+      const searchInput = document.querySelector(`[data-select-search][data-select-id="${selectId}"]`) as HTMLInputElement
+
+      if (!state || !trigger || !dropdown) return
+
+      state.isOpen = false
+      state.focusedIndex = -1
+      dropdown.classList.add('hidden')
+      trigger.setAttribute('aria-expanded', 'false')
+
+      // Hide search input
+      if (searchInput) {
+        searchInput.classList.add('opacity-0')
+        searchInput.setAttribute('aria-hidden', 'true')
+        searchInput.setAttribute('tabindex', '-1')
+        searchInput.value = ''
+        state.searchValue = ''
+      }
+
+      this.filterOptions(selectId, '')
+    }
+
+    private selectOption(selectId: string, value: string) {
+      const state = this.selectStates.get(selectId)
+      const hiddenSelect = document.getElementById(selectId) as HTMLSelectElement
+      const valueDisplay = document.querySelector(`[data-select-trigger][data-select-id="${selectId}"] [data-select-value]`)
+
+      if (!state || !hiddenSelect || !valueDisplay) return
+
+      const isMultiple = hiddenSelect.hasAttribute('multiple')
+
+      if (isMultiple) {
+        // Handle multiple selection
+        const index = state.selectedValues.indexOf(value)
+        if (index > -1) {
+          state.selectedValues.splice(index, 1)
+        } else {
+          state.selectedValues.push(value)
+        }
+
+        // Update display
+        if (state.selectedValues.length === 0) {
+          valueDisplay.textContent = hiddenSelect.querySelector('option')?.textContent || 'Select options...'
+        } else if (state.selectedValues.length === 1) {
+          const option = hiddenSelect.querySelector(`option[value="${state.selectedValues[0]}"]`)
+          valueDisplay.textContent = option?.textContent || state.selectedValues[0]
+        } else {
+          valueDisplay.textContent = `${state.selectedValues.length} selected`
+        }
+
+        // Update hidden select
+        Array.from(hiddenSelect.options).forEach((option) => {
+          option.selected = state.selectedValues.includes(option.value)
+        })
+      } else {
+        // Handle single selection
+        state.selectedValues = [value]
+        const option = hiddenSelect.querySelector(`option[value="${value}"]`)
+        valueDisplay.textContent = option?.textContent || value
+        hiddenSelect.value = value
+        this.closeDropdown(selectId)
+      }
+
+      // Trigger change event
+      hiddenSelect.dispatchEvent(new Event('change', { bubbles: true }))
+      this.updateOptionStates(selectId)
+    }
+
+    private handleKeyNavigation(e: KeyboardEvent, selectId: string) {
+      const state = this.selectStates.get(selectId)
+      if (!state) return
+
+      switch (e.key) {
+        case 'Enter':
+        case ' ':
+          e.preventDefault()
+          if (!state.isOpen) {
+            this.openDropdown(selectId)
+          } else if (state.focusedIndex >= 0) {
+            const options = this.getVisibleOptions(selectId)
+            const focusedOption = options[state.focusedIndex]
+            if (focusedOption) {
+              const value = focusedOption.getAttribute('data-value')
+              if (value) this.selectOption(selectId, value)
+            }
+          }
+          break
+        case 'ArrowDown':
+          e.preventDefault()
+          if (!state.isOpen) {
+            this.openDropdown(selectId)
+          } else {
+            this.focusNextOption(selectId)
+          }
+          break
+        case 'ArrowUp':
+          e.preventDefault()
+          if (state.isOpen) {
+            this.focusPreviousOption(selectId)
+          }
+          break
+        case 'Escape':
+          if (state.isOpen) {
+            this.closeDropdown(selectId)
+          }
+          break
+      }
+    }
+
+    private focusNextOption(selectId: string) {
+      const state = this.selectStates.get(selectId)
+      if (!state) return
+
+      const options = this.getVisibleOptions(selectId)
+      state.focusedIndex = Math.min(state.focusedIndex + 1, options.length - 1)
+      this.updateFocusedOption(selectId)
+    }
+
+    private focusPreviousOption(selectId: string) {
+      const state = this.selectStates.get(selectId)
+      if (!state) return
+
+      const options = this.getVisibleOptions(selectId)
+      state.focusedIndex = Math.max(state.focusedIndex - 1, 0)
+      this.updateFocusedOption(selectId)
+    }
+
+    private updateFocusedOption(selectId: string) {
+      const state = this.selectStates.get(selectId)
+      if (!state) return
+
+      const options = this.getVisibleOptions(selectId)
+      options.forEach((option, index) => {
+        if (index === state.focusedIndex) {
+          option.setAttribute('aria-selected', 'true')
+          option.scrollIntoView({ block: 'nearest' })
+        } else {
+          option.removeAttribute('aria-selected')
+        }
+      })
+    }
+
+    private handleSearch(searchValue: string, selectId: string) {
+      const state = this.selectStates.get(selectId)
+      if (!state) return
+
+      state.searchValue = searchValue
+      state.focusedIndex = -1
+      this.filterOptions(selectId, searchValue)
+    }
+
+    private filterOptions(selectId: string, searchValue: string) {
+      const dropdown = document.querySelector(`[data-select-dropdown][data-select-id="${selectId}"]`)
+      if (!dropdown) return
+
+      const options = dropdown.querySelectorAll('[data-select-option]')
+      const lowerSearch = searchValue.toLowerCase()
+
+      options.forEach((option) => {
+        const text = option.textContent?.toLowerCase() || ''
+        const matches = text.includes(lowerSearch)
+
+        if (matches) {
+          option.classList.remove('hidden')
+        } else {
+          option.classList.add('hidden')
+        }
+      })
+    }
+
+    private getVisibleOptions(selectId: string): Element[] {
+      const dropdown = document.querySelector(`[data-select-dropdown][data-select-id="${selectId}"]`)
+      if (!dropdown) return []
+
+      return Array.from(dropdown.querySelectorAll('[data-select-option]:not(.hidden)'))
+    }
+
+    private updateOptionStates(selectId: string) {
+      const state = this.selectStates.get(selectId)
+      const dropdown = document.querySelector(`[data-select-dropdown][data-select-id="${selectId}"]`)
+
+      if (!state || !dropdown) return
+
+      const options = dropdown.querySelectorAll('[data-select-option]')
+      options.forEach((option) => {
+        const value = option.getAttribute('data-value')
+        if (value && state.selectedValues.includes(value)) {
+          option.setAttribute('aria-selected', 'true')
+          option.classList.add('bg-indigo-600', 'text-white')
+        } else {
+          option.removeAttribute('aria-selected')
+          option.classList.remove('bg-indigo-600', 'text-white')
+        }
+      })
+    }
+
+    private updateDropdownPosition(selectId: string) {
+      const trigger = document.querySelector(`[data-select-trigger][data-select-id="${selectId}"]`) as HTMLElement
+      const dropdown = document.querySelector(`[data-select-dropdown][data-select-id="${selectId}"]`) as HTMLElement
+
+      if (!trigger || !dropdown) return
+
+      const triggerRect = trigger.getBoundingClientRect()
+      const dropdownRect = dropdown.getBoundingClientRect()
+      const viewportHeight = window.innerHeight
+
+      // Check if dropdown would overflow bottom of viewport
+      if (triggerRect.bottom + dropdownRect.height > viewportHeight) {
+        // Position above trigger
+        dropdown.style.bottom = '100%'
+        dropdown.style.top = 'auto'
+        dropdown.classList.add('mb-1')
+        dropdown.classList.remove('mt-1')
+      } else {
+        // Position below trigger (default)
+        dropdown.style.top = '100%'
+        dropdown.style.bottom = 'auto'
+        dropdown.classList.add('mt-1')
+        dropdown.classList.remove('mb-1')
+      }
+    }
+  }
+
+  // Initialize the select manager
+  new SelectManager()
+</script>

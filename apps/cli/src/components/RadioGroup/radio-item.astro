@@ -1,0 +1,119 @@
+---
+import { cva, type VariantProps } from 'class-variance-authority'
+import { twMerge } from 'tailwind-merge'
+import type { HTMLAttributes } from 'astro/types'
+
+/**
+ * Props for the RadioItem component
+ */
+export interface RadioItemProps extends Omit<HTMLAttributes<'input'>, 'size' | 'type'>, VariantProps<typeof radioVariants> {
+  /** Additional CSS classes to apply */
+  class?: string
+  /** Value for this radio option */
+  value: string
+  /** Whether this radio is checked */
+  checked?: boolean
+  /** Whether this radio is disabled */
+  disabled?: boolean
+  /** Whether this radio is required */
+  required?: boolean
+  /** Size variant (inherited from RadioGroup) */
+  size?: 'small' | 'medium' | 'large'
+  /** Label text for the radio */
+  label?: string
+  /** Description text below the label */
+  description?: string
+  /** Name attribute (should match RadioGroup) */
+  name?: string
+  /** Unique identifier for the radio */
+  id?: string
+}
+
+const { class: additionalClasses = '', value, checked = false, disabled = false, required = false, size = 'medium' as const, label, description, name, id, ...rest } = Astro.props as RadioItemProps
+
+// Generate unique ID if not provided
+const radioId = id || `radio-${Math.random().toString(36).substr(2, 9)}`
+const descriptionId = description ? `${radioId}-description` : undefined
+
+const radioVariants = cva(
+  'not-checked:before:hidden relative appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden',
+  {
+    variants: {
+      size: {
+        small: 'size-3',
+        medium: 'size-4',
+        large: 'size-6',
+      },
+      disabled: {
+        true: 'opacity-50 cursor-not-allowed pointer-events-none',
+        false: 'cursor-pointer',
+      },
+    },
+    compoundVariants: [
+      {
+        disabled: false,
+        class:
+          'dark:border-white/10 dark:bg-white/5 dark:checked:border-indigo-500 dark:checked:bg-indigo-500 dark:focus-visible:outline-indigo-500 dark:disabled:border-white/5 dark:disabled:bg-white/10 dark:disabled:before:bg-white/20',
+      },
+    ],
+    defaultVariants: {
+      size: 'medium',
+      disabled: false,
+    },
+  }
+)
+
+const labelVariants = cva('font-medium text-gray-900 dark:text-white cursor-pointer', {
+  variants: {
+    size: {
+      small: 'text-sm',
+      medium: 'text-sm',
+      large: 'text-base',
+    },
+    disabled: {
+      true: 'text-gray-400 dark:text-gray-600 cursor-not-allowed',
+      false: '',
+    },
+  },
+})
+
+const descriptionVariants = cva('text-sm text-gray-500 dark:text-gray-400', {
+  variants: {
+    disabled: {
+      true: 'text-gray-400 dark:text-gray-600',
+      false: '',
+    },
+  },
+})
+
+const radioClasses = twMerge(radioVariants({ size, disabled }), additionalClasses)
+const labelClasses = labelVariants({ size, disabled })
+const descriptionClasses = descriptionVariants({ disabled })
+---
+
+<div class="flex items-start gap-3">
+  <input type="radio" id={radioId} name={name} value={value} checked={checked} disabled={disabled} required={required} aria-describedby={descriptionId} class={radioClasses} {...rest} />
+
+  {
+    (label || description) && (
+      <div class="flex flex-col gap-1">
+        {label && (
+          <label for={radioId} class={labelClasses}>
+            {label}
+            {required && (
+              <span class="ml-1 text-red-500" aria-label="required">
+                *
+              </span>
+            )}
+          </label>
+        )}
+
+        {description && (
+          <p id={descriptionId} class={descriptionClasses}>
+            {description}
+          </p>
+        )}
+      </div>
+    )
+  }
+</div>

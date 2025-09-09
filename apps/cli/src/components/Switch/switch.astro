@@ -1,0 +1,196 @@
+---
+import { cva, type VariantProps } from 'class-variance-authority'
+import { twMerge } from 'tailwind-merge'
+
+export interface SwitchProps extends Omit<astroHTML.JSX.InputHTMLAttributes, 'size' | 'type'>, VariantProps<typeof switchVariants> {
+  class?: string
+  label?: string
+  description?: string
+  checked?: boolean
+  disabled?: boolean
+  required?: boolean
+  name?: string
+  value?: string
+}
+
+const switchVariants = cva(
+  [
+    // Base container styles
+    'group relative inline-flex shrink-0 rounded-full transition-colors duration-200 ease-in-out cursor-pointer',
+    // Base track styling
+    'bg-gray-200 dark:bg-gray-700',
+    // Shadow and ring
+    'shadow-inner',
+  ],
+  {
+    variants: {
+      size: {
+        small: 'w-9 h-5 p-0.5',
+        medium: 'w-11 h-6 p-0.5',
+        large: 'w-12 h-7 p-0.5',
+      },
+      intent: {
+        default: '',
+        primary: '',
+        success: '',
+        warning: '',
+        danger: '',
+      },
+    },
+    defaultVariants: {
+      size: 'medium',
+      intent: 'default',
+    },
+  }
+)
+
+const thumbVariants = cva(
+  [
+    // Base thumb styles
+    'rounded-full bg-white transition-transform duration-200 ease-in-out shadow-sm',
+    // Positioning
+    'relative z-10',
+  ],
+  {
+    variants: {
+      size: {
+        small: 'w-4 h-4',
+        medium: 'w-5 h-5',
+        large: 'w-6 h-6',
+      },
+    },
+    defaultVariants: {
+      size: 'medium',
+    },
+  }
+)
+
+const labelVariants = cva('block font-medium leading-6 transition-colors duration-200', {
+  variants: {
+    size: {
+      small: 'text-sm',
+      medium: 'text-sm',
+      large: 'text-base',
+    },
+  },
+  defaultVariants: {
+    size: 'medium',
+  },
+})
+
+const descriptionVariants = cva('mt-1 text-sm leading-5 text-gray-600 dark:text-gray-400 transition-colors duration-200')
+
+const { class: className, label, description, checked = false, disabled = false, required = false, size, intent, name, value, ...props } = Astro.props
+
+const switchId = props.id || `switch-${Math.random().toString(36).substr(2, 9)}`
+const descriptionId = description ? `${switchId}-description` : undefined
+---
+
+<div class="switch-wrapper flex items-start space-x-3" role="group">
+  <label class={twMerge('switch-container', `size-${size}`, className)}>
+    <input {...props} type="checkbox" id={switchId} checked={checked} disabled={disabled} required={required} name={name} value={value} aria-describedby={descriptionId} />
+    <div class={twMerge(switchVariants({ size, intent }), 'switch-track', `intent-${intent}`)}>
+      <span class={twMerge(thumbVariants({ size }), 'switch-thumb')}></span>
+    </div>
+  </label>
+
+  {
+    (label || description) && (
+      <div class="min-w-0 flex-1">
+        {label && (
+          <label for={switchId} class={labelVariants({ size })}>
+            {label}
+            {required && (
+              <span class="ml-1 text-red-500" aria-label="required">
+                *
+              </span>
+            )}
+          </label>
+        )}
+
+        {description && (
+          <p id={descriptionId} class={descriptionVariants()}>
+            {description}
+          </p>
+        )}
+      </div>
+    )
+  }
+</div>
+
+<style>
+  /* Switch styles using standard CSS that works everywhere */
+
+  /* Basic switch container styles */
+  .switch-container {
+    position: relative;
+    display: inline-flex;
+    cursor: pointer;
+  }
+
+  /* Hide the actual checkbox */
+  .switch-container input[type='checkbox'] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Track background changes */
+  .switch-container input[type='checkbox']:checked + .switch-track {
+    @apply bg-blue-600 dark:bg-blue-500;
+  }
+
+  .switch-container input[type='checkbox']:checked + .switch-track.intent-primary {
+    @apply bg-blue-600 dark:bg-blue-500;
+  }
+
+  .switch-container input[type='checkbox']:checked + .switch-track.intent-success {
+    @apply bg-green-600 dark:bg-green-500;
+  }
+
+  .switch-container input[type='checkbox']:checked + .switch-track.intent-warning {
+    @apply bg-yellow-500 dark:bg-yellow-400;
+  }
+
+  .switch-container input[type='checkbox']:checked + .switch-track.intent-danger {
+    @apply bg-red-600 dark:bg-red-500;
+  }
+
+  /* Thumb movement */
+  .switch-container input[type='checkbox']:checked + .switch-track .switch-thumb {
+    transform: translateX(1.25rem); /* 20px for medium size */
+  }
+
+  .switch-container.size-small input[type='checkbox']:checked + .switch-track .switch-thumb {
+    transform: translateX(1rem); /* 16px for small size */
+  }
+
+  .switch-container.size-large input[type='checkbox']:checked + .switch-track .switch-thumb {
+    transform: translateX(1.25rem); /* 20px for large size */
+  }
+
+  /* Focus styles */
+  .switch-container input[type='checkbox']:focus + .switch-track {
+    @apply ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900;
+  }
+
+  /* Disabled styles */
+  .switch-container input[type='checkbox']:disabled + .switch-track {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  .switch-container:has(input:disabled) {
+    @apply cursor-not-allowed;
+  }
+
+  /* Hover effects */
+  .switch-container:hover input[type='checkbox']:not(:disabled) + .switch-track {
+    @apply shadow-md;
+  }
+</style>

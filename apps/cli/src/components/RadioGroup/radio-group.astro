@@ -1,0 +1,127 @@
+---
+import { cva, type VariantProps } from 'class-variance-authority'
+import { twMerge } from 'tailwind-merge'
+import type { HTMLAttributes } from 'astro/types'
+
+/**
+ * Props for the RadioGroup component
+ */
+export interface RadioGroupProps extends Omit<HTMLAttributes<'div'>, 'size'>, VariantProps<typeof radioGroupVariants> {
+  /** Additional CSS classes to apply */
+  class?: string
+  /** Name attribute for all radio inputs in the group */
+  name: string
+  /** Currently selected value */
+  value?: string
+  /** Whether the radio group is disabled */
+  disabled?: boolean
+  /** Whether the radio group is required */
+  required?: boolean
+  /** Size variant of the radio group */
+  size?: 'small' | 'medium' | 'large'
+  /** Legend text for the radio group */
+  legend?: string
+  /** Description text below the legend */
+  description?: string
+  /** Layout orientation */
+  orientation?: 'vertical' | 'horizontal'
+}
+
+const {
+  class: additionalClasses = '',
+  name,
+  value,
+  disabled = false,
+  required = false,
+  size = 'medium' as const,
+  legend,
+  description,
+  orientation = 'vertical' as const,
+  ...rest
+} = Astro.props as RadioGroupProps
+
+// Generate unique IDs
+const groupId = `radio-group-${Math.random().toString(36).substr(2, 9)}`
+const descriptionId = description ? `${groupId}-description` : undefined
+
+const radioGroupVariants = cva('space-y-3', {
+  variants: {
+    orientation: {
+      vertical: 'space-y-3',
+      horizontal: 'flex flex-wrap gap-6 space-y-0',
+    },
+    disabled: {
+      true: 'opacity-60 pointer-events-none',
+      false: '',
+    },
+  },
+  defaultVariants: {
+    orientation: 'vertical',
+    disabled: false,
+  },
+})
+
+const legendVariants = cva('font-semibold text-gray-900 mb-2 dark:text-white', {
+  variants: {
+    size: {
+      small: 'text-xs',
+      medium: 'text-sm',
+      large: 'text-base',
+    },
+    disabled: {
+      true: 'text-gray-400 dark:text-gray-600',
+      false: '',
+    },
+  },
+})
+
+const descriptionVariants = cva('text-sm text-gray-600 dark:text-gray-400 mb-2', {
+  variants: {
+    disabled: {
+      true: 'text-gray-400 dark:text-gray-600',
+      false: '',
+    },
+  },
+})
+
+const radioGroupClasses = twMerge(radioGroupVariants({ orientation, disabled }), additionalClasses)
+
+const legendClasses = legendVariants({ size, disabled })
+const descriptionClasses = descriptionVariants({ disabled })
+---
+
+<fieldset class="m-0 border-0 p-0" disabled={disabled}>
+  {
+    legend && (
+      <legend id={`${groupId}-legend`} class={legendClasses}>
+        {legend}
+        {required && (
+          <span class="ml-1 text-red-500" aria-label="required">
+            *
+          </span>
+        )}
+      </legend>
+    )
+  }
+
+  {
+    description && (
+      <div id={descriptionId} class={descriptionClasses}>
+        {description}
+      </div>
+    )
+  }
+
+  <div
+    class={radioGroupClasses}
+    role="radiogroup"
+    aria-labelledby={legend ? `${groupId}-legend` : undefined}
+    aria-describedby={descriptionId}
+    aria-required={required}
+    data-radio-group={name}
+    data-size={size}
+    {...rest}
+  >
+    <slot />
+  </div>
+</fieldset>

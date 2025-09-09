@@ -1,0 +1,232 @@
+---
+import { cva, type VariantProps } from 'class-variance-authority'
+import { twMerge } from 'tailwind-merge'
+import type { HTMLAttributes } from 'astro/types'
+
+/**
+ * Props for the Checkbox component
+ */
+export interface CheckboxProps extends Omit<HTMLAttributes<'input'>, 'size' | 'type'>, VariantProps<typeof checkboxVariants> {
+  /** Additional CSS classes to apply */
+  class?: string
+  /** Whether the checkbox is checked */
+  checked?: boolean
+  /** Whether the checkbox is in an indeterminate state */
+  indeterminate?: boolean
+  /** Whether the checkbox is disabled */
+  disabled?: boolean
+  /** Whether the checkbox is required */
+  required?: boolean
+  /** Size variant of the checkbox */
+  size?: 'small' | 'medium' | 'large'
+  /** Visual intent/state of the checkbox */
+  intent?: 'default' | 'primary' | 'success' | 'warning' | 'danger'
+  /** Label text for the checkbox */
+  label?: string
+  /** Description text below the label */
+  description?: string
+  /** Name attribute for form submission */
+  name?: string
+  /** Value attribute for form submission */
+  value?: string
+  /** Unique identifier for the checkbox */
+  id?: string
+}
+
+const {
+  class: additionalClasses = '',
+  checked = false,
+  indeterminate = false,
+  disabled = false,
+  required = false,
+  size = 'medium' as const,
+  intent = 'default' as const,
+  label,
+  description,
+  name,
+  value,
+  id,
+  ...rest
+} = Astro.props as CheckboxProps
+
+// Generate unique ID if not provided
+const checkboxId = id || `checkbox-${Math.random().toString(36).substr(2, 9)}`
+const descriptionId = description ? `${checkboxId}-description` : undefined
+
+const checkboxVariants = cva('rounded border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer', {
+  variants: {
+    size: {
+      small: 'h-4 w-4',
+      medium: 'h-5 w-5',
+      large: 'h-6 w-6',
+    },
+    intent: {
+      default: 'border-gray-300 text-blue-600 focus:ring-blue-500/20 checked:bg-blue-600 checked:border-blue-600',
+      primary: 'border-blue-300 text-blue-600 focus:ring-blue-500/20 checked:bg-blue-600 checked:border-blue-600',
+      success: 'border-green-300 text-green-600 focus:ring-green-500/20 checked:bg-green-600 checked:border-green-600',
+      warning: 'border-orange-300 text-orange-600 focus:ring-orange-500/20 checked:bg-orange-600 checked:border-orange-600',
+      danger: 'border-red-300 text-red-600 focus:ring-red-500/20 checked:bg-red-600 checked:border-red-600',
+    },
+    disabled: {
+      true: 'opacity-50 cursor-not-allowed pointer-events-none',
+      false: 'hover:border-gray-400',
+    },
+  },
+  compoundVariants: [
+    {
+      intent: 'default',
+      disabled: false,
+      class: 'dark:border-gray-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:hover:border-gray-500',
+    },
+    {
+      intent: 'primary',
+      disabled: false,
+      class: 'dark:border-blue-600 dark:checked:bg-blue-500 dark:checked:border-blue-500',
+    },
+    {
+      intent: 'success',
+      disabled: false,
+      class: 'dark:border-green-600 dark:checked:bg-green-500 dark:checked:border-green-500',
+    },
+    {
+      intent: 'warning',
+      disabled: false,
+      class: 'dark:border-orange-600 dark:checked:bg-orange-500 dark:checked:border-orange-500',
+    },
+    {
+      intent: 'danger',
+      disabled: false,
+      class: 'dark:border-red-600 dark:checked:bg-red-500 dark:checked:border-red-500',
+    },
+  ],
+  defaultVariants: {
+    size: 'medium',
+    intent: 'default',
+    disabled: false,
+  },
+})
+
+const labelVariants = cva('font-medium transition-colors duration-200 cursor-pointer', {
+  variants: {
+    size: {
+      small: 'text-sm',
+      medium: 'text-base',
+      large: 'text-lg',
+    },
+    intent: {
+      default: 'text-gray-900 dark:text-gray-100',
+      primary: 'text-primary-900 dark:text-gray-100',
+      success: 'text-green-900 dark:text-gray-100',
+      warning: 'text-gray-900 dark:text-gray-100',
+      danger: 'text-gray-900 dark:text-gray-100',
+    },
+    disabled: {
+      true: 'text-gray-400 dark:text-gray-600 cursor-not-allowed',
+      false: '',
+    },
+  },
+})
+
+const descriptionVariants = cva('text-sm leading-relaxed transition-colors duration-200', {
+  variants: {
+    intent: {
+      default: 'text-gray-600 dark:text-gray-400',
+      primary: 'text-blue-600 dark:text-blue-400',
+      success: 'text-green-600 dark:text-green-400',
+      warning: 'text-orange-600 dark:text-orange-400',
+      danger: 'text-red-600 dark:text-red-400',
+    },
+    disabled: {
+      true: 'text-gray-400 dark:text-gray-600',
+      false: '',
+    },
+  },
+})
+
+const checkboxClasses = twMerge(checkboxVariants({ size, intent, disabled }), additionalClasses)
+
+const labelClasses = labelVariants({ size, intent, disabled })
+const descriptionClasses = descriptionVariants({ intent, disabled })
+---
+
+<div class="flex items-start gap-3">
+  <div class="relative flex items-center">
+    <input
+      type="checkbox"
+      id={checkboxId}
+      name={name}
+      value={value}
+      checked={checked}
+      disabled={disabled}
+      required={required}
+      aria-describedby={descriptionId}
+      aria-invalid={intent === 'danger' ? 'true' : 'false'}
+      class={checkboxClasses}
+      {...rest}
+    />
+
+    <!-- Checkmark Icon -->
+    {
+      checked && !indeterminate && (
+        <svg
+          class={`pointer-events-none absolute inset-0 h-full w-full text-white ${size === 'small' ? 'p-0.5' : size === 'large' ? 'p-1' : 'p-0.5'}`}
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          aria-hidden="true"
+        >
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+        </svg>
+      )
+    }
+
+    <!-- Indeterminate Icon -->
+    {
+      indeterminate && (
+        <svg
+          class={`pointer-events-none absolute inset-0 h-full w-full text-white ${size === 'small' ? 'p-0.5' : size === 'large' ? 'p-1' : 'p-0.5'}`}
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          aria-hidden="true"
+        >
+          <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+        </svg>
+      )
+    }
+  </div>
+
+  {
+    (label || description) && (
+      <div class="flex flex-col gap-1">
+        {label && (
+          <label for={checkboxId} class={labelClasses}>
+            {label}
+            {required && (
+              <span class="ml-1 text-red-500" aria-label="required">
+                *
+              </span>
+            )}
+          </label>
+        )}
+
+        {description && (
+          <p id={descriptionId} class={descriptionClasses}>
+            {description}
+          </p>
+        )}
+      </div>
+    )
+  }
+</div>
+
+<script>
+  // Handle indeterminate state since it can't be set via HTML attribute
+  document.addEventListener('DOMContentLoaded', () => {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]')
+    checkboxes.forEach((checkbox) => {
+      const isIndeterminate = checkbox.closest('[data-indeterminate="true"]')
+      if (isIndeterminate) {
+        checkbox.indeterminate = true
+      }
+    })
+  })
+</script>

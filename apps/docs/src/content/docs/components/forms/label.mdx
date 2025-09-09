@@ -1,0 +1,340 @@
+---
+title: Label
+description: A form label component with proper association, required indicators, and accessibility features
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components'
+import Label from '../../../../../../../apps/cli/src/components/Label/label.astro'
+import Input from '../../../../../../../apps/cli/src/components/Input/input.astro'
+
+The Label component provides proper form field labeling with accessibility features, required indicators, and consistent typography for form elements.
+
+## Basic Usage
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <div class="space-y-4">
+        <Label for="basic-input">Username</Label>
+        <Input id="basic-input" placeholder="Enter your username" />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    ---
+    import Label from '@uicg/cli/components/Label/label.astro'
+    import Input from '@uicg/cli/components/Input/input.astro'
+    ---
+
+    <Label for="basic-input">Username</Label>
+    <Input id="basic-input" placeholder="Enter your username" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Required Fields
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <div class="space-y-4">
+        <Label for="required-input" required>Email Address</Label>
+        <Input id="required-input" type="email" placeholder="Enter your email" required />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Label for="required-input" required>Email Address</Label>
+    <Input id="required-input" type="email" placeholder="Enter your email" required />
+    ```
+  </TabItem>
+</Tabs>
+
+## Optional Fields
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <div class="space-y-4">
+        <Label for="optional-input" optional>Middle Name</Label>
+        <Input id="optional-input" placeholder="Enter your middle name" />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Label for="optional-input" optional>Middle Name</Label>
+    <Input id="optional-input" placeholder="Enter your middle name" />
+    ```
+  </TabItem>
+</Tabs>
+
+## With Description
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <div class="space-y-4">
+        <Label 
+          for="description-input" 
+          required
+          description="Choose a unique username that will be visible to other users"
+        >
+          Username
+        </Label>
+        <Input id="description-input" placeholder="Enter your username" />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Label 
+      for="description-input" 
+      required
+      description="Choose a unique username that will be visible to other users"
+    >
+      Username
+    </Label>
+    <Input id="description-input" placeholder="Enter your username" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Error State
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <div class="space-y-4">
+        <Label 
+          for="error-input" 
+          required
+          error="This username is already taken"
+        >
+          Username
+        </Label>
+        <Input id="error-input" placeholder="Enter your username" intent="danger" />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Label 
+      for="error-input" 
+      required
+      error="This username is already taken"
+    >
+      Username
+    </Label>
+    <Input id="error-input" placeholder="Enter your username" intent="danger" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Sizes
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900 space-y-6">
+      <div>
+        <Label size="small" for="small-input">Small Label</Label>
+        <Input id="small-input" size="small" placeholder="Small input" />
+      </div>
+      <div>
+        <Label size="medium" for="medium-input">Medium Label</Label>
+        <Input id="medium-input" size="medium" placeholder="Medium input" />
+      </div>
+      <div>
+        <Label size="large" for="large-input">Large Label</Label>
+        <Input id="large-input" size="large" placeholder="Large input" />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <!-- Small -->
+    <Label size="small" for="small-input">Small Label</Label>
+    <Input id="small-input" size="small" placeholder="Small input" />
+
+    <!-- Medium (default) -->
+    <Label size="medium" for="medium-input">Medium Label</Label>
+    <Input id="medium-input" size="medium" placeholder="Medium input" />
+
+    <!-- Large -->
+    <Label size="large" for="large-input">Large Label</Label>
+    <Input id="large-input" size="large" placeholder="Large input" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Font Weights
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900 space-y-4">
+      <div>
+        <Label weight="normal" for="normal-input">Normal Weight</Label>
+        <Input id="normal-input" placeholder="Normal weight label" />
+      </div>
+      <div>
+        <Label weight="medium" for="medium-weight-input">Medium Weight</Label>
+        <Input id="medium-weight-input" placeholder="Medium weight label" />
+      </div>
+      <div>
+        <Label weight="semibold" for="semibold-input">Semibold Weight</Label>
+        <Input id="semibold-input" placeholder="Semibold weight label" />
+      </div>
+      <div>
+        <Label weight="bold" for="bold-input">Bold Weight</Label>
+        <Input id="bold-input" placeholder="Bold weight label" />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Label weight="normal" for="normal-input">Normal Weight</Label>
+    <Label weight="medium" for="medium-input">Medium Weight</Label>
+    <Label weight="semibold" for="semibold-input">Semibold Weight</Label>
+    <Label weight="bold" for="bold-input">Bold Weight</Label>
+    ```
+  </TabItem>
+</Tabs>
+
+## Intent Variants
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900 space-y-4">
+      <div>
+        <Label intent="default" for="default-intent">Default Intent</Label>
+        <Input id="default-intent" placeholder="Default" />
+      </div>
+      <div>
+        <Label intent="muted" for="muted-intent">Muted Intent</Label>
+        <Input id="muted-intent" placeholder="Muted" />
+      </div>
+      <div>
+        <Label intent="success" for="success-intent">Success Intent</Label>
+        <Input id="success-intent" intent="success" placeholder="Success" />
+      </div>
+      <div>
+        <Label intent="error" for="error-intent">Error Intent</Label>
+        <Input id="error-intent" intent="danger" placeholder="Error" />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Label intent="default" for="default-intent">Default Intent</Label>
+    <Label intent="muted" for="muted-intent">Muted Intent</Label>
+    <Label intent="success" for="success-intent">Success Intent</Label>
+    <Label intent="error" for="error-intent">Error Intent</Label>
+    ```
+  </TabItem>
+</Tabs>
+
+## Accessibility
+
+The Label component follows WCAG 2.1 AA guidelines:
+
+- ✅ **Proper Association**: Uses `for` attribute to associate with form controls
+- ✅ **Required Indicators**: Clear visual and screen reader indication of required fields
+- ✅ **Error Messages**: Properly associated error messages with `aria-describedby`
+- ✅ **Screen Reader Support**: Error messages announced with `role="alert"` and `aria-live="polite"`
+- ✅ **Semantic Markup**: Uses native `<label>` element for maximum compatibility
+- ✅ **Focus Management**: Labels enhance focus behavior of associated inputs
+
+## Properties
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `for` | `string` | `undefined` | ID of the form control this label is associated with |
+| `required` | `boolean` | `false` | Shows a red asterisk (*) to indicate required field |
+| `optional` | `boolean` | `false` | Shows "(optional)" text for optional fields |
+| `description` | `string` | `undefined` | Helper text displayed below the label |
+| `error` | `string` | `undefined` | Error message displayed below the label |
+| `size` | `"small" \| "medium" \| "large"` | `"medium"` | Size of the label text |
+| `weight` | `"normal" \| "medium" \| "semibold" \| "bold"` | `"medium"` | Font weight of the label |
+| `intent` | `"default" \| "muted" \| "error" \| "success"` | `"default"` | Visual style variant |
+| `class` | `string` | `undefined` | Additional CSS classes |
+
+## Features
+
+### Form Association
+The Label component automatically associates with form controls using the `for` attribute, improving accessibility and user experience.
+
+### Required Field Indicators
+When `required={true}` is set, a red asterisk (*) is displayed and announced to screen readers as "required".
+
+### Optional Field Indicators
+When `optional={true}` is set, "(optional)" text is displayed to clarify that the field is not required.
+
+### Error Integration
+Error messages are properly associated with the label using `aria-describedby` and announced to screen readers with appropriate ARIA attributes.
+
+### Description Support
+Helper text can be provided to give users additional context about what to enter in the associated form field.
+
+## Examples
+
+### Complete Form Field
+
+```astro
+---
+import Label from '@uicg/cli/components/Label/label.astro'
+import Input from '@uicg/cli/components/Input/input.astro'
+---
+
+<div class="space-y-2">
+  <Label 
+    for="email-field"
+    required
+    description="We'll never share your email with anyone else"
+  >
+    Email Address
+  </Label>
+  <Input 
+    id="email-field"
+    type="email" 
+    placeholder="Enter your email"
+    required
+  />
+</div>
+```
+
+### Form with Validation
+
+```astro
+---
+import Label from '@uicg/cli/components/Label/label.astro'
+import Input from '@uicg/cli/components/Input/input.astro'
+---
+
+<form>
+  <div class="space-y-4">
+    <div>
+      <Label 
+        for="username"
+        required
+        error={errors.username}
+        description="Must be 3-20 characters long"
+      >
+        Username
+      </Label>
+      <Input 
+        id="username"
+        name="username"
+        intent={errors.username ? 'danger' : 'default'}
+        required
+      />
+    </div>
+    
+    <div>
+      <Label for="bio" optional>Biography</Label>
+      <Textarea id="bio" name="bio" rows={4} />
+    </div>
+  </div>
+</form>
+```

@@ -1,0 +1,531 @@
+---
+title: Textarea
+description: A multi-line text input component with auto-resize, character counting, and advanced features
+---
+
+import Textarea from '../../../../../../../apps/cli/src/components/Textarea/textarea.astro'
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The Textarea component provides a flexible multi-line text input with advanced features like auto-resize functionality, character counting, and customizable resize controls.
+
+## Basic Usage
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <Textarea 
+        placeholder="Enter your message..."
+        rows={4}
+      />
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    ---
+    import Textarea from '@uicg/cli/components/Textarea/textarea.astro'
+    ---
+
+    <Textarea 
+      placeholder="Enter your message..."
+      rows={4}
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## With Label and Description
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <Textarea 
+        label="Message"
+        description="Please provide detailed information"
+        placeholder="Type your message here..."
+        rows={4}
+      />
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Textarea 
+      label="Message"
+      description="Please provide detailed information"
+      placeholder="Type your message here..."
+      rows={4}
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Sizes
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="border rounded-lg p-6 bg-white dark:bg-gray-900 space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">Small</label>
+        <Textarea 
+          size="small" 
+          placeholder="Small textarea"
+          rows={3}
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Medium</label>
+        <Textarea 
+          size="medium" 
+          placeholder="Medium textarea"
+          rows={4}
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Large</label>
+        <Textarea 
+          size="large" 
+          placeholder="Large textarea"
+          rows={5}
+        />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <!-- Small -->
+    <Textarea 
+      size="small" 
+      placeholder="Small textarea"
+      rows={3}
+    />
+
+    <!-- Medium (default) -->
+    <Textarea 
+      size="medium" 
+      placeholder="Medium textarea"
+      rows={4}
+    />
+
+    <!-- Large -->
+    <Textarea 
+      size="large" 
+      placeholder="Large textarea"
+      rows={5}
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Intent Variants
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="border rounded-lg p-6 bg-white dark:bg-gray-900 space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">Default</label>
+        <Textarea 
+          intent="default" 
+          placeholder="Default textarea"
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Primary</label>
+        <Textarea 
+          intent="primary" 
+          placeholder="Primary textarea"
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Success</label>
+        <Textarea 
+          intent="success" 
+          placeholder="Success textarea"
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Warning</label>
+        <Textarea 
+          intent="warning" 
+          placeholder="Warning textarea"
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Danger</label>
+        <Textarea 
+          intent="danger" 
+          placeholder="Danger textarea"
+        />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <!-- Default -->
+    <Textarea 
+      intent="default" 
+      placeholder="Default textarea"
+    />
+
+    <!-- Primary -->
+    <Textarea 
+      intent="primary" 
+      placeholder="Primary textarea"
+    />
+
+    <!-- Success -->
+    <Textarea 
+      intent="success" 
+      placeholder="Success textarea"
+    />
+
+    <!-- Warning -->
+    <Textarea 
+      intent="warning" 
+      placeholder="Warning textarea"
+    />
+
+    <!-- Danger -->
+    <Textarea 
+      intent="danger" 
+      placeholder="Danger textarea"
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Auto-Resize
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <Textarea 
+        label="Auto-Resizing Textarea"
+        description="This textarea will automatically adjust its height as you type"
+        placeholder="Start typing and watch the textarea grow..."
+        autoResize={true}
+        rows={2}
+      />
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Textarea 
+      label="Auto-Resizing Textarea"
+      description="This textarea will automatically adjust its height as you type"
+      placeholder="Start typing and watch the textarea grow..."
+      autoResize={true}
+      rows={2}
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Character Count
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <Textarea 
+        label="Message with Character Count"
+        placeholder="Type your message..."
+        maxLength={200}
+        showCharacterCount={true}
+        rows={4}
+      />
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Textarea 
+      label="Message with Character Count"
+      placeholder="Type your message..."
+      maxLength={200}
+      showCharacterCount={true}
+      rows={4}
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Resize Controls
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="border rounded-lg p-6 bg-white dark:bg-gray-900 space-y-4">
+      <div>
+        <Textarea 
+          resize="none"
+          label="No Resize"
+          placeholder="This textarea cannot be resized"
+        />
+      </div>
+      <div>
+        <Textarea 
+          resize="vertical"
+          label="Vertical Resize"
+          placeholder="This textarea can only be resized vertically"
+        />
+      </div>
+      <div>
+        <Textarea 
+          resize="horizontal"
+          label="Horizontal Resize"
+          placeholder="This textarea can only be resized horizontally"
+        />
+      </div>
+      <div>
+        <Textarea 
+          resize="both"
+          label="Both Directions"
+          placeholder="This textarea can be resized in both directions"
+        />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <!-- No resize -->
+    <Textarea 
+      resize="none"
+      label="No Resize"
+      placeholder="This textarea cannot be resized"
+    />
+
+    <!-- Vertical resize only -->
+    <Textarea 
+      resize="vertical"
+      label="Vertical Resize"
+      placeholder="This textarea can only be resized vertically"
+    />
+
+    <!-- Horizontal resize only -->
+    <Textarea 
+      resize="horizontal"
+      label="Horizontal Resize"
+      placeholder="This textarea can only be resized horizontally"
+    />
+
+    <!-- Both directions -->
+    <Textarea 
+      resize="both"
+      label="Both Directions"
+      placeholder="This textarea can be resized in both directions"
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Disabled and Readonly States
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="border rounded-lg p-6 bg-white dark:bg-gray-900 space-y-4">
+      <div>
+        <Textarea 
+          disabled={true}
+          label="Disabled Textarea"
+          placeholder="This textarea is disabled"
+          value="Cannot be edited"
+        />
+      </div>
+      <div>
+        <Textarea 
+          readonly={true}
+          label="Readonly Textarea"
+          placeholder="This textarea is readonly"
+          value="This content is readonly"
+        />
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <!-- Disabled -->
+    <Textarea 
+      disabled={true}
+      label="Disabled Textarea"
+      placeholder="This textarea is disabled"
+      value="Cannot be edited"
+    />
+
+    <!-- Readonly -->
+    <Textarea 
+      readonly={true}
+      label="Readonly Textarea"
+      placeholder="This textarea is readonly"
+      value="This content is readonly"
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Error State
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <Textarea 
+        label="Required Field"
+        placeholder="Please enter a description"
+        error="This field is required"
+        required={true}
+        rows={4}
+      />
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Textarea 
+      label="Required Field"
+      placeholder="Please enter a description"
+      error="This field is required"
+      required={true}
+      rows={4}
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Advanced Example
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <Textarea 
+        label="Project Description"
+        description="Provide a detailed description of your project"
+        placeholder="Describe your project goals, timeline, and requirements..."
+        autoResize={true}
+        maxLength={500}
+        showCharacterCount={true}
+        required={true}
+        rows={3}
+        name="project_description"
+      />
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Textarea 
+      label="Project Description"
+      description="Provide a detailed description of your project"
+      placeholder="Describe your project goals, timeline, and requirements..."
+      autoResize={true}
+      maxLength={500}
+      showCharacterCount={true}
+      required={true}
+      rows={3}
+      name="project_description"
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Accessibility
+
+The Textarea component follows WCAG 2.1 AA guidelines:
+
+- ✅ **Keyboard Navigation**: Full keyboard support for all interactions
+- ✅ **Screen Reader Support**: Proper labeling and descriptions
+- ✅ **Focus Management**: Clear focus indicators and logical tab order
+- ✅ **Error Handling**: Accessible error messages with `aria-invalid`
+- ✅ **Required Fields**: Clear indication of required fields
+- ✅ **Character Count**: Accessible character count updates
+
+## Properties
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `placeholder` | `string` | `undefined` | Placeholder text |
+| `value` | `string` | `""` | Current value |
+| `disabled` | `boolean` | `false` | Whether the textarea is disabled |
+| `readonly` | `boolean` | `false` | Whether the textarea is readonly |
+| `required` | `boolean` | `false` | Whether the textarea is required |
+| `rows` | `number` | `4` | Number of visible text lines |
+| `cols` | `number` | `undefined` | Number of visible character widths |
+| `maxLength` | `number` | `undefined` | Maximum number of characters allowed |
+| `minLength` | `number` | `undefined` | Minimum number of characters required |
+| `autoResize` | `boolean` | `false` | Enable auto-resize functionality |
+| `resize` | `"none" \| "vertical" \| "horizontal" \| "both"` | `"vertical"` | Resize control options |
+| `size` | `"small" \| "medium" \| "large"` | `"medium"` | Size of the textarea |
+| `intent` | `"default" \| "primary" \| "success" \| "warning" \| "danger"` | `"default"` | Visual style variant |
+| `label` | `string` | `undefined` | Label text |
+| `description` | `string` | `undefined` | Helper text |
+| `error` | `string` | `undefined` | Error message |
+| `showCharacterCount` | `boolean` | `false` | Show character count display |
+| `class` | `string` | `undefined` | Additional CSS classes |
+| `name` | `string` | `undefined` | Name attribute for form submission |
+
+## Features
+
+### Auto-Resize
+When `autoResize` is enabled, the textarea automatically adjusts its height based on content:
+- Grows as content is added
+- Shrinks when content is removed
+- Maintains minimum height based on `rows` attribute
+- Handles paste events and window resizing
+
+### Character Count
+When `showCharacterCount` is enabled with `maxLength`:
+- Displays current character count
+- Shows warning colors when approaching limit (75% = yellow, 90% = red)
+- Updates in real-time as user types
+- Provides accessible feedback for screen readers
+
+### Resize Controls
+Fine-tune user resize capabilities:
+- `none`: Prevents manual resizing
+- `vertical`: Allows vertical resizing only (default)
+- `horizontal`: Allows horizontal resizing only
+- `both`: Allows resizing in both directions
+
+## Examples
+
+### Contact Form
+
+```astro
+---
+import Textarea from '@uicg/cli/components/Textarea/textarea.astro'
+---
+
+<form>
+  <Textarea
+    name="message"
+    label="Your Message"
+    description="Please provide details about your inquiry"
+    placeholder="Tell us how we can help you..."
+    required={true}
+    autoResize={true}
+    maxLength={1000}
+    showCharacterCount={true}
+    rows={4}
+  />
+</form>
+```
+
+### Feedback Form
+
+```astro
+<Textarea
+  name="feedback"
+  label="Feedback"
+  description="Share your thoughts and suggestions"
+  placeholder="What did you think of our service?"
+  autoResize={true}
+  resize="none"
+  rows={3}
+/>
+```
+
+### Code Input
+
+```astro
+<Textarea
+  name="code"
+  label="Code Snippet"
+  placeholder="Paste your code here..."
+  resize="both"
+  rows={10}
+  cols={60}
+  style="font-family: 'Courier New', monospace;"
+/>
+```

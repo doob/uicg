@@ -1,0 +1,248 @@
+---
+title: Radio Group
+description: A radio group component for single-selection choices with keyboard navigation and accessibility features.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import RadioGroup from '../../../../../../../apps/cli/src/components/RadioGroup/radio-group.astro';
+import RadioItem from '../../../../../../../apps/cli/src/components/RadioGroup/radio-item.astro';
+import Fieldset from '../../../../../../../apps/cli/src/components/Fieldset/Fieldset.astro';
+
+## Basic Usage
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900 space-y-6">
+      <RadioGroup name="notifications" legend="Notifications" description="How do you prefer to receive notifications?">
+        <RadioItem name="notifications" value="email" checked label="Email" />
+        <RadioItem name="notifications" value="sms" label="Phone (SMS)" />
+        <RadioItem name="notifications" value="push" label="Push notification" />
+      </RadioGroup>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    ---
+    import RadioGroup from '@uicg/cli/components/RadioGroup/radio-group.astro'
+    import RadioItem from '@uicg/cli/components/RadioGroup/radio-item.astro'
+    ---
+
+    <RadioGroup name="notifications" legend="Notifications" description="How do you prefer to receive notifications?">
+      <RadioItem name="notifications" value="email" checked label="Email" />
+      <RadioItem name="notifications" value="sms" label="Phone (SMS)" />
+      <RadioItem name="notifications" value="push" label="Push notification" />
+    </RadioGroup>
+    ```
+  </TabItem>
+</Tabs>
+
+## Sizes
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900 space-y-6">
+      <RadioGroup name="small-demo" size="small" legend="Small Radio Group">
+        <RadioItem name="small-demo" size="small" value="option1" checked label="Compact option" />
+        <RadioItem name="small-demo" size="small" value="option2" label="Another option" />
+      </RadioGroup>
+      <RadioGroup name="medium-demo" size="medium" legend="Medium Radio Group">
+        <RadioItem name="medium-demo" size="medium" value="option1" checked label="Standard option" />
+        <RadioItem name="medium-demo" size="medium" value="option2" label="Another option" />
+      </RadioGroup>
+      <RadioGroup name="large-demo" size="large" legend="Large Radio Group">
+        <RadioItem name="large-demo" size="large" value="option1" checked label="Prominent option" />
+        <RadioItem name="large-demo" size="large" value="option2" label="Another option" />
+      </RadioGroup>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <RadioGroup name="small-demo" size="small" legend="Small Radio Group">
+      <RadioItem name="small-demo" size="small" value="option1" checked label="Compact option" />
+      <RadioItem name="small-demo" size="small" value="option2" label="Another option" />
+    </RadioGroup>
+
+    <RadioGroup name="medium-demo" size="medium" legend="Medium Radio Group">
+      <RadioItem name="medium-demo" size="medium" value="option1" checked label="Standard option" />
+      <RadioItem name="medium-demo" size="medium" value="option2" label="Another option" />
+    </RadioGroup>
+
+    <RadioGroup name="large-demo" size="large" legend="Large Radio Group">
+      <RadioItem name="large-demo" size="large" value="option1" checked label="Prominent option" />
+      <RadioItem name="large-demo" size="large" value="option2" label="Another option" />
+    </RadioGroup>
+    ```
+  </TabItem>
+</Tabs>
+
+## Orientation
+
+<div class="not-content space-y-8">
+  <RadioGroup name="vertical-demo" orientation="vertical" legend="Vertical Layout"> <RadioItem name="vertical-demo" value="option1" checked label="First option" /> <RadioItem name="vertical-demo" value="option2" label="Second option" /> <RadioItem name="vertical-demo" value="option3" label="Third option" /> </RadioGroup>
+
+  <RadioGroup name="horizontal-demo" orientation="horizontal" legend="Horizontal Layout"> <RadioItem name="horizontal-demo" value="option1" checked label="First" /> <RadioItem name="horizontal-demo" value="option2" label="Second" /> <RadioItem name="horizontal-demo" value="option3" label="Third" /> </RadioGroup>
+</div>
+
+## States
+
+<div class="not-content space-y-8">
+  <RadioGroup name="required-demo" required legend="Required Selection" description="You must choose one option to continue"> <RadioItem name="required-demo" value="option1" label="Required option 1" /> <RadioItem name="required-demo" value="option2" label="Required option 2" /> </RadioGroup>
+
+  <RadioGroup name="disabled-demo" disabled legend="Disabled Radio Group" description="This entire group cannot be interacted with"> <RadioItem name="disabled-demo" value="option1" checked label="Disabled checked" /> <RadioItem name="disabled-demo" value="option2" label="Disabled unchecked" /> </RadioGroup>
+
+  <RadioGroup name="mixed-demo" legend="Mixed States"> <RadioItem name="mixed-demo" value="option1" checked label="Available option" description="You can select this" /> <RadioItem name="mixed-demo" value="option2" disabled label="Disabled option" description="This option is not available" /> <RadioItem name="mixed-demo" value="option3" label="Another available option" description="Also selectable" /> </RadioGroup>
+</div>
+
+## Form Integration
+
+<div class="not-content space-y-8">
+  <Fieldset legend="Account Settings" description="Configure your account preferences">
+    <div class="space-y-6">
+      <RadioGroup name="account-type" legend="Account Type" description="Choose your account level"> <RadioItem name="account-type" value="personal" checked label="Personal Account" description="For individual use" /> <RadioItem name="account-type" value="business" label="Business Account" description="For teams and organizations" /> <RadioItem name="account-type" value="enterprise" label="Enterprise Account" description="Advanced features and support" /> </RadioGroup>
+      
+      <RadioGroup name="billing" legend="Billing Frequency"> <RadioItem name="billing" value="monthly" label="Monthly" description="$29/month - Pay as you go" /> <RadioItem name="billing" value="yearly" checked label="Yearly" description="$290/year - Save 20%" /> </RadioGroup>
+    </div>
+  </Fieldset>
+
+  <Fieldset intent="warning" legend="Data Privacy" description="Choose your privacy settings carefully">
+    <RadioGroup name="privacy" legend="Data Sharing Level"> <RadioItem name="privacy" value="minimal" checked label="Minimal Sharing" description="Only essential data is shared" /> <RadioItem name="privacy" value="standard" label="Standard Sharing" description="Anonymized analytics and usage data" /> <RadioItem name="privacy" value="full" label="Full Sharing" description="All data for personalization" /> </RadioGroup>
+  </Fieldset>
+</div>
+
+## Properties
+
+### RadioGroup
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `name` | `string` | - | **Required.** Name attribute for all radio inputs in the group |
+| `value` | `string` | - | Currently selected value |
+| `disabled` | `boolean` | `false` | Whether the entire radio group is disabled |
+| `required` | `boolean` | `false` | Whether a selection is required |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Size variant affecting all radio items |
+| `legend` | `string` | - | Legend text for the radio group |
+| `description` | `string` | - | Description text below the legend |
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | Layout direction of radio items |
+| `class` | `string` | - | Additional CSS classes to apply |
+
+### RadioItem
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `value` | `string` | - | **Required.** Value for this radio option |
+| `checked` | `boolean` | `false` | Whether this radio is selected |
+| `disabled` | `boolean` | `false` | Whether this specific radio is disabled |
+| `required` | `boolean` | `false` | Whether this radio is required (inherited from group) |
+| `label` | `string` | - | Label text for the radio option |
+| `description` | `string` | - | Description text below the label |
+| `name` | `string` | - | Name attribute (should match RadioGroup) |
+| `id` | `string` | auto-generated | Unique identifier for the radio |
+| `class` | `string` | - | Additional CSS classes to apply |
+
+## Accessibility
+
+The RadioGroup component follows WCAG 2.1 AA guidelines:
+
+### Screen Reader Support
+- **Semantic HTML**: Uses `<fieldset>` and `<legend>` for proper grouping
+- **Radio Group Role**: ARIA `radiogroup` role for assistive technology
+- **Label Association**: Proper `for` attribute linking labels to inputs
+- **Description Support**: Uses `aria-describedby` for additional context
+- **State Announcement**: Screen readers announce selection changes
+
+### Keyboard Navigation
+- **Arrow Keys**: Navigate between radio options (Up/Down, Left/Right)
+- **Tab Navigation**: Focus enters and exits the radio group
+- **Space/Enter**: Select the focused radio option
+- **Focus Management**: Only one radio in the group is focusable at a time
+
+### Visual Accessibility
+- **High Contrast**: Meets WCAG contrast requirements in all variants
+- **Focus Indicators**: Clear visual focus rings for keyboard users
+- **Touch Targets**: Minimum 44x44px touch target size (large variant)
+- **Color Independence**: Selection state indicated by visual dot, not just color
+
+### Group Management
+- **Single Selection**: Enforces only one selection per group
+- **Required Groups**: Proper validation and error communication
+- **Disabled States**: Individual items or entire groups can be disabled
+
+## Examples
+
+### Plan Selection
+
+<div class="not-content">
+  <RadioGroup name="plan-selection" legend="Choose Your Plan" description="Select the subscription that works best for you"> <RadioItem name="plan-selection" value="starter" label="Starter" description="$9/month - Perfect for individuals" /> <RadioItem name="plan-selection" value="professional" checked label="Professional" description="$29/month - Best for small teams" /> <RadioItem name="plan-selection" value="enterprise" label="Enterprise" description="$99/month - Advanced features" /> </RadioGroup>
+</div>
+
+### Payment Method
+
+<div class="not-content">
+  <RadioGroup name="payment" legend="Payment Method" orientation="horizontal"> <RadioItem name="payment" value="card" checked label="Credit Card" /> <RadioItem name="payment" value="paypal" label="PayPal" /> <RadioItem name="payment" value="bank" label="Bank Transfer" /> </RadioGroup>
+</div>
+
+### Survey Question
+
+<div class="not-content">
+  <RadioGroup name="satisfaction" legend="How satisfied are you with our service?" required> <RadioItem name="satisfaction" value="very-satisfied" label="Very Satisfied" /> <RadioItem name="satisfaction" value="satisfied" label="Satisfied" /> <RadioItem name="satisfaction" value="neutral" label="Neutral" /> <RadioItem name="satisfaction" value="dissatisfied" label="Dissatisfied" /> <RadioItem name="satisfaction" value="very-dissatisfied" label="Very Dissatisfied" /> </RadioGroup>
+</div>
+
+### Confirmation Dialog
+
+<div class="not-content">
+  <RadioGroup name="confirmation" legend="Are you sure you want to delete this item?" required> <RadioItem name="confirmation" value="yes" label="Yes, delete it" description="This action cannot be undone" /> <RadioItem name="confirmation" value="no" checked label="No, keep it" description="Cancel the deletion" /> </RadioGroup>
+</div>
+
+```astro
+<!-- Basic Usage -->
+<RadioGroup name="options" legend="Choose an option">
+  <RadioItem value="option1" label="First Option" />
+  <RadioItem value="option2" label="Second Option" />
+</RadioGroup>
+
+<!-- With Descriptions -->
+<RadioGroup name="plan" legend="Select Plan" description="Choose your subscription">
+  <RadioItem 
+    value="basic" 
+    label="Basic Plan" 
+    description="$9/month - For individuals"
+  />
+  <RadioItem 
+    value="pro" 
+    checked 
+    label="Pro Plan" 
+    description="$29/month - For teams"
+  />
+</RadioGroup>
+
+<!-- Different Intent and Size -->
+<RadioGroup 
+  name="theme" 
+  intent="primary" 
+  size="large"
+  legend="Theme Preference"
+  orientation="horizontal"
+>
+  <RadioItem value="light" label="Light" />
+  <RadioItem value="dark" checked label="Dark" />
+  <RadioItem value="auto" label="Auto" />
+</RadioGroup>
+
+<!-- Required with Validation -->
+<RadioGroup 
+  name="terms" 
+  intent="danger"
+  required
+  legend="Terms Agreement"
+>
+  <RadioItem 
+    value="accept" 
+    label="I accept the terms" 
+    description="Required to continue"
+  />
+  <RadioItem 
+    value="decline" 
+    label="I decline the terms"
+  />
+</RadioGroup>
+```

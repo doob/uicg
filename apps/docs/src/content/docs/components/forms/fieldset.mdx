@@ -3,35 +3,77 @@ title: Fieldset
 description: A flexible fieldset component for grouping related form controls with modern styling and accessibility features.
 ---
 
-import Fieldset from '../../../../../cli/src/components/Fieldset/Fieldset.astro';
-import Input from '../../../../../cli/src/components/Input/input.astro';
-import Button from '../../../../../cli/src/components/Button/button.astro';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Fieldset from '../../../../../../../apps/cli/src/components/Fieldset/Fieldset.astro';
+import Input from '../../../../../../../apps/cli/src/components/Input/input.astro';
+import Button from '../../../../../../../apps/cli/src/components/Button/button.astro';
 
-## Preview
+## Basic Usage
 
-<div class="not-content space-y-8">
-  <Fieldset legend="Personal Information" description="Please provide your basic contact details."> <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> <Input label="First Name" placeholder="Enter your first name" required /> <Input label="Last Name" placeholder="Enter your last name" required /> <Input type="email" label="Email" placeholder="your.email@example.com" required /> <Input type="tel" label="Phone" placeholder="+1 (555) 123-4567" /> </div> </Fieldset>
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <Fieldset legend="Personal Information" description="Please provide your basic contact details.">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Input label="First Name" placeholder="Enter your first name" required />
+          <Input label="Last Name" placeholder="Enter your last name" required />
+          <Input type="email" label="Email" placeholder="your.email@example.com" required />
+          <Input type="tel" label="Phone" placeholder="+1 (555) 123-4567" />
+        </div>
+      </Fieldset>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    ---
+    import Fieldset from '@uicg/cli/components/Fieldset/Fieldset.astro'
+    import Input from '@uicg/cli/components/Input/input.astro'
+    ---
 
-  <Fieldset intent="primary" legend="Preferences" size="large" background> <div class="space-y-4"> <Input label="Preferred Language" placeholder="Select your language" /> <Input label="Time Zone" placeholder="Select your timezone" /> <Input type="textarea" label="Bio" placeholder="Tell us about yourself..." rows="3" /> </div> </Fieldset>
-
-  <Fieldset intent="warning" legend="Security Settings" required description="These settings affect your account security."> <div class="space-y-4"> <Input type="password" label="Current Password" placeholder="Enter current password" required /> <Input type="password" label="New Password" placeholder="Enter new password" required /> <Input type="password" label="Confirm Password" placeholder="Confirm new password" required /> </div> </Fieldset>
-
-  <Fieldset intent="danger" legend="Dangerous Actions" description="These actions cannot be undone." size="small"> <div class="space-y-4"> <Input label="Type 'DELETE' to confirm" placeholder="DELETE" /> <Button intent="danger" variant="outline">Delete Account</Button> </div> </Fieldset>
-</div>
+    <Fieldset legend="Personal Information" description="Please provide your basic contact details.">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Input label="First Name" placeholder="Enter your first name" required />
+        <Input label="Last Name" placeholder="Enter your last name" required />
+        <Input type="email" label="Email" placeholder="your.email@example.com" required />
+        <Input type="tel" label="Phone" placeholder="+1 (555) 123-4567" />
+      </div>
+    </Fieldset>
+    ```
+  </TabItem>
+</Tabs>
 
 ## Intent Variants
 
-<div class="not-content space-y-6">
-  <Fieldset intent="default" legend="Default Fieldset"> <Input label="Default input" placeholder="Default styling" /> </Fieldset>
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900 space-y-4">
+      <Fieldset intent="default" legend="Default Fieldset">
+        <Input label="Default input" placeholder="Default styling" />
+      </Fieldset>
+      <Fieldset intent="primary" legend="Primary Fieldset">
+        <Input label="Primary input" placeholder="Primary styling" />
+      </Fieldset>
+      <Fieldset intent="success" legend="Success Fieldset">
+        <Input label="Success input" placeholder="Success styling" />
+      </Fieldset>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Fieldset intent="default" legend="Default Fieldset">
+      <Input label="Default input" placeholder="Default styling" />
+    </Fieldset>
 
-  <Fieldset intent="primary" legend="Primary Fieldset"> <Input label="Primary input" placeholder="Primary styling" /> </Fieldset>
+    <Fieldset intent="primary" legend="Primary Fieldset">
+      <Input label="Primary input" placeholder="Primary styling" />
+    </Fieldset>
 
-  <Fieldset intent="success" legend="Success Fieldset"> <Input label="Success input" placeholder="Success styling" /> </Fieldset>
-
-  <Fieldset intent="warning" legend="Warning Fieldset"> <Input label="Warning input" placeholder="Warning styling" /> </Fieldset>
-
-  <Fieldset intent="danger" legend="Danger Fieldset"> <Input label="Danger input" placeholder="Danger styling" /> </Fieldset>
-</div>
+    <Fieldset intent="success" legend="Success Fieldset">
+      <Input label="Success input" placeholder="Success styling" />
+    </Fieldset>
+    ```
+  </TabItem>
+</Tabs>
 
 ## Sizes
 

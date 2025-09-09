@@ -17,28 +17,61 @@ export default defineConfig({
       },
       sidebar: [
         {
-          label: 'Components',
-          autogenerate: {
-            directory: 'components',
-          },
+          label: 'Forms',
+          collapsed: false,
+          items: [
+            { label: 'Overview', link: '/components/forms/' },
+            { label: 'Button', link: '/components/forms/button/' },
+            { label: 'Checkbox', link: '/components/forms/checkbox/' },
+            { label: 'Fieldset', link: '/components/forms/fieldset/' },
+            { label: 'Input', link: '/components/forms/input/' },
+            { label: 'Label', link: '/components/forms/label/' },
+            { label: 'Radio Group', link: '/components/forms/radio-group/' },
+            { label: 'Select', link: '/components/forms/select/' },
+            { label: 'Switch', link: '/components/forms/switch/' },
+            { label: 'Textarea', link: '/components/forms/textarea/' },
+          ],
         },
         {
-          label: 'Composed components',
+          label: 'Data Display',
+          collapsed: false,
+          items: [
+            { label: 'Overview', link: '/components/data-display/' },
+            { label: 'Accordion', link: '/components/data-display/accordion/' },
+            { label: 'Tabs', link: '/components/data-display/tabs/' },
+          ],
+        },
+        {
+          label: 'Feedback',
+          collapsed: false,
+          items: [
+            { label: 'Overview', link: '/components/feedback/' },
+            { label: 'Alert', link: '/components/feedback/alert/' },
+          ],
+        },
+        {
+          label: 'Layout',
+          collapsed: false,
+          items: [
+            { label: 'Overview', link: '/components/layout/' },
+            { label: 'Hero', link: '/components/layout/hero/' },
+            { label: 'Sidebar', link: '/components/layout/sidebar/' },
+          ],
+        },
+        {
+          label: 'Overlays',
+          collapsed: false,
+          items: [
+            { label: 'Overview', link: '/components/overlays/' },
+            { label: 'Modal', link: '/components/overlays/modal/' },
+          ],
+        },
+        {
+          label: 'Composed Components',
           autogenerate: {
             directory: 'composed_components',
           },
         },
-        // {
-        //   label: "Guides",
-        //   items: [
-        //     // Each item here is one entry in the navigation menu.
-        //     { label: "Example Guide", link: "/guides/example/" },
-        //   ],
-        // },
-        // {
-        //   label: "Reference",
-        //   autogenerate: { directory: "reference" },
-        // },
       ],
       customCss: ['./src/tailwind.css'],
     }),

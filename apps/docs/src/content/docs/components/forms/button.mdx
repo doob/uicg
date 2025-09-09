@@ -1,0 +1,389 @@
+---
+title: Button
+description: A versatile button component with multiple variants, states, and accessibility features
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components'
+import Button from '../../../../../../../apps/cli/src/components/Button/button.astro'
+
+The Button component provides a comprehensive solution for user interactions with multiple variants, loading states, icon support, and full accessibility compliance.
+
+## Basic Usage
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <div class="flex gap-4 flex-wrap">
+        <Button>Default</Button>
+        <Button intent="primary">Primary</Button>
+        <Button intent="success">Success</Button>
+        <Button intent="danger">Danger</Button>
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Button>Default</Button>
+    <Button intent="primary">Primary</Button>
+    <Button intent="success">Success</Button>
+    <Button intent="danger">Danger</Button>
+    ```
+  </TabItem>
+</Tabs>
+
+## Variants
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="rounded-lg p-6 bg-white dark:bg-gray-900 space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-3">Contained (Default)</label>
+        <div class="flex gap-4 flex-wrap">
+          <Button intent="primary" variant="contained">Contained</Button>
+          <Button intent="success" variant="contained">Success</Button>
+          <Button intent="danger" variant="contained">Danger</Button>
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-3">Outlined</label>
+        <div class="flex gap-4 flex-wrap">
+          <Button intent="primary" variant="outlined">Outlined</Button>
+          <Button intent="success" variant="outlined">Success</Button>
+          <Button intent="danger" variant="outlined">Danger</Button>
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-3">Text</label>
+        <div class="flex gap-4 flex-wrap">
+          <Button intent="primary" variant="text">Text</Button>
+          <Button intent="success" variant="text">Success</Button>
+          <Button intent="danger" variant="text">Danger</Button>
+        </div>
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <!-- Contained (Default) -->
+    <Button intent="primary" variant="contained">Contained</Button>
+    <Button intent="success" variant="contained">Success</Button>
+    <Button intent="danger" variant="contained">Danger</Button>
+
+    <!-- Outlined -->
+    <Button intent="primary" variant="outlined">Outlined</Button>
+    <Button intent="success" variant="outlined">Success</Button>
+    <Button intent="danger" variant="outlined">Danger</Button>
+
+    <!-- Text -->
+    <Button intent="primary" variant="text">Text</Button>
+    <Button intent="success" variant="text">Success</Button>
+    <Button intent="danger" variant="text">Danger</Button>
+    ```
+  </TabItem>
+</Tabs>
+
+## Sizes
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <div class="flex gap-4 items-center flex-wrap">
+        <Button size="small" intent="primary">Small</Button>
+        <Button size="medium" intent="primary">Medium</Button>
+        <Button size="large" intent="primary">Large</Button>
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Button size="small" intent="primary">Small</Button>
+    <Button size="medium" intent="primary">Medium</Button>
+    <Button size="large" intent="primary">Large</Button>
+    ```
+  </TabItem>
+</Tabs>
+
+## Loading State
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <div class="flex gap-4 flex-wrap">
+        <Button loading={true}>Loading</Button>
+        <Button intent="primary" loading={true}>Primary Loading</Button>
+        <Button intent="success" loading={true} data-loading-text="Saving your changes...">Save Document</Button>
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Button loading={true}>Loading</Button>
+    <Button intent="primary" loading={true}>Primary Loading</Button>
+    <Button intent="success" loading={true} data-loading-text="Saving your changes...">
+      Save Document
+    </Button>
+    ```
+  </TabItem>
+</Tabs>
+
+## Icon Support
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="border rounded-lg p-6 bg-white dark:bg-gray-900 space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-3">Icon Slots (Recommended)</label>
+        <div class="flex gap-4 flex-wrap">
+          <Button intent="primary">
+            <svg slot="icon-left" class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+            Add Item
+          </Button>
+          <Button intent="success" iconPosition="right">
+            Next Step
+            <svg slot="icon-right" class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            </svg>
+          </Button>
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-3">Default Slot (Legacy)</label>
+        <div class="flex gap-4 flex-wrap">
+          <Button intent="success">
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12,21h0a9,9,0,0,1-9-9H3a9,9,0,0,1,9-9h0a9,9,0,0,1,9,9h0A9,9,0,0,1,12,21ZM8,11.5l3,3,5-5" style="fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5;" />
+            </svg>
+            Got it
+          </Button>
+        </div>
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <!-- Icon Slots (Recommended) -->
+    <Button intent="primary">
+      <svg slot="icon-left" class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+      </svg>
+      Add Item
+    </Button>
+
+    <Button intent="success" iconPosition="right">
+      Next Step
+      <svg slot="icon-right" class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+      </svg>
+    </Button>
+
+    <!-- Default Slot (Legacy Support) -->
+    <Button intent="success">
+      <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12,21h0a9,9,0,0,1-9-9H3a9,9,0,0,1,9-9h0a9,9,0,0,1,9,9h0A9,9,0,0,1,12,21ZM8,11.5l3,3,5-5" style="fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5;" />
+      </svg>
+      Got it
+    </Button>
+    ```
+  </TabItem>
+</Tabs>
+
+## Disabled State
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <div class="flex gap-4 flex-wrap">
+        <Button disabled={true}>Disabled</Button>
+        <Button intent="primary" disabled={true}>Primary Disabled</Button>
+        <Button intent="danger" variant="outlined" disabled={true}>Outlined Disabled</Button>
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Button disabled={true}>Disabled</Button>
+    <Button intent="primary" disabled={true}>Primary Disabled</Button>
+    <Button intent="danger" variant="outlined" disabled={true}>Outlined Disabled</Button>
+    ```
+  </TabItem>
+</Tabs>
+
+## Border Radius
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <div class="flex gap-4 flex-wrap">
+        <Button intent="primary" rounded="none">Square</Button>
+        <Button intent="primary" rounded="sm">Small</Button>
+        <Button intent="primary" rounded="md">Medium</Button>
+        <Button intent="primary" rounded="full">Full</Button>
+      </div>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Button intent="primary" rounded="none">Square</Button>
+    <Button intent="primary" rounded="sm">Small</Button>
+    <Button intent="primary" rounded="md">Medium</Button>
+    <Button intent="primary" rounded="full">Full</Button>
+    ```
+  </TabItem>
+</Tabs>
+
+<hr />
+
+### Properties
+
+#### `intent`
+
+**type:** `string`
+
+**options:** `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `ghost`
+
+**default:** `ghost`
+
+Defines the visual intent and color scheme of the button.
+
+#### `variant`
+
+**type:** `string`
+
+**options:** `default`, `contained`, `outlined`, `text`
+
+**default:** `default`
+
+Controls the button style variant. `outlined` creates a border-only button, `text` removes background, `contained` adds a border with background.
+
+#### `size`
+
+**type:** `string`
+
+**options:** `small`, `medium`, `large`
+
+**default:** `medium`
+
+Controls the button size and padding.
+
+#### `rounded`
+
+**type:** `string`
+
+**options:** `none`, `sm`, `md`, `full`
+
+**default:** `md`
+
+Controls the border radius of the button.
+
+#### `loading`
+
+**type:** `boolean`
+
+**default:** `false`
+
+Shows a loading spinner and disables the button. When `true`, the button becomes non-interactive.
+
+#### `disabled`
+
+**type:** `boolean`
+
+**default:** `false`
+
+Disables the button, making it non-interactive and applying disabled styling.
+
+#### `data-loading-text`
+
+**type:** `string`
+
+**default:** `undefined`
+
+Custom text announced to screen readers when the button is in loading state. Falls back to "Loading..." if not provided.
+
+#### `iconPosition`
+
+**type:** `string`
+
+**options:** `left`, `right`
+
+**default:** `left`
+
+Controls the position of icon slots. Use with `slot="icon-left"` or `slot="icon-right"` for proper icon placement.
+
+### Slots
+
+#### Default Slot
+
+The main content of the button (text, icons, or other elements).
+
+```astro
+<Button>Click me</Button>
+```
+
+#### `icon-left`
+
+Icon displayed on the left side of the button text.
+
+```astro
+<Button>
+  <svg slot="icon-left" class="h-4 w-4">...</svg>
+  Save
+</Button>
+```
+
+#### `icon-right`
+
+Icon displayed on the right side of the button text.
+
+```astro
+<Button iconPosition="right">
+  Next
+  <svg slot="icon-right" class="h-4 w-4">...</svg>
+</Button>
+```
+
+### Accessibility
+
+This button component is designed with accessibility in mind and includes:
+
+- **WCAG 2.1 AA compliance** with proper color contrast ratios
+- **Keyboard navigation** support (Tab, Enter, Space)
+- **Screen reader compatibility** with proper ARIA attributes
+- **Focus indicators** that meet visibility requirements
+- **Loading state announcements** for assistive technology
+- **Minimum touch target size** of 44×44 pixels
+- **Disabled state** that doesn't rely solely on color
+
+### Examples
+
+#### Basic Usage
+
+```astro
+<Button intent="primary">Primary Button</Button>
+<Button intent="secondary" variant="outlined">Secondary</Button>
+```
+
+#### With Loading State
+
+```astro
+<Button loading={true} data-loading-text="Saving...">
+  Save Document
+</Button>
+```
+
+#### With Icons
+
+```astro
+<!-- Using default slot (backward compatible) -->
+<Button intent="success">
+  <svg class="h-5 w-5">...</svg>
+  Success
+</Button>
+
+<!-- Using icon slots (recommended) -->
+<Button intent="primary">
+  <svg slot="icon-left" class="h-4 w-4">...</svg>
+  Add Item
+</Button>
+```
