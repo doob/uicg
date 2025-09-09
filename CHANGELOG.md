@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.1.2](https://github.com/doob/uicg/compare/1.1.1...1.1.2) (2025-09-09)
+
 ## [1.1.1](https://github.com/doob/uicg/compare/1.1.0...1.1.1) (2025-09-09)
 
 ## [1.1.0](https://github.com/doob/uicg/compare/1.0.1...1.1.0) (2025-09-09)
