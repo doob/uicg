@@ -15,25 +15,47 @@ hero:
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-## Next steps
+## Getting Started
+
+UICG provides **vanilla JavaScript components** for **Astro projects**. No React, Vue, or other frameworks required - just pure Astro components with vanilla JavaScript, Tailwind CSS, and accessibility built-in.
 
 <CardGrid>
-	<Card title="Initialize generator" icon="setting">
+	<Card title="1. Create Astro project" icon="rocket">
+		```bash
+		npm create astro@latest my-project
+		cd my-project
+		```
+		Start with a fresh Astro project or use your existing one.
+	</Card>
+	<Card title="2. Initialize UICG" icon="setting">
 		```bash
 		npx ui-gen init
 		```
-		will create a new `ui-config.json` file in your project.
+		Sets up Tailwind CSS, creates `ui-config.json`, and configures the component generator.
 	</Card>
-	<Card title="Generate components" icon="add-document">
+	<Card title="3. Add components" icon="add-document">
 		```bash
 		npx ui-gen add button
+		npx ui-gen add input
+		npx ui-gen add modal
 		```
-		will install a button component into your project.
+		Install beautiful, accessible components into your project.
 	</Card>
-	{/* <Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
+</CardGrid>
+
+## Why Choose UICG?
+
+<CardGrid>
+	<Card title="Astro Native" icon="astro">
+		Built specifically for Astro with `.astro` components. No framework overhead or JavaScript bundle bloat.
 	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card> */}
+	<Card title="Vanilla JavaScript" icon="seti:javascript">
+		Pure vanilla JavaScript with Tailwind CSS styling. No frameworks, no dependencies, just modern web standards.
+	</Card>
+	<Card title="Accessibility First" icon="approve-check">
+		WCAG 2.1 AA compliant with keyboard navigation, screen reader support, and proper ARIA attributes.
+	</Card>
+	<Card title="Dark Mode Ready" icon="moon">
+		Built-in dark mode support with smooth transitions and consistent theming across all components.
+	</Card>
 </CardGrid>
