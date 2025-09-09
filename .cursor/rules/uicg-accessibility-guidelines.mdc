@@ -1,0 +1,390 @@
+---
+description: UICG Accessibility Guidelines and WCAG 2.1 AA Compliance Standards
+alwaysApply: true
+---
+
+# UICG Accessibility Guidelines
+
+## WCAG 2.1 AA Compliance Requirements
+
+### Core Principles
+1. **Perceivable**: Information must be presentable in ways users can perceive
+2. **Operable**: Interface components must be operable by all users
+3. **Understandable**: Information and UI operation must be understandable
+4. **Robust**: Content must be robust enough for various assistive technologies
+
+## Keyboard Navigation Standards
+
+### Universal Keyboard Patterns
+- **Tab**: Navigate to next focusable element
+- **Shift + Tab**: Navigate to previous focusable element
+- **Enter**: Activate buttons, links, and default actions
+- **Space**: Activate buttons, toggle checkboxes/switches
+- **Escape**: Close modals, cancel actions, exit modes
+
+### Component-Specific Patterns
+#### Form Controls
+- **Radio Groups**: Arrow Up/Down navigate options, Space selects
+- **Select/Dropdown**: Arrow Up/Down navigate, Enter selects, Escape closes
+- **Checkbox**: Space toggles checked state
+- **Input Fields**: Standard text editing keys
+
+#### Navigation Components
+- **Menus**: Arrow keys navigate, Enter activates, Escape closes
+- **Tabs**: Arrow Left/Right navigate tabs, Enter activates
+- **Accordion**: Arrow Up/Down navigate headers, Enter/Space toggles
+
+### Focus Management
+```astro
+<!-- Visible focus indicators -->
+<button class="focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
+  Button Text
+</button>
+
+<!-- Focus trap in modals -->
+<dialog>
+  <button data-autofocus>First focusable</button>
+  <!-- content -->
+  <button>Last focusable</button>
+</dialog>
+```
+
+## ARIA Patterns and Semantics
+
+### Essential ARIA Attributes
+```astro
+<!-- Labeling -->
+<input aria-label="Search" />
+<input aria-labelledby="label-id" />
+<div id="label-id">Label Text</div>
+
+<!-- Descriptions -->
+<input aria-describedby="help-text error-text" />
+<div id="help-text">Helper text</div>
+<div id="error-text" role="alert">Error message</div>
+
+<!-- States -->
+<button aria-pressed="true">Toggle Button</button>
+<input aria-invalid="true" aria-required="true" />
+<div aria-expanded="false">Collapsible content</div>
+
+<!-- Live Regions -->
+<div aria-live="polite">Status updates</div>
+<div aria-live="assertive" role="alert">Urgent alerts</div>
+```
+
+### Component Role Patterns
+```astro
+<!-- Form Groups -->
+<fieldset role="group">
+  <legend>Group Label</legend>
+  <!-- form controls -->
+</fieldset>
+
+<!-- Radio Groups -->
+<div role="radiogroup" aria-labelledby="group-label">
+  <div role="radio" aria-checked="true">Option 1</div>
+  <div role="radio" aria-checked="false">Option 2</div>
+</div>
+
+<!-- Lists and Menus -->
+<ul role="listbox" aria-label="Options">
+  <li role="option" aria-selected="true">Selected Option</li>
+  <li role="option" aria-selected="false">Other Option</li>
+</ul>
+
+<!-- Tabs -->
+<div role="tablist">
+  <button role="tab" aria-selected="true" aria-controls="panel1">Tab 1</button>
+  <div role="tabpanel" id="panel1">Content 1</div>
+</div>
+```
+
+## Color and Visual Design
+
+### Color Contrast Requirements
+- **Normal Text**: 4.5:1 minimum contrast ratio
+- **Large Text** (18pt+ or 14pt+ bold): 3:1 minimum
+- **UI Components**: 3:1 minimum for borders and states
+- **Focus Indicators**: Must be visible against all backgrounds
+
+### Color Usage Principles
+```astro
+<!-- Never rely on color alone -->
+<div class="text-red-600 dark:text-red-400">
+  <span class="sr-only">Error: </span>
+  <span aria-label="Error icon">❌</span>
+  Invalid input detected
+</div>
+
+<!-- Provide multiple indicators -->
+<input 
+  class="border-red-500 bg-red-50 dark:bg-red-900/20" 
+  aria-invalid="true"
+  aria-describedby="error-msg"
+/>
+<div id="error-msg" role="alert">
+  This field is required
+</div>
+```
+
+### Dark Mode Accessibility
+```css
+/* Ensure sufficient contrast in both modes */
+.component {
+  @apply text-gray-900 dark:text-gray-100;
+  @apply bg-white dark:bg-gray-900;
+  @apply border-gray-300 dark:border-gray-600;
+}
+
+/* Focus indicators work in both modes */
+.component:focus-visible {
+  @apply ring-2 ring-blue-500 ring-offset-2;
+  @apply ring-offset-white dark:ring-offset-gray-900;
+}
+```
+
+## Touch and Mobile Accessibility
+
+### Touch Target Requirements
+- **Minimum Size**: 44x44px (CSS pixels)
+- **Spacing**: 8px minimum between adjacent targets
+- **Shape**: Clear visual boundaries
+- **Feedback**: Visual/haptic feedback on interaction
+
+### Implementation Pattern
+```astro
+<button class="min-h-[44px] min-w-[44px] p-2 m-1 rounded-lg touch-manipulation">
+  Button Text
+</button>
+```
+
+## Screen Reader Support
+
+### Content Structure
+```astro
+<!-- Proper heading hierarchy -->
+<h1>Page Title</h1>
+<h2>Section Title</h2>
+<h3>Subsection Title</h3>
+
+<!-- Skip links for navigation -->
+<a href="#main-content" class="sr-only focus:not-sr-only">
+  Skip to main content
+</a>
+
+<!-- Landmark regions -->
+<nav aria-label="Main navigation">...</nav>
+<main id="main-content">...</main>
+<aside aria-label="Sidebar">...</aside>
+```
+
+### Screen Reader Only Content
+```astro
+<!-- CSS class for screen reader only text -->
+<style>
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only:focus,
+.focus\:not-sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+</style>
+
+<!-- Usage -->
+<button>
+  <span class="sr-only">Close dialog</span>
+  <span aria-hidden="true">×</span>
+</button>
+```
+
+## Form Accessibility
+
+### Form Labeling
+```astro
+<!-- Explicit labels -->
+<label for="email">Email Address</label>
+<input id="email" type="email" required />
+
+<!-- Implicit labels -->
+<label>
+  Email Address
+  <input type="email" required />
+</label>
+
+<!-- Field groups -->
+<fieldset>
+  <legend>Contact Information</legend>
+  <label for="fname">First Name</label>
+  <input id="fname" type="text" required />
+</fieldset>
+```
+
+### Error Handling
+```astro
+<div class="field-group">
+  <label for="password">Password</label>
+  <input 
+    id="password" 
+    type="password" 
+    aria-invalid={hasError}
+    aria-describedby="password-help password-error"
+    required 
+  />
+  <div id="password-help">Must be at least 8 characters</div>
+  {hasError && (
+    <div id="password-error" role="alert" aria-live="polite">
+      Password must be at least 8 characters long
+    </div>
+  )}
+</div>
+```
+
+### Required Field Indicators
+```astro
+<label for="required-field">
+  Required Field
+  <span class="text-red-500" aria-label="required">*</span>
+</label>
+<input id="required-field" required aria-required="true" />
+
+<!-- Or use screen reader text -->
+<label for="optional-field">
+  Optional Field
+  <span class="text-gray-500">(optional)</span>
+</label>
+```
+
+## Animation and Motion
+
+### Respect User Preferences
+```css
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Safe animations (transform/opacity only) */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+```
+
+### Focus and State Transitions
+```astro
+<button class="transition-colors duration-200 ease-in-out hover:bg-blue-100 focus-visible:ring-2">
+  Accessible Button
+</button>
+```
+
+## Testing Methodology
+
+### Manual Testing Checklist
+- [ ] **Keyboard Navigation**: Tab through all interactive elements
+- [ ] **Screen Reader**: Test with VoiceOver (Mac) or NVDA (Windows)
+- [ ] **Color Contrast**: Check all text/background combinations
+- [ ] **Touch Targets**: Verify 44px minimum size on mobile
+- [ ] **Focus Indicators**: Ensure visible focus on all interactive elements
+- [ ] **Error States**: Test form validation and error announcements
+- [ ] **Reduced Motion**: Test with motion preferences disabled
+
+### Automated Testing Tools
+- **Lighthouse**: Built-in accessibility audit
+- **axe-core**: Comprehensive accessibility testing
+- **Wave**: Web accessibility evaluation tool
+- **Colour Contrast Analyser**: Color contrast checking
+
+### Component Accessibility Documentation
+Each component must document:
+- **Keyboard Navigation**: All supported key interactions
+- **Screen Reader Behavior**: How content is announced
+- **ARIA Usage**: All ARIA attributes and their purpose
+- **Focus Management**: How focus moves through the component
+- **Error Handling**: How errors are communicated accessibly
+
+## Implementation Standards
+
+### Accessibility in Component Props
+```typescript
+export interface ComponentProps {
+  // Always include these accessibility props
+  'aria-label'?: string
+  'aria-labelledby'?: string
+  'aria-describedby'?: string
+  'aria-invalid'?: boolean
+  'aria-required'?: boolean
+  
+  // Component-specific ARIA
+  'aria-expanded'?: boolean
+  'aria-selected'?: boolean
+  'aria-checked'?: boolean
+}
+```
+
+### Component Template Pattern
+```astro
+---
+// Generate accessibility IDs
+const componentId = props.id || `component-${crypto.randomUUID()}`
+const descriptionId = description ? `${componentId}-description` : undefined
+const errorId = error ? `${componentId}-error` : undefined
+
+// Combine aria-describedby values
+const describedBy = [
+  props['aria-describedby'],
+  descriptionId,
+  errorId
+].filter(Boolean).join(' ') || undefined
+---
+
+<div class="component-wrapper">
+  <element
+    {...props}
+    id={componentId}
+    aria-describedby={describedBy}
+    aria-invalid={error ? 'true' : undefined}
+  >
+    <slot />
+  </element>
+  
+  {description && (
+    <p id={descriptionId}>
+      {description}
+    </p>
+  )}
+  
+  {error && (
+    <p id={errorId} role="alert" aria-live="polite">
+      {error}
+    </p>
+  )}
+</div>
+```
+
+This ensures every UICG component meets WCAG 2.1 AA standards and provides an excellent experience for all users, including those using assistive technologies.

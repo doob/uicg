@@ -1,0 +1,224 @@
+---
+description: UICG Documentation Standards for Starlight and Component Docs
+alwaysApply: true
+---
+
+# UICG Documentation Standards
+
+## Starlight Documentation Structure
+
+### File Organization
+```
+apps/docs/src/content/docs/components/
+├── forms/
+│   ├── index.mdx (category overview)
+│   ├── button.mdx
+│   ├── input.mdx
+│   ├── checkbox.mdx
+│   └── ...
+├── feedback/
+├── layout/
+├── overlays/
+└── data-display/
+```
+
+### Component Categories
+- **Forms**: Input elements and form controls
+- **Feedback**: Alerts, notifications, status indicators  
+- **Layout**: Structural components (Hero, Sidebar, Navigation)
+- **Overlays**: Modals, tooltips, popovers
+- **Data Display**: Tables, cards, lists, accordions
+
+## Documentation Page Structure
+
+### Required Frontmatter
+```yaml
+---
+title: Component Name
+description: Brief description focusing on accessibility and key features
+---
+```
+
+### Required Imports
+```astro
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Component from '../../../../../../../apps/cli/src/components/Component/component.astro';
+```
+
+### Starlight Tabs Pattern (MANDATORY)
+
+#### Every Example Section Must Use Tabs
+```astro
+## Section Title
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content border border-gray-100 dark:border-gray-800 rounded-lg p-6 bg-white dark:bg-gray-900">
+      <Component prop="value" />
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Component prop="value" />
+    ```
+  </TabItem>
+</Tabs>
+```
+
+#### Critical CSS Classes
+- **Container**: `not-content` class is REQUIRED for proper Starlight rendering
+- **Border**: `border border-gray-100 dark:border-gray-800` for subtle, consistent styling
+- **Background**: `bg-white dark:bg-gray-900` for proper contrast
+- **Spacing**: `rounded-lg p-6` for consistent padding and corners
+
+## Documentation Sections (Standard Order)
+
+### 1. Basic Usage (Required)
+- Simple, clear example
+- Most common use case
+- Clean import example in code tab
+
+### 2. Variants/Intents (If Applicable)
+- All intent variants: default, primary, success, warning, danger
+- Show visual differences clearly
+- Group logically in preview
+
+### 3. Sizes (If Applicable)
+- Small, medium, large examples
+- Show size differences clearly
+- Include use case notes
+
+### 4. States (If Applicable)
+- Default, disabled, loading, error states
+- Interactive state examples
+- Accessibility considerations
+
+### 5. Form Integration (For Form Components)
+- Integration with fieldsets
+- Validation examples
+- Required/optional patterns
+
+### 6. Advanced Usage (If Applicable)
+- Complex configurations
+- Integration patterns
+- Custom styling examples
+
+## Code Example Standards
+
+### Import Paths in Documentation
+```astro
+import Component from '@uicg/cli/components/Component/component.astro'
+```
+
+### Code Block Formatting
+- Use proper syntax highlighting (```astro)
+- Include necessary imports
+- Show realistic, copy-ready examples
+- Keep examples concise but complete
+
+### Example Naming
+- Use semantic, realistic examples
+- Avoid Lorem Ipsum where possible
+- Include relevant context (form fields, etc.)
+
+## Accessibility Documentation
+
+### Required Accessibility Notes
+- Keyboard navigation patterns
+- Screen reader behavior
+- ARIA attributes used
+- Focus management
+- Touch target requirements
+
+### Accessibility Example Format
+```markdown
+### Accessibility Features
+- **Keyboard Navigation**: Arrow keys navigate options, Enter/Space selects
+- **Screen Reader**: Proper role and state announcements
+- **Focus Management**: Visible focus indicators with keyboard navigation
+- **Touch Targets**: Minimum 44x44px tap targets on mobile
+```
+
+## Component Status Terminology
+
+### Status Labels (Follow Memory Guidance)
+- **✅ Stable**: Components that are production-ready and well-tested
+- **🚧 In Progress**: Components under active development  
+- **❌ Not Started**: Components planned but not yet implemented
+
+**NEVER use "Complete"** - always use "Stable" for finished components.
+
+## Sidebar Configuration
+
+### Astro Config Pattern
+```javascript
+sidebar: [
+  {
+    label: 'Category Name',
+    collapsed: false,
+    items: [
+      { label: 'Overview', link: '/components/category/' },
+      { label: 'Component Name', link: '/components/category/component/' },
+    ],
+  },
+]
+```
+
+### Category Overview Pages
+Each category needs an `index.mdx` with:
+- Category description
+- List of components in category
+- Common patterns and usage guidelines
+- Links to individual components
+
+## Visual Consistency
+
+### Preview Containers
+- Consistent spacing with `space-y-4` or `space-y-6`
+- Proper dark mode support
+- Logical grouping of related examples
+- Responsive layout considerations
+
+### Code Examples
+- Match the preview exactly
+- Include all necessary props
+- Use realistic prop values
+- Show import statements when helpful
+
+## Documentation Quality Checklist
+
+### Before Publishing Component Docs
+- [ ] Starlight tabs implemented for all examples
+- [ ] `not-content` class on all preview containers
+- [ ] Consistent border and background styling
+- [ ] All major variants/states documented
+- [ ] Code examples are copy-ready
+- [ ] Accessibility features documented
+- [ ] Mobile responsive examples tested
+- [ ] Dark mode styling verified
+- [ ] Proper import paths used
+- [ ] Section order follows standards
+
+### Documentation Testing
+- [ ] All interactive examples work correctly
+- [ ] Code examples can be copied and used immediately
+- [ ] Dark mode toggles work properly
+- [ ] Mobile layout is functional
+- [ ] Screen reader navigation tested
+- [ ] All links and navigation work
+
+## Integration with Component Development
+
+### Documentation-Driven Development
+- Write documentation examples first
+- Use docs to validate component API design
+- Ensure examples cover all use cases
+- Test documentation examples as integration tests
+
+### Maintenance Standards
+- Update docs with any component changes
+- Verify examples after component updates
+- Maintain consistency across all component docs
+- Regular review of accessibility claims
+
+This ensures professional, consistent, and accessible documentation across the entire UICG library.

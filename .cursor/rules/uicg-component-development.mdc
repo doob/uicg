@@ -1,0 +1,265 @@
+---
+description: UICG Component Library Development Standards and Patterns
+alwaysApply: true
+---
+
+# UICG Component Library Standards
+
+## Component Architecture
+
+### File Structure
+```
+apps/cli/src/components/ComponentName/
+├── component-name.astro (main component)
+├── component-item.astro (if sub-components needed)
+├── component-group.astro (if grouping needed)
+└── component-docs.astro (if specialized docs needed)
+```
+
+### Component Naming Conventions
+- **Files**: Use kebab-case (`button.astro`, `radio-group.astro`)
+- **Directories**: Use PascalCase (`Button/`, `RadioGroup/`)
+- **Props**: Use camelCase (`checked`, `isDisabled`, `maxLength`)
+- **CSS Classes**: Use Tailwind utilities and CVA variants
+
+## Component Props Pattern
+
+### Required Props Interface
+```typescript
+export interface ComponentProps extends HTMLAttributes<'element'>, VariantProps<typeof componentVariants> {
+  class?: string
+  // Core functionality props
+  disabled?: boolean
+  required?: boolean
+  
+  // Labeling and description
+  label?: string
+  description?: string
+  
+  // Visual variants
+  size?: 'small' | 'medium' | 'large'
+  intent?: 'default' | 'primary' | 'success' | 'warning' | 'danger'
+  
+  // Form integration
+  name?: string
+  value?: string
+}
+```
+
+### CVA Styling Pattern
+```typescript
+import { cva, type VariantProps } from 'class-variance-authority'
+
+const componentVariants = cva(
+  'base-classes transition-colors duration-200',
+  {
+    variants: {
+      size: {
+        small: 'size-specific-classes',
+        medium: 'size-specific-classes',
+        large: 'size-specific-classes',
+      },
+      intent: {
+        default: 'intent-specific-classes',
+        primary: 'intent-specific-classes',
+        success: 'intent-specific-classes',
+        warning: 'intent-specific-classes',
+        danger: 'intent-specific-classes',
+      },
+    },
+    defaultVariants: {
+      size: 'medium',
+      intent: 'default',
+    },
+  }
+)
+```
+
+## Accessibility Standards (WCAG 2.1 AA)
+
+### Required Accessibility Features
+- **Keyboard Navigation**: Tab, Enter, Space, Arrow keys as appropriate
+- **Screen Reader Support**: Proper ARIA labels, roles, and states
+- **Focus Management**: Visible focus indicators with `focus-visible:`
+- **Touch Targets**: Minimum 44x44px for interactive elements
+- **Color Independence**: No information conveyed by color alone
+
+### ARIA Patterns
+```astro
+<!-- Form Controls -->
+<input 
+  aria-describedby={descriptionId}
+  aria-invalid={error ? 'true' : undefined}
+  aria-required={required}
+/>
+
+<!-- Groups -->
+<fieldset role="group" aria-labelledby={legendId}>
+  <legend id={legendId}>Group Label</legend>
+</fieldset>
+
+<!-- Interactive Elements -->
+<button 
+  aria-disabled={disabled}
+  aria-pressed={checked} 
+  aria-busy={loading}
+>
+```
+
+## Component State Management
+
+### Form Component Pattern
+```astro
+---
+const {
+  class: className,
+  disabled = false,
+  required = false,
+  size,
+  intent,
+  ...props
+} = Astro.props
+
+// Generate unique IDs for accessibility
+const componentId = props.id || `component-${Math.random().toString(36).substr(2, 9)}`
+const descriptionId = description ? `${componentId}-description` : undefined
+const errorId = error ? `${componentId}-error` : undefined
+---
+
+<div class="component-wrapper">
+  <element
+    {...props}
+    id={componentId}
+    class={twMerge(componentVariants({ size, intent }), className)}
+    aria-describedby={[descriptionId, errorId].filter(Boolean).join(' ') || undefined}
+  >
+    <slot />
+  </element>
+  
+  {description && (
+    <p id={descriptionId} class="description-styles">
+      {description}
+    </p>
+  )}
+  
+  {error && (
+    <p id={errorId} class="error-styles" role="alert" aria-live="polite">
+      {error}
+    </p>
+  )}
+</div>
+```
+
+## JavaScript Guidelines
+
+### Minimal JavaScript Philosophy
+- **Prefer Pure CSS**: Use CSS-only solutions when possible (e.g., Switch component)
+- **Progressive Enhancement**: Components work without JavaScript, enhanced with it
+- **Event Management**: Use modern addEventListener patterns
+- **DOM Queries**: Cache selectors and use efficient queries
+
+### JavaScript Class Pattern (when needed)
+```javascript
+class ComponentManager {
+  constructor(element) {
+    this.element = element
+    this.init()
+  }
+
+  init() {
+    this.bindEvents()
+    this.updateState()
+  }
+
+  bindEvents() {
+    this.element.addEventListener('event', this.handleEvent.bind(this))
+  }
+
+  handleEvent(event) {
+    // Handle with proper accessibility updates
+  }
+
+  updateState() {
+    // Update visual state and ARIA attributes
+  }
+}
+```
+
+## Dark Mode Support
+
+### Color Patterns
+- **Borders**: `border-gray-200 dark:border-gray-700`
+- **Backgrounds**: `bg-white dark:bg-gray-900`
+- **Text**: `text-gray-900 dark:text-white`
+- **Subtle Elements**: `text-gray-600 dark:text-gray-400`
+
+### CVA Dark Mode Pattern
+```typescript
+variants: {
+  intent: {
+    default: 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100',
+    primary: 'bg-blue-600 text-white dark:bg-blue-500',
+  }
+}
+```
+
+## Component Quality Checklist
+
+### Before Component Completion
+- [ ] TypeScript props interface defined
+- [ ] CVA variants implemented for size and intent
+- [ ] WCAG 2.1 AA accessibility compliance
+- [ ] Keyboard navigation support
+- [ ] Dark mode support
+- [ ] Error and loading states
+- [ ] Form integration (name, value, validation)
+- [ ] Documentation with examples
+- [ ] Responsive design tested
+
+### Performance Requirements
+- [ ] No unnecessary JavaScript
+- [ ] Efficient CSS with no unused styles
+- [ ] Proper lazy loading where applicable
+- [ ] Optimized animations (transform/opacity only)
+- [ ] No layout shift during interactions
+
+## Import Path Convention
+
+### Documentation Imports
+```astro
+import Component from '../../../../../../../apps/cli/src/components/Component/component.astro'
+```
+
+### Internal Imports
+```astro
+import { twMerge } from 'tailwind-merge'
+import { cva, type VariantProps } from 'class-variance-authority'
+import type { HTMLAttributes } from 'astro/types'
+```
+
+## Error Handling
+
+### Graceful Degradation
+- Components work without JavaScript
+- Fallback states for loading/error conditions
+- Proper error boundaries and validation
+- User-friendly error messages
+
+### Validation Pattern
+```astro
+---
+const finalIntent = error ? 'error' : intent
+const isInvalid = error || invalid
+---
+```
+
+## Component Documentation Requirements
+
+### Every component must have:
+- **Props Interface**: Complete TypeScript interface
+- **Usage Examples**: Basic, variants, sizes, states
+- **Accessibility Notes**: Keyboard navigation, screen reader support
+- **Integration Examples**: Form usage, validation states
+- **API Reference**: All props documented with descriptions
+
+This ensures consistent, accessible, and maintainable components across the UICG library.

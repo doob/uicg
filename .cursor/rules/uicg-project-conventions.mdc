@@ -1,0 +1,233 @@
+---
+description: UICG Project-Wide Conventions and Development Standards
+alwaysApply: true
+---
+
+# UICG Project Conventions
+
+## Project Architecture
+
+### Monorepo Structure
+```
+ui-gen/
+├── apps/
+│   ├── cli/           # Component library and CLI tool
+│   └── docs/          # Starlight documentation site
+├── packages/          # Shared packages (future)
+├── templates/         # Reference implementation templates
+└── .cursor/rules/     # Development rules and standards
+```
+
+### CLI App Structure
+```
+apps/cli/
+├── src/
+│   ├── components/    # All UI components
+│   ├── commands/      # CLI commands (add, etc.)
+│   ├── constants/     # Project constants
+│   ├── templates/     # Component templates
+│   └── utils.js       # Shared utilities
+├── cli.js            # CLI entry point
+└── package.json      # CLI dependencies
+```
+
+### Documentation App Structure
+```
+apps/docs/
+├── src/
+│   ├── content/
+│   │   └── docs/
+│   │       └── components/  # Categorized component docs
+│   ├── components/         # Custom Starlight components
+│   └── assets/            # Static assets
+├── astro.config.mjs       # Starlight configuration
+└── tailwind.config.mjs    # Tailwind configuration
+```
+
+## Development Workflow
+
+### Component Development Process
+1. **Design Phase**: Define component API and props interface
+2. **Implementation**: Create component with CVA styling and TypeScript
+3. **Accessibility**: Implement WCAG 2.1 AA compliance
+4. **Documentation**: Create comprehensive docs with Starlight tabs
+5. **Testing**: Manual testing and accessibility validation
+6. **Integration**: Add to CLI, update roadmap, commit changes
+
+### Commit Message Standards
+```
+feat: implement [component] with [key features]
+
+✨ Component features:
+- [Feature 1]: [Description]
+- [Feature 2]: [Description]
+
+📚 Documentation:
+- Starlight tabs interface with Preview/Code examples
+- Accessibility features documented
+- Integration examples provided
+
+♿ Accessibility:
+- WCAG 2.1 AA compliance
+- Keyboard navigation support
+- Screen reader optimization
+
+🎯 Technical details:
+- CVA-based styling with TypeScript interfaces
+- [Specific technical achievements]
+```
+
+### Branch Naming (if applicable)
+- `feat/component-name` - New component implementation
+- `docs/component-name` - Documentation improvements
+- `fix/component-name` - Bug fixes
+- `refactor/component-name` - Code improvements
+
+## Naming Conventions
+
+### Components
+- **Directory**: PascalCase (`Button/`, `RadioGroup/`)
+- **Files**: kebab-case (`button.astro`, `radio-group.astro`)
+- **Exports**: PascalCase for component names
+- **Props**: camelCase (`isDisabled`, `maxLength`)
+
+### Documentation
+- **Files**: kebab-case (`button.mdx`, `radio-group.mdx`)
+- **URLs**: kebab-case (`/components/forms/radio-group/`)
+- **Titles**: Title Case ("Radio Group", "Form Components")
+
+### CSS and Styling
+- **Classes**: Tailwind utilities preferred
+- **Custom CSS**: BEM-like patterns when needed
+- **CVA Variants**: camelCase keys, kebab-case values
+
+## Quality Standards
+
+### Component Maturity Levels
+- **🚧 In Progress**: Under active development, API may change
+- **✅ Stable**: Production-ready, API stable, comprehensive testing
+- **❌ Not Started**: Planned but not implemented
+
+**Never use "Complete"** - use "Stable" for finished components.
+
+### Code Quality Requirements
+- **TypeScript**: All components must have proper TypeScript interfaces
+- **Accessibility**: WCAG 2.1 AA compliance mandatory
+- **Performance**: Minimal JavaScript, CSS-first approach
+- **Browser Support**: Modern browsers (ES2020+)
+- **Mobile**: Responsive design and touch-friendly interactions
+
+### Documentation Quality Requirements
+- **Starlight Tabs**: All examples must use Preview/Code tabs
+- **Accessibility**: Document keyboard navigation and screen reader behavior
+- **Examples**: Real-world, copy-ready code examples
+- **Consistency**: Follow documentation standards exactly
+
+## Dependencies and Tools
+
+### Required Dependencies
+- **Astro**: Framework for both apps
+- **Tailwind CSS**: Utility-first CSS framework
+- **CVA**: Class Variance Authority for component variants
+- **tailwind-merge**: For merging Tailwind classes
+- **Starlight**: Documentation framework
+
+### Development Tools
+- **TypeScript**: Type safety and better DX
+- **Prettier**: Code formatting (if configured)
+- **ESLint**: Code linting (if configured)
+
+## Import Conventions
+
+### Within CLI Components
+```astro
+import { twMerge } from 'tailwind-merge'
+import { cva, type VariantProps } from 'class-variance-authority'
+import type { HTMLAttributes } from 'astro/types'
+```
+
+### In Documentation
+```astro
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Component from '../../../../../../../apps/cli/src/components/Component/component.astro';
+```
+
+### Public API (future)
+```astro
+import { Button, Input, Modal } from '@uicg/cli'
+```
+
+## Error Handling and Validation
+
+### Component Error Patterns
+- **Graceful Degradation**: Components work without JavaScript
+- **Input Validation**: Validate props and provide defaults
+- **Error States**: Visual error states with proper ARIA
+- **Loading States**: Accessible loading indicators
+
+### Development Error Prevention
+- **TypeScript**: Catch type errors at build time
+- **Props Validation**: Use TypeScript interfaces strictly
+- **Accessibility Testing**: Manual keyboard and screen reader testing
+- **Cross-browser Testing**: Test in major browsers
+
+## Performance Guidelines
+
+### JavaScript Philosophy
+1. **CSS First**: Prefer pure CSS solutions
+2. **Progressive Enhancement**: Work without JS, enhance with it
+3. **Minimal Bundles**: Only include necessary JavaScript
+4. **Modern APIs**: Use modern browser APIs efficiently
+
+### CSS Performance
+- **Tailwind Only**: Avoid custom CSS when possible
+- **No Unused Styles**: Purge unused CSS in production
+- **Efficient Selectors**: Use simple, fast CSS selectors
+- **Animation Performance**: Use transform/opacity for animations
+
+## Accessibility Standards
+
+### WCAG 2.1 AA Requirements
+- **Keyboard Navigation**: All interactive elements keyboard accessible
+- **Screen Reader Support**: Proper ARIA labels and semantics
+- **Color Contrast**: Minimum 4.5:1 contrast ratio
+- **Touch Targets**: Minimum 44x44px touch targets
+- **Focus Management**: Visible focus indicators
+
+### Testing Methods
+- **Keyboard Testing**: Tab through all interactions
+- **Screen Reader Testing**: Test with VoiceOver/NVDA
+- **Color Testing**: Verify color contrast ratios
+- **Mobile Testing**: Test touch interactions
+- **Automated Testing**: Use accessibility linting tools
+
+## Version Management
+
+### Semantic Versioning
+- **Major**: Breaking changes to component APIs
+- **Minor**: New components or backwards-compatible features
+- **Patch**: Bug fixes and documentation updates
+
+### Release Process
+1. Update CHANGELOG.md
+2. Update component roadmap
+3. Commit with conventional message
+4. Tag release (when applicable)
+5. Update documentation
+
+## Project Maintenance
+
+### Regular Tasks
+- **Dependency Updates**: Keep dependencies current
+- **Accessibility Audits**: Regular accessibility testing
+- **Performance Monitoring**: Check bundle sizes and performance
+- **Documentation Review**: Ensure docs stay current
+- **Component API Review**: Evaluate component APIs for consistency
+
+### Quality Assurance
+- **Code Reviews**: All changes should be reviewed
+- **Testing**: Manual testing for new components
+- **Documentation Testing**: Verify all examples work
+- **Accessibility Testing**: Regular WCAG compliance checks
+
+This ensures consistent, maintainable, and high-quality development across the UICG project.
