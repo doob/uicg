@@ -1,10 +1,16 @@
 # Changelog
 
+## [1.1.0](https://github.com/doob/uicg/compare/1.0.1...1.1.0) (2025-09-09)
+
+* Documentation structure reorganized into categorized folders
+
+### Features
+
+* complete documentation standardization with Starlight tabs interface ([e12f0f4](https://github.com/doob/uicg/commit/e12f0f49fb18ee0e9458bf0382a697f5781afa6c))
+
 ## [1.0.1](https://github.com/doob/uicg/compare/1.0.0...1.0.1) (2025-09-08)
 
 ## [1.0.0](https://github.com/doob/uicg/compare/0.2.3...1.0.0) (2025-09-08)
-
-### ⚠ BREAKING CHANGES
 
 * Hero component now uses Tailwind classes instead of custom CSS,
 requiring projects to have Tailwind CSS configured for proper styling.
